@@ -1,0 +1,62 @@
+# Arquivos grandes de mídia que devem ser servidos como assets estáticos
+public/herobanner.png
+public/flutuante.png
+public/liveup.jpg
+
+# Arquivos de mídia grande por pasta
+public/CHINA 2023/*.mp4
+public/CHINA 2023/*.mov
+public/CHINA 2023/*.avi
+public/CHINA 2024/*.mp4
+public/CHINA 2024/*.mov
+public/CHINA 2024/*.avi
+public/CARNAWILD/*.mp4
+public/CARNAWILD/*.mov
+public/CARNAWILD/*.avi
+public/ARRAIA NO RIFT/*.mp4
+public/ARRAIA NO RIFT/*.mov
+public/ARRAIA NO RIFT/*.avi
+public/HEX-RIFT/*.mp4
+public/HEX-RIFT/*.mov
+public/HEX-RIFT/*.avi
+public/COCA-COLA/*.mp4
+public/COCA-COLA/*.mov
+public/COCA-COLA/*.avi
+public/WILD PLAY BRASILIA/*.mp4
+public/WILD PLAY BRASILIA/*.mov
+public/WILD PLAY BRASILIA/*.avi
+
+# Arquivos ZIP e PDFs grandes
+public/*.zip
+public/*.pdf
+
+# Pastas de desenvolvimento
+.next/
+node_modules/
+.git/
+
+# Arquivos de cache
+*.cache
+.cache/
+build.cache/
+
+# Arquivos de desenvolvimento
+*.log
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentação de desenvolvimento
+README.md
+docs/
+
+# Source maps em produção
+**/*.map 

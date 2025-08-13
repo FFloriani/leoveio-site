@@ -6,10 +6,12 @@ interface MediaFile {
   name: string;
   path: string;
   extension: string;
-  size: number;
-  lastModified: Date;
   type: 'image' | 'video';
 }
+
+// Constantes para otimização
+const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff'];
+const VIDEO_EXTENSIONS = ['.mp4', '.mov', '.avi', '.mkv', '.webm', '.flv', '.wmv'];
 
 export async function GET(
   request: NextRequest,
@@ -17,54 +19,48 @@ export async function GET(
 ) {
   try {
     const { folder: folderName } = await params;
+    
+    // Validação simples do nome da pasta
+    if (!folderName || folderName.includes('..') || folderName.includes('/')) {
+      return NextResponse.json({ error: 'Invalid folder name' }, { status: 400 });
+    }
+
     const publicPath = path.join(process.cwd(), 'public', folderName);
 
-    // Check if folder exists
+    // Verificar se a pasta existe
     try {
       await fs.access(publicPath);
     } catch {
       return NextResponse.json({ error: 'Folder not found' }, { status: 404 });
     }
 
-    // Read directory contents
+    // Ler conteúdo da pasta
     const files = await fs.readdir(publicPath);
-    
-    // Filter and categorize files
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff'];
-    const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.webm', '.flv', '.wmv'];
     
     const photos: MediaFile[] = [];
     const videos: MediaFile[] = [];
 
+    // Processar arquivos de forma mais eficiente
     for (const file of files) {
-      const filePath = path.join(publicPath, file);
-      const stat = await fs.stat(filePath);
+      const ext = path.extname(file).toLowerCase();
       
-      if (stat.isFile()) {
-        const ext = path.extname(file).toLowerCase();
-        const fileInfo = {
-          name: file,
-          path: `/${folderName}/${file}`,
-          extension: ext.substring(1), // Remove the dot
-          size: stat.size,
-          lastModified: stat.mtime
-        };
+      if (!ext) continue; // Pular arquivos sem extensão
+      
+      const fileInfo: MediaFile = {
+        name: file,
+        path: `/${folderName}/${file}`,
+        extension: ext.substring(1),
+        type: IMAGE_EXTENSIONS.includes(ext) ? 'image' : 'video'
+      };
 
-        if (imageExtensions.includes(ext)) {
-          photos.push({
-            ...fileInfo,
-            type: 'image'
-          });
-        } else if (videoExtensions.includes(ext)) {
-          videos.push({
-            ...fileInfo,
-            type: 'video'
-          });
-        }
+      if (IMAGE_EXTENSIONS.includes(ext)) {
+        photos.push(fileInfo);
+      } else if (VIDEO_EXTENSIONS.includes(ext)) {
+        videos.push(fileInfo);
       }
     }
 
-    // Sort files by name
+    // Ordenar por nome
     photos.sort((a, b) => a.name.localeCompare(b.name));
     videos.sort((a, b) => a.name.localeCompare(b.name));
 
