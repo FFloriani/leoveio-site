@@ -9,9 +9,27 @@ interface TwitchPlayerProps {
 declare global {
   interface Window {
     Twitch?: {
-      Embed: any;
+      Embed: new (element: HTMLElement, options: TwitchEmbedOptions) => TwitchEmbedInstance;
     };
   }
+}
+
+interface TwitchEmbedOptions {
+  width: string | number;
+  height: string | number;
+  channel: string;
+  parent: string[];
+  autoplay?: boolean;
+  muted?: boolean;
+  layout?: string;
+  theme?: string;
+  allowfullscreen?: boolean;
+}
+
+interface TwitchEmbedInstance {
+  // Métodos disponíveis na instância do embed
+  getPlayer?: () => any;
+  addEventListener?: (event: string, callback: () => void) => void;
 }
 
 const TwitchPlayer = ({ channel }: TwitchPlayerProps) => {
