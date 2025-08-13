@@ -1,0 +1,48 @@
+{
+  "name": "LEOVEIO - Streamer",
+  "short_name": "LEOVEIO",
+  "description": "Site oficial do streamer LEOVEIO",
+  "theme_color": "#8b5cf6",
+  "background_color": "#0a0a0a",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Lives",
+      "short_name": "Lives",
+      "description": "Assista às lives do LEOVEIO",
+      "url": "/#live",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
+    },
+    {
+      "name": "Sobre LEOVEIO",
+      "short_name": "Sobre",
+      "description": "Conheça a história do LEOVEIO",
+      "url": "/#sobre",
+      "icons": [
+        {
+          "src": "/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
+    }
+  ]
+} 

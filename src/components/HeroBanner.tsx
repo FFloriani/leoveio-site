@@ -184,7 +184,7 @@ const HeroBanner = () => {
                       <Users size={20} className="text-white" />
                     </div>
                     <div>
-                      <div className="text-white font-semibold">LeoVeio</div>
+                      <div className="text-white font-semibold">LEOVEIO</div>
                       <div className="text-sm text-white/60">twitch.tv/leoveio</div>
                     </div>
                   </div>

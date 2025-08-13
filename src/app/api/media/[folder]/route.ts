@@ -13,10 +13,10 @@ interface MediaFile {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { folder: string } }
+  { params }: { params: Promise<{ folder: string }> }
 ) {
   try {
-    const folderName = params.folder;
+    const { folder: folderName } = await params;
     const publicPath = path.join(process.cwd(), 'public', folderName);
 
     // Check if folder exists

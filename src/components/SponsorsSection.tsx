@@ -232,7 +232,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                 Colaborações Anteriores
               </h3>
               <p className="text-white/60 text-sm">
-                Marcas que já confiaram no trabalho do LeoVeio
+                Marcas que já confiaram no trabalho do LEOVEIO
               </p>
             </div>
 
