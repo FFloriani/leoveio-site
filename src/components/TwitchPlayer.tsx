@@ -26,9 +26,16 @@ interface TwitchEmbedOptions {
   allowfullscreen?: boolean;
 }
 
+interface TwitchPlayer {
+  setVolume?: (volume: number) => void;
+  play?: () => void;
+  pause?: () => void;
+  setChannel?: (channel: string) => void;
+}
+
 interface TwitchEmbedInstance {
   // Métodos disponíveis na instância do embed
-  getPlayer?: () => any;
+  getPlayer?: () => TwitchPlayer;
   addEventListener?: (event: string, callback: () => void) => void;
 }
 
