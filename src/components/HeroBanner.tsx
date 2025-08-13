@@ -42,7 +42,7 @@ const HeroBanner = () => {
         }}
       ></div>
 
-      <div className="relative z-10 container mx-auto px-4 py-8 min-h-screen flex items-center">
+      <div className="relative z-10 container mx-auto px-4 py-8 pt-24 min-h-screen flex items-center">
         <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
           
           {/* Left Side - Content */}
@@ -60,14 +60,7 @@ const HeroBanner = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h1 className="text-6xl lg:text-8xl font-black text-white drop-shadow-2xl">
-                LeoVeio
-              </h1>
-              <div className="text-xl lg:text-2xl text-white/90 font-light drop-shadow-lg">
-                <span className="text-purple-300">Gaming</span> • 
-                <span className="text-pink-300"> Entertainment</span> • 
-                <span className="text-cyan-300"> Community</span>
-              </div>
+              {/* Título e subtítulo removidos */}
             </motion.div>
 
             {/* Description */}

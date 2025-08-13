@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
+import AnimatedBackground from './AnimatedBackground';
 
 interface SocialNetwork {
   name: string;
@@ -77,90 +78,92 @@ const SocialFeed = () => {
   ];
 
   return (
-    <section className="relative py-20 bg-gradient-to-b from-black to-gray-900">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-            Minhas Redes Sociais
-          </h2>
-          <p className="text-lg text-white/60 max-w-xl mx-auto">
-            Conecte-se comigo nas principais plataformas
-          </p>
-        </motion.div>
+    <AnimatedBackground variant="ocean" intensity="medium">
+      <section className="relative py-20">
+        <div className="container mx-auto px-4">
+          {/* Section Header */}
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 drop-shadow-lg">
+              Minhas Redes Sociais
+            </h2>
+            <p className="text-lg text-white/80 max-w-xl mx-auto drop-shadow-md">
+              Conecte-se comigo nas principais plataformas
+            </p>
+          </motion.div>
 
-        {/* Social Links Grid */}
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {socialNetworks.map((social, index) => (
-              <motion.a
-                key={social.name}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative block"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {/* Card */}
-                <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 h-full">
-                  {/* Icon */}
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${social.color} flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
-                    {social.icon}
-                  </div>
+          {/* Social Links Grid */}
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+              {socialNetworks.map((social, index) => (
+                <motion.a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {/* Card */}
+                  <div className="relative bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-300 h-full shadow-xl hover:shadow-2xl">
+                    {/* Icon */}
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${social.color} flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
+                      {social.icon}
+                    </div>
 
-                  {/* Content */}
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-white mb-1">
-                      {social.name}
-                    </h3>
-                    <p className="text-white/60 text-sm mb-2">
-                      @{social.username}
-                    </p>
-                    <p className="text-white/50 text-xs">
-                      {social.description}
-                    </p>
-                  </div>
+                    {/* Content */}
+                    <div className="text-center">
+                      <h3 className="text-xl font-bold text-white mb-1 drop-shadow-md">
+                        {social.name}
+                      </h3>
+                      <p className="text-white/70 text-sm mb-2">
+                        @{social.username}
+                      </p>
+                      <p className="text-white/60 text-xs">
+                        {social.description}
+                      </p>
+                    </div>
 
-                  {/* Hover Effect */}
-                  <div className="absolute inset-0 rounded-2xl bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  
-                  {/* External Link Icon */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <ExternalLink size={16} className="text-white/60" />
+                    {/* Hover Effect */}
+                    <div className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    {/* External Link Icon */}
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <ExternalLink size={16} className="text-white/70" />
+                    </div>
                   </div>
-                </div>
-              </motion.a>
-            ))}
+                </motion.a>
+              ))}
+            </div>
           </div>
+
+          {/* Bottom CTA */}
+          <motion.div 
+            className="text-center mt-16"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <div className="inline-block px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 shadow-lg">
+              <span className="text-white/90 drop-shadow-sm">
+                Siga para não perder nenhum conteúdo! 🚀
+              </span>
+            </div>
+          </motion.div>
         </div>
-
-        {/* Bottom CTA */}
-        <motion.div 
-          className="text-center mt-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          viewport={{ once: true }}
-        >
-          <div className="inline-block px-6 py-3 bg-white/5 rounded-full border border-white/10">
-            <span className="text-white/70">
-              Siga para não perder nenhum conteúdo! 🚀
-            </span>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+      </section>
+    </AnimatedBackground>
   );
 };
 

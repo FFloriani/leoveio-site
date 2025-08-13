@@ -22,7 +22,7 @@ const FloatingContact = () => {
     {
       name: 'WhatsApp',
       description: 'Grupo e comunidade',
-      url: '#', // Sem link ainda
+      url: 'https://chat.whatsapp.com/JUotvnWvLi2D8eoqfQ1OB2?mode=ac_t',
       color: 'from-green-500 to-green-600',
       icon: (
         <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
@@ -64,9 +64,6 @@ const FloatingContact = () => {
             <div className="bg-black/80 backdrop-blur-sm text-white px-3 py-2 rounded-lg shadow-lg border border-white/10 min-w-[140px]">
               <div className="font-semibold text-sm">{contact.name}</div>
               <div className="text-xs opacity-80">{contact.description}</div>
-              {contact.url === '#' && (
-                <div className="text-xs text-yellow-400 font-semibold mt-1">Em breve</div>
-              )}
             </div>
 
             {/* Button */}
@@ -74,16 +71,11 @@ const FloatingContact = () => {
               href={contact.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`relative w-12 h-12 bg-gradient-to-r ${contact.color} text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center ${contact.url === '#' ? 'cursor-not-allowed opacity-75' : 'cursor-pointer'}`}
-              whileHover={{ scale: contact.url !== '#' ? 1.1 : 1 }}
-              whileTap={{ scale: contact.url !== '#' ? 0.9 : 1 }}
-              onClick={contact.url === '#' ? (e) => e.preventDefault() : undefined}
+              className={`relative w-12 h-12 bg-gradient-to-r ${contact.color} text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center cursor-pointer`}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               {contact.icon}
-              
-              {contact.url === '#' && (
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-500 rounded-full"></div>
-              )}
             </motion.a>
           </motion.div>
         ))}
