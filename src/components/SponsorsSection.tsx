@@ -34,7 +34,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       url: 'https://wildrift.leagueoflegends.com/',
       category: 'Gaming Partner',
       color: 'from-yellow-500 via-blue-500 to-cyan-400',
-      iconSrc: '/growth.png', // Temporário - adicione riot-games.png na pasta public
+      iconSrc: '/riotgames.png',
       isSpecial: true
     },
     {
