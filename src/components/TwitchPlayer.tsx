@@ -1,17 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { ExternalLink, Play, Tv } from 'lucide-react';
-
 interface TwitchPlayerProps {
   channel: string;
 }
 
 const TwitchPlayer = ({ channel }: TwitchPlayerProps) => {
+  const getParentDomains = () => {
+    if (typeof window !== 'undefined') {
+      return `&parent=${window.location.hostname}`;
+    }
+    return '&parent=localhost&parent=127.0.0.1&parent=leoveio-streamer-site.vercel.app';
+  };
+
   return (
     <div className="aspect-video rounded-xl overflow-hidden bg-black relative">
       <iframe
-        src={`https://www.twitch.tv/embed/${channel}?parent=localhost&parent=127.0.0.1`}
+        src={`https://www.twitch.tv/embed/${channel}?${getParentDomains()}`}
         height="100%"
         width="100%"
         className="rounded-xl"

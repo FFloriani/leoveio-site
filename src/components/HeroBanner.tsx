@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Play, Users, MessageCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import TwitchPlayer from './TwitchPlayer';
 

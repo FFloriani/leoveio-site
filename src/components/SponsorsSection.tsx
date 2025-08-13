@@ -249,7 +249,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                 style={{ width: '200%' }}
               >
                 {/* First set */}
-                {previousSponsors.map((sponsor, index) => (
+                {previousSponsors.map((sponsor) => (
                   <div
                     key={`first-${sponsor.name}`}
                     className="flex-shrink-0 w-24 h-24 bg-white/5 backdrop-blur-sm rounded-xl p-3 border border-white/10 hover:border-white/20 transition-all duration-300"
@@ -265,7 +265,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                 ))}
                 
                 {/* Duplicate set for seamless loop */}
-                {previousSponsors.map((sponsor, index) => (
+                {previousSponsors.map((sponsor) => (
                   <div
                     key={`second-${sponsor.name}`}
                     className="flex-shrink-0 w-24 h-24 bg-white/5 backdrop-blur-sm rounded-xl p-3 border border-white/10 hover:border-white/20 transition-all duration-300"

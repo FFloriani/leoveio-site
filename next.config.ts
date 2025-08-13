@@ -4,6 +4,13 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     domains: ['static-cdn.jtvnw.net', 'twitch.tv', 'www.twitch.tv'],
+    unoptimized: false,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   async headers() {
     return [

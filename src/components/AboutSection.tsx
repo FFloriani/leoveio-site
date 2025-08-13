@@ -1,9 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Gamepad2, Clock, Users, Star, Trophy, Award, MapPin, Calendar, Download, Image as ImageIcon, Video, ExternalLink } from 'lucide-react';
+import { Gamepad2, Clock, Users, Star, Trophy, Award, MapPin, Calendar, Download, Image as ImageIcon, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
-import Image from 'next/image';
 import AnimatedBackground from './AnimatedBackground';
 import EventGallery from './EventGallery';
 
@@ -237,7 +236,7 @@ const AboutSection = () => {
                   </p>
                   
                   <p>
-                    Reconhecido como o <strong className="text-yellow-400">único representante do seleto grupo "Vanguarda Hextech"</strong> do Wild Rift, uma honraria concedida pela Riot Games a jogadores talentosos e comprometidos com a comunidade do jogo.
+                    Reconhecido como o <strong className="text-yellow-400">único representante do seleto grupo &ldquo;Vanguarda Hextech&rdquo;</strong> do Wild Rift, uma honraria concedida pela Riot Games a jogadores talentosos e comprometidos com a comunidade do jogo.
                   </p>
                   
                   <p>
@@ -258,15 +257,15 @@ const AboutSection = () => {
               <h3 className="text-2xl font-bold text-white mb-8 text-center">Principais Conquistas</h3>
               
               {achievements.map((achievement, index) => (
-                    <motion.div
+                <motion.div
                   key={achievement.title}
                   className="bg-black/40 backdrop-blur-lg rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      whileHover={{ scale: 1.02 }}
-                    >
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                >
                   <div className="flex items-start gap-4">
                     <div className={`p-3 rounded-xl bg-gradient-to-r ${achievement.color}`}>
                       {achievement.icon}
@@ -274,10 +273,10 @@ const AboutSection = () => {
                     <div className="flex-1">
                       <h4 className="text-lg font-semibold text-white mb-2">{achievement.title}</h4>
                       <p className="text-white/80 text-sm">{achievement.description}</p>
-                      </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
 

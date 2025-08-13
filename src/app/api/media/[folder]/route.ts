@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
+interface MediaFile {
+  name: string;
+  path: string;
+  extension: string;
+  size: number;
+  lastModified: Date;
+  type: 'image' | 'video';
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { folder: string } }
@@ -24,8 +33,8 @@ export async function GET(
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff'];
     const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.webm', '.flv', '.wmv'];
     
-    const photos: any[] = [];
-    const videos: any[] = [];
+    const photos: MediaFile[] = [];
+    const videos: MediaFile[] = [];
 
     for (const file of files) {
       const filePath = path.join(publicPath, file);
