@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RefreshCw, ExternalLink, AlertCircle, Clock } from 'lucide-react';
 import { VideoThumbnail } from './VideoThumbnail';
@@ -22,6 +22,12 @@ export const YTRSSGallery = ({ maxItems = 12, onError }: YTRSSGalleryProps) => {
     enabled: true,
     maxItems,
   });
+
+  useEffect(() => {
+    if (error && onError) {
+      onError(error);
+    }
+  }, [error, onError]);
 
   const handleVideoClick = (video: YouTubeVideo) => {
     setSelectedVideo(video);

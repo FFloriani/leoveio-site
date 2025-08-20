@@ -8,7 +8,7 @@ interface RSSItem {
   'media:group': [{
     'media:title': string[];
     'media:description': string[];
-    'media:thumbnail': [{ $: { url: string; width: string; height: string } }[]];
+    'media:thumbnail': { $: { url: string; width: string; height: string } }[];
   }];
   published: string[];
   author: [{ name: string[] }];
@@ -47,7 +47,7 @@ export class YouTubeRSSParser {
     return match ? match[1] : '';
   }
 
-  private static getBestThumbnail(thumbnails: any[], videoId: string): string {
+  private static getBestThumbnail(thumbnails: Array<{ $: { url: string; width: string; height: string } }>, videoId: string): string {
     // URLs confiáveis do YouTube em ordem de preferência
     // Evitando maxresdefault.jpg que muitas vezes não existe
     const fallbackUrls = [
