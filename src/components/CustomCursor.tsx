@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -48,13 +49,14 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Main cursor */}
+      {/* Custom cursor with seta.png image */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-[9999]"
         animate={{
-          x: mousePosition.x - 10,
-          y: mousePosition.y - 10,
-          scale: isClicking ? 0.8 : isHovering ? 1.5 : 1,
+          x: mousePosition.x - 32, // Ajuste para centralizar a seta maior (64x64px)
+          y: mousePosition.y - 32,
+          scale: isClicking ? 0.8 : isHovering ? 1.2 : 1,
+          rotate: isHovering ? 15 : 0, // Pequena rotação ao hover
         }}
         transition={{
           type: "spring",
@@ -62,43 +64,32 @@ const CustomCursor = () => {
           damping: 28,
         }}
       >
-        <div className="w-5 h-5 bg-white rounded-full" />
+        <Image
+          src="/seta.png"
+          alt="Cursor personalizado"
+          width={64}
+          height={64}
+          className="w-16 h-16 object-contain drop-shadow-lg"
+          priority
+        />
       </motion.div>
 
-      {/* Trail cursor */}
+      {/* Glow effect behind the cursor */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9998]"
         animate={{
-          x: mousePosition.x - 20,
-          y: mousePosition.y - 20,
-          scale: isHovering ? 1.2 : 0.8,
-          opacity: isHovering ? 0.8 : 0.3,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 15,
-        }}
-      >
-        <div className="w-10 h-10 border-2 border-purple-500 rounded-full" />
-      </motion.div>
-
-      {/* Glow effect */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9997]"
-        animate={{
-          x: mousePosition.x - 30,
-          y: mousePosition.y - 30,
+          x: mousePosition.x - 40, // Ajustado para acompanhar a seta maior
+          y: mousePosition.y - 40,
           scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0.4 : 0.2,
+          opacity: isHovering ? 0.6 : 0.3,
         }}
         transition={{
           type: "spring",
-          stiffness: 100,
+          stiffness: 200,
           damping: 20,
         }}
       >
-        <div className="w-15 h-15 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-lg opacity-50" />
+        <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-lg" />
       </motion.div>
     </>
   );
