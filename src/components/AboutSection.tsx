@@ -1,13 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Gamepad2, Clock, Users, Star, Trophy, Award, MapPin, Calendar, Download, Image as ImageIcon, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
+import { Gamepad2, Clock, Users, Star, Trophy, Award, MapPin, Calendar, Download, ExternalLink } from 'lucide-react';
 import AnimatedBackground from './AnimatedBackground';
-import EventGallery from './EventGallery';
 
 const AboutSection = () => {
-  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
 
   const stats = [
     {
@@ -307,7 +304,7 @@ const AboutSection = () => {
             ))}
           </motion.div>
 
-          {/* Events Section */}
+          {/* Events Section - Clean Grid */}
           <motion.div
             className="mb-20"
             initial={{ opacity: 0, y: 50 }}
@@ -319,20 +316,19 @@ const AboutSection = () => {
               Principais Eventos e Conquistas
             </h3>
 
-            <div className="grid lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.map((event, index) => (
                 <motion.div
                   key={event.id}
-                  className="bg-black/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300 group cursor-pointer"
+                  className="bg-black/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300 group"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
-                  onClick={() => setSelectedEvent(event.id)}
                 >
                   {/* Header */}
-                  <div className={`h-4 bg-gradient-to-r ${event.color}`}></div>
+                  <div className={`h-3 bg-gradient-to-r ${event.color}`}></div>
                   
                   {/* Content */}
                   <div className="p-6">
@@ -345,16 +341,17 @@ const AboutSection = () => {
                     </div>
 
                     <h4 className="text-xl font-bold text-white mb-2">{event.title}</h4>
-                    <div className="text-sm text-white/70 mb-1">{event.location}</div>
+                    <div className="text-sm text-white/70 mb-2">{event.location}</div>
+                    
                     <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${event.color} text-white mb-4`}>
                       {event.achievement}
                     </div>
 
-                    <p className="text-white/80 text-sm mb-4 leading-relaxed">{event.description}</p>
+                    <p className="text-white/80 text-sm mb-4 leading-relaxed line-clamp-3">{event.description}</p>
 
-                    {/* Highlights */}
-                    <div className="space-y-2 mb-4">
-                      {event.highlights.map((highlight, idx) => (
+                    {/* Highlights - Only top 2 */}
+                    <div className="space-y-1 mb-4">
+                      {event.highlights.slice(0, 2).map((highlight, idx) => (
                         <div key={idx} className="flex items-center gap-2 text-xs text-white/70">
                           <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
                           {highlight}
@@ -362,17 +359,18 @@ const AboutSection = () => {
                       ))}
                     </div>
 
-                    {/* Gallery Indicators */}
-                    <div className="flex items-center gap-4 pt-4 border-t border-white/10">
-                      <div className="flex items-center gap-2 text-xs text-white/60">
-                        <ImageIcon className="w-4 h-4" />
-                        <span>Fotos & Vídeos</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-purple-400 ml-auto group-hover:text-purple-300 transition-colors">
-                        <span>Ver Galeria</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </div>
-                    </div>
+                    {/* Gallery Link */}
+                    <motion.a
+                      href={`/${event.folderName}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors text-sm"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span>Ver Fotos</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </motion.a>
                   </div>
                 </motion.div>
               ))}
@@ -380,14 +378,6 @@ const AboutSection = () => {
           </motion.div>
         </div>
 
-        {/* Event Gallery Modal */}
-        {selectedEvent && (
-          <EventGallery
-            event={events.find(e => e.id === selectedEvent)}
-            isOpen={!!selectedEvent}
-            onClose={() => setSelectedEvent(null)}
-          />
-        )}
       </section>
     </AnimatedBackground>
   );

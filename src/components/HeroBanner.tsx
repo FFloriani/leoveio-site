@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Play, Users, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import TwitchPlayer from './TwitchPlayer';
 
@@ -42,87 +41,72 @@ const HeroBanner = () => {
       ></div>
 
       <div className="relative z-10 container mx-auto px-4 py-8 pt-24 min-h-screen flex items-center">
-        <div className="grid lg:grid-cols-2 gap-12 items-center w-full">
+        <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
           
           {/* Left Side - Content */}
-          <motion.div 
-            className="space-y-8"
+          <motion.div
+            className="space-y-6"
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            
+
             {/* Main Title */}
-            <motion.div 
-              className="space-y-4"
-              initial={{ opacity: 0, y: 20 }}
+            <motion.div
+              className="space-y-2"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              {/* Título e subtítulo removidos */}
+              <h1 className="text-6xl lg:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 drop-shadow-2xl">
+                LEOVEIO
+              </h1>
+              <h2 className="text-2xl lg:text-3xl font-bold text-white/90 drop-shadow-lg">
+                Streamer Profissional
+              </h2>
             </motion.div>
 
-            {/* Description */}
-            <motion.p 
-              className="text-lg text-white/80 max-w-lg leading-relaxed drop-shadow-lg backdrop-blur-sm bg-black/20 p-4 rounded-lg"
+            {/* Description - More concise */}
+            <motion.p
+              className="text-lg text-white/80 max-w-md leading-relaxed drop-shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              Clash Royale, Wild Rift, Cassino, React e muito mais! Lives de segunda a sexta das 17:30 às 22h com a melhor jogabilidade e uma comunidade incrível.
+              🎮 <strong>Vanguarda Hextech</strong> da Riot Games
+              <br />
+              🏆 <strong>70kg</strong> perdidos em transformação
+              <br />
+              🌟 <strong>Campeão Internacional</strong>
+              <br /><br />
+              <span className="text-purple-300 font-semibold">Lives diárias • 17:30 às 22:00</span>
             </motion.p>
 
-            {/* Action Buttons */}
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4"
+            {/* Games - Simplified */}
+            <motion.div
+              className="flex flex-wrap gap-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <motion.button
-                className="group relative overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/25 backdrop-blur-sm"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="flex items-center gap-2 relative z-10">
-                  <Play size={20} />
-                  <span>Assistir Live</span>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </motion.button>
-
-              <motion.button
-                className="group relative overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 hover:bg-white/30"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="flex items-center gap-2">
-                  <MessageCircle size={20} />
-                  <span>Chat</span>
-                </div>
-              </motion.button>
+              {[
+                { name: 'Clash Royale', color: 'from-blue-500 to-purple-500' },
+                { name: 'Wild Rift', color: 'from-cyan-500 to-blue-500' },
+                { name: 'Cassino', color: 'from-yellow-500 to-orange-500' }
+              ].map((game, index) => (
+                <motion.div
+                  key={game.name}
+                  className={`px-4 py-2 bg-gradient-to-r ${game.color} rounded-full text-white font-semibold text-sm shadow-lg`}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7 + index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  {game.name}
+                </motion.div>
+              ))}
             </motion.div>
 
-            {/* Social Stats */}
-            <motion.div 
-              className="flex gap-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-            >
-              <div className="text-center backdrop-blur-sm bg-black/20 p-3 rounded-lg">
-                <div className="text-2xl font-bold text-white drop-shadow-lg">Seg-Sex</div>
-                <div className="text-sm text-white/70">17:30-22h</div>
-              </div>
-              <div className="text-center backdrop-blur-sm bg-black/20 p-3 rounded-lg">
-                <div className="text-2xl font-bold text-white drop-shadow-lg">Multi</div>
-                <div className="text-sm text-white/70">Games</div>
-              </div>
-              <div className="text-center backdrop-blur-sm bg-black/20 p-3 rounded-lg">
-                <div className="text-2xl font-bold text-white drop-shadow-lg">Live+IRL</div>
-                <div className="text-sm text-white/70">Soon</div>
-              </div>
-            </motion.div>
           </motion.div>
 
           {/* Right Side - Player Section */}
@@ -132,39 +116,60 @@ const HeroBanner = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           >
-            {/* Platform Buttons - Fora do grupo do player */}
-            <motion.div 
-              className="flex gap-3 mb-4 relative z-50"
+            {/* Platform Buttons */}
+            <motion.div
+              className="flex flex-wrap gap-3 mb-8 relative z-50"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
             >
+              {/* Twitch */}
+              <motion.a
+                href="https://www.twitch.tv/leoveio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-5 py-3 bg-purple-600/90 border-2 border-purple-400 rounded-xl text-white font-semibold hover:bg-purple-500 hover:border-purple-300 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-purple-500/25 cursor-pointer"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
+                </svg>
+                <span className="text-sm font-bold">TWITCH</span>
+              </motion.a>
+
+              {/* Kick */}
               <motion.a
                 href="https://kick.com/leoveio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-green-600/90 border-2 border-green-400 rounded-lg text-white font-semibold hover:bg-green-500 hover:border-green-300 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-green-500/25 cursor-pointer"
-                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-2 px-5 py-3 bg-green-600/90 border-2 border-green-400 rounded-xl text-white font-semibold hover:bg-green-500 hover:border-green-300 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-green-500/25 cursor-pointer"
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-                <span>Kick</span>
+                <Image
+                  src="/kick.png"
+                  alt="Kick logo"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 object-contain"
+                />
+                <span className="text-sm font-bold">KICK</span>
               </motion.a>
 
+              {/* YouTube */}
               <motion.a
-                href="https://www.youtube.com/@leoveioyt"
+                href="https://www.youtube.com/@LeoVeio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-red-600/90 border-2 border-red-400 rounded-lg text-white font-semibold hover:bg-red-500 hover:border-red-300 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-red-500/25 cursor-pointer"
-                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-2 px-5 py-3 bg-red-600/90 border-2 border-red-400 rounded-xl text-white font-semibold hover:bg-red-500 hover:border-red-300 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-red-500/25 cursor-pointer"
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                 </svg>
-                <span>YouTube</span>
+                <span className="text-sm font-bold">YOUTUBE</span>
               </motion.a>
             </motion.div>
 
@@ -172,23 +177,10 @@ const HeroBanner = () => {
             <div className="relative group">
               {/* Glowing Border Effect */}
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition duration-300 z-0"></div>
-              
+
               {/* Player Container */}
-              <div className="relative bg-black/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 z-10">
+              <div className="relative bg-black/60 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 z-10">
                 <TwitchPlayer channel="leoveio" />
-                
-                {/* Player Info */}
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                      <Users size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="text-white font-semibold">LEOVEIO</div>
-                      <div className="text-sm text-white/60">twitch.tv/leoveio</div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </motion.div>
