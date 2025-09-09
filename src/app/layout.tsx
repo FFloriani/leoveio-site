@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import CustomCursor from "@/components/CustomCursor";
 import Header from "@/components/Header";
 import SocialSidebar from "@/components/SocialSidebar";
 
@@ -68,7 +67,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-hidden`}
       >
-        <CustomCursor />
         <Header />
         <SocialSidebar />
         <main className="relative">

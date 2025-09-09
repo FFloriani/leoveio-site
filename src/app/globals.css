@@ -28,23 +28,6 @@ body {
   min-height: 100vh;
 }
 
-/* Hide default cursor on desktop */
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
-
-/* Show default cursor on mobile/touch devices */
-@media (pointer: coarse) {
-  .cursor-none {
-    cursor: auto !important;
-  }
-  
-  * {
-    cursor: auto !important;
-  }
-}
 
 /* Custom scrollbar - more vibrant */
 ::-webkit-scrollbar {
