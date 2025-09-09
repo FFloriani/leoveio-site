@@ -73,7 +73,7 @@ const AnimatedBackground = ({
 
   const styles = getVariantStyles();
   const intensityMultiplier = intensity === 'low' ? 0.5 : intensity === 'high' ? 1.5 : 1;
-  const particleCount = intensity === 'high' ? 20 : intensity === 'medium' ? 12 : 6;
+  const particleCount = intensity === 'high' ? 8 : intensity === 'medium' ? 4 : 2;
 
   return (
     <div className="relative overflow-hidden">
@@ -174,10 +174,10 @@ const AnimatedBackground = ({
                   opacity: [0.3, 0.8, 0.4, 0.3],
                 }}
                 transition={{
-                  duration: 15 + Math.random() * 10,
+                  duration: 20 + Math.random() * 15,
                   repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.5,
+                  ease: "linear",
+                  delay: i * 1,
                 }}
               />
             );

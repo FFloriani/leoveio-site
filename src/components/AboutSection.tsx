@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Gamepad2, Clock, Users, Star, Trophy, Award, MapPin, Calendar, Download, ExternalLink } from 'lucide-react';
-import AnimatedBackground from './AnimatedBackground';
+import { Gamepad2, Clock, Users, Star, Trophy, Award, Download, MapPin } from 'lucide-react';
+import { LazyAnimatedBackground } from './LazyComponents';
 
 const AboutSection = () => {
 
@@ -54,120 +54,6 @@ const AboutSection = () => {
     }
   ];
 
-  const events = [
-    {
-      id: 'china-2023',
-      title: 'Ionia Cup - China',
-      year: '2023',
-      location: 'China',
-      achievement: '3º Lugar',
-      description: 'Representou o Brasil no torneio internacional. Única equipe do ocidente convidada. Entrevista emocionante em inglês com homenagem à sua mãe.',
-      highlights: [
-        'Único país do ocidente convidado',
-        'Entrevista em inglês na TV chinesa',
-        'Homenagem emocionante à sua mãe'
-      ],
-      folderName: 'CHINA 2023',
-      color: 'from-red-500 to-yellow-500',
-      flag: '🇨🇳'
-    },
-    {
-      id: 'china-2024',
-      title: 'China Wild Round Smash',
-      year: '2024',
-      location: 'China',
-      achievement: '2º Lugar',
-      description: 'Retorno triunfal à China como titular. Liderou vitórias memoráveis contra times da Coreia e China, conquistando a vice-liderança.',
-      highlights: [
-        'Vitórias contra times coreanos',
-        'Derrotou equipes chinesas',
-        'Vice-campeão do torneio'
-      ],
-      folderName: 'CHINA 2024',
-      color: 'from-red-500 to-pink-500',
-      flag: '🇨🇳'
-    },
-    {
-      id: 'carnawild',
-      title: 'CarnaWild',
-      year: '2024',
-      location: 'Brasil',
-      achievement: 'Evento Especial',
-      description: 'Participação no evento temático de Carnaval do Wild Rift, representando a comunidade brasileira com muito estilo e diversão.',
-      highlights: [
-        'Evento temático brasileiro',
-        'Representação da comunidade',
-        'Conteúdo exclusivo'
-      ],
-      folderName: 'CARNAWILD',
-      color: 'from-yellow-500 to-orange-500',
-      flag: '🇧🇷'
-    },
-    {
-      id: 'arraia-no-rift',
-      title: 'Arraiá no Rift',
-      year: '2024',
-      location: 'Brasil',
-      achievement: 'Festa Junina',
-      description: 'Evento especial de festa junina do Wild Rift, celebrando as tradições brasileiras no universo dos jogos.',
-      highlights: [
-        'Celebração da cultura brasileira',
-        'Evento temático junino',
-        'Interação com a comunidade'
-      ],
-      folderName: 'ARRAIA NO RIFT',
-      color: 'from-green-500 to-yellow-500',
-      flag: '🇧🇷'
-    },
-    {
-      id: 'hex-rift',
-      title: 'Hex Rift',
-      year: '2024',
-      location: 'Brasil',
-      achievement: 'Evento Hextech',
-      description: 'Participação no evento especial Hex Rift, explorando as tecnologias Hextech do universo de League of Legends.',
-      highlights: [
-        'Tecnologia Hextech',
-        'Evento exclusivo',
-        'Conteúdo especial'
-      ],
-      folderName: 'HEX-RIFT',
-      color: 'from-blue-500 to-purple-500',
-      flag: '🔧'
-    },
-    {
-      id: 'coca-cola',
-      title: 'Parceria Coca-Cola',
-      year: '2024',
-      location: 'Brasil',
-      achievement: 'Campanha Publicitária',
-      description: 'Colaboração especial com a Coca-Cola para campanha publicitária, unindo gaming e uma das maiores marcas do mundo.',
-      highlights: [
-        'Parceria com marca global',
-        'Campanha publicitária',
-        'Alcance nacional'
-      ],
-      folderName: 'COCA-COLA',
-      color: 'from-red-600 to-red-400',
-      flag: '🥤'
-    },
-    {
-      id: 'wild-play-brasilia',
-      title: 'Wild Play Brasília',
-      year: '2024',
-      location: 'Brasília, Brasil',
-      achievement: 'Torneio Presencial',
-      description: 'Participação no grande torneio presencial de Wild Rift em Brasília, reunindo os melhores jogadores do país.',
-      highlights: [
-        'Torneio presencial',
-        'Capital federal',
-        'Elite do Wild Rift brasileiro'
-      ],
-      folderName: 'WILD PLAY BRASILIA',
-      color: 'from-green-600 to-blue-500',
-      flag: '🏛️'
-    }
-  ];
 
   const handleDownloadMediaKit = () => {
     const link = document.createElement('a');
@@ -177,7 +63,7 @@ const AboutSection = () => {
   };
 
   return (
-    <AnimatedBackground variant="gaming" intensity="medium">
+    <LazyAnimatedBackground variant="gaming" intensity="low">
       <section className="relative py-20" id="sobre">
         <div className="relative z-10 container mx-auto px-4">
           
@@ -304,82 +190,10 @@ const AboutSection = () => {
             ))}
           </motion.div>
 
-          {/* Events Section - Clean Grid */}
-          <motion.div
-            className="mb-20"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-3xl lg:text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-12">
-              Principais Eventos e Conquistas
-            </h3>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {events.map((event, index) => (
-                <motion.div
-                  key={event.id}
-                  className="bg-black/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300 group"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  {/* Header */}
-                  <div className={`h-3 bg-gradient-to-r ${event.color}`}></div>
-                  
-                  {/* Content */}
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-2xl">{event.flag}</span>
-                      <div className="flex items-center gap-2 text-sm text-white/60">
-                        <Calendar className="w-4 h-4" />
-                        {event.year}
-                      </div>
-                    </div>
-
-                    <h4 className="text-xl font-bold text-white mb-2">{event.title}</h4>
-                    <div className="text-sm text-white/70 mb-2">{event.location}</div>
-                    
-                    <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${event.color} text-white mb-4`}>
-                      {event.achievement}
-                    </div>
-
-                    <p className="text-white/80 text-sm mb-4 leading-relaxed line-clamp-3">{event.description}</p>
-
-                    {/* Highlights - Only top 2 */}
-                    <div className="space-y-1 mb-4">
-                      {event.highlights.slice(0, 2).map((highlight, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-xs text-white/70">
-                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                          {highlight}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Gallery Link */}
-                    <motion.a
-                      href={`/${event.folderName}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors text-sm"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <span>Ver Fotos</span>
-                      <ExternalLink className="w-4 h-4" />
-                    </motion.a>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
 
       </section>
-    </AnimatedBackground>
+    </LazyAnimatedBackground>
   );
 };
 

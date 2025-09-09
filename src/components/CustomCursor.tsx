@@ -10,8 +10,13 @@ const CustomCursor = () => {
   const [isClicking, setIsClicking] = useState(false);
 
   useEffect(() => {
+    let animationFrameId: number;
+    
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = requestAnimationFrame(() => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+      });
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -39,6 +44,7 @@ const CustomCursor = () => {
     document.addEventListener('mouseleave', handleMouseLeave, true);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);

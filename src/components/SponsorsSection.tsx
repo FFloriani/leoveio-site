@@ -38,19 +38,10 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       isSpecial: true
     },
     {
-      name: 'ExitLag',
-      description: 'Otimização de conexão para jogos - Reduza seu ping e melhore sua gameplay',
-      url: 'https://exitlag.com/',
-      coupon: 'leoveio',
-      category: 'Gaming Tech',
-      color: 'from-blue-600 to-purple-600',
-      iconSrc: '/exitlag.png'
-    },
-    {
       name: 'Growth Suplementos',
       description: 'Os melhores suplementos para potencializar seu desempenho',
       url: 'https://gsuplementos.com.br/?cupom=leoveio&fbclid=PAZXh0bgNhZW0CMTEAAaYymVSEnYVah0jtjA-iFznsCVNua1YmF8_DqN020XoqMjWQwSLfs3KOZSo_aem_hASjju_cOhW62kSJdH7sbQ',
-      coupon: 'leoveio',
+      coupon: 'LEOVEIO ATÉ 15%',
       category: 'Fitness',
       color: 'from-green-500 to-emerald-500',
       iconSrc: '/growth.png'
@@ -59,19 +50,18 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       name: 'Liveup',
       description: 'Produtos naturais e saudáveis para uma vida melhor',
       url: 'https://livup.com.br/?utm_source=instagram&utm_medium=influencers&utm_campaign=creator_awon_leoveio',
-      coupon: 'leoveio',
+      coupon: 'LEOVEIO ATÉ 15%',
       category: 'Lifestyle',
       color: 'from-blue-500 to-cyan-500',
       iconSrc: '/liveup.jpg'
     },
     {
-      name: 'ALFA BET',
-      description: 'Cassino online com os melhores jogos e promoções exclusivas',
-      url: 'https://cassino.alfa.bet.br/?sign-up=modal&tr_src=influencer&tracking_link=http%3A%2F%2Fjogaralfa.bet%2Fx671897f8',
-      coupon: 'leoveio',
-      category: 'Entertainment',
-      color: 'from-red-500 to-orange-500',
-      iconSrc: '/alfabet.png'
+      name: 'Betano',
+      description: 'A casa de apostas mais completa do Brasil com odds competitivas e promoções exclusivas',
+      url: 'https://www.betano.bet.br/casino/register/?pid=incomeaccess_int-60937&af_sub1=a_60937b_10037c_&af_ad_id=40817&utm_medium=40817&utm_source=60937&utm_campaign=10037&siteid=60937',
+      category: 'Gaming',
+      color: 'from-blue-600 to-cyan-500',
+      iconSrc: '/betano.png'
     }
   ];
 
@@ -84,6 +74,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
     { name: 'Betano', category: 'Gaming', logo: '/betano.jpg' },
     { name: 'Lenovo', category: 'Tech', logo: '/lenovo.png' },
     { name: 'Estrela Bet', category: 'Gaming', logo: '/estrelabet.png' },
+    { name: 'ALFABET', category: 'Gaming', logo: '/alfabet.png' },
     { name: 'Heineken', category: 'Bebidas', logo: '/heineken.png' },
     { name: 'Old Spice', category: 'Cuidados', logo: '/oldspice.png' },
     { name: 'TIM', category: 'Telecom', logo: '/tim.jpeg' },

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import TwitchPlayer from './TwitchPlayer';
+import { LazyTwitchPlayer } from './LazyComponents';
 
 const HeroBanner = () => {
   return (
@@ -180,7 +180,7 @@ const HeroBanner = () => {
 
               {/* Player Container */}
               <div className="relative bg-black/60 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 z-10">
-                <TwitchPlayer channel="leoveio" />
+                <LazyTwitchPlayer channel="leoveio" />
               </div>
             </div>
           </motion.div>
