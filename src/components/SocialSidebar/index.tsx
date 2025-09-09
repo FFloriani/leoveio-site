@@ -7,6 +7,7 @@ import { useSocialSidebar } from '@/hooks/useSocialSidebar';
 import { SocialPlatform } from '@/types/sidebar.types';
 import { motion } from 'framer-motion';
 import { Share2 } from 'lucide-react';
+import Image from 'next/image';
 
 interface SocialSidebarProps {
   className?: string;
@@ -73,9 +74,8 @@ export const SocialSidebar = ({ className = '' }: SocialSidebarProps) => {
       <motion.button
         onClick={() => togglePanel('youtube')} // Abrir com YouTube por padrão
         className={`
-          fixed bottom-6 right-6 z-[1000] w-14 h-14 bg-purple-600 
-          hover:bg-purple-500 rounded-full shadow-lg flex items-center 
-          justify-center md:hidden ${className}
+          fixed bottom-6 right-6 z-[1000] w-14 h-14 rounded-full shadow-lg 
+          flex items-center justify-center md:hidden overflow-hidden ${className}
         `}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -89,7 +89,13 @@ export const SocialSidebar = ({ className = '' }: SocialSidebarProps) => {
         }}
         aria-label="Abrir redes sociais"
       >
-        <Share2 size={24} className="text-white" />
+        <Image
+          src="/socialbar.png"
+          alt="Redes Sociais"
+          width={56}
+          height={56}
+          className="w-full h-full object-cover rounded-full"
+        />
         
         {/* Indicador de conteúdo disponível */}
         <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">

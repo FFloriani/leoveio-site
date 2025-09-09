@@ -18,22 +18,7 @@ const Header = () => {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <motion.div
-              className="flex items-center gap-3"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">L</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-white drop-shadow-md">LeoVeio</h1>
-                <p className="text-xs text-white/70">Streamer</p>
-              </div>
-            </motion.div>
-
+          <div className="flex items-center justify-end">
             {/* Navigation & Contact */}
             <div className="flex items-center gap-4">
               <motion.div

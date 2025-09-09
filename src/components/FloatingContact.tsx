@@ -33,10 +33,10 @@ const FloatingContact = () => {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 ml-20 sm:left-auto sm:right-0 sm:ml-100 sm:transform-none z-50">
       {/* Contact Options */}
       <motion.div
-        className="flex flex-col gap-3 mb-4 items-end"
+        className="flex flex-col gap-3 mb-4 items-center sm:items-end"
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{ 
           opacity: isOpen ? 1 : 0, 
@@ -49,7 +49,7 @@ const FloatingContact = () => {
         {contacts.map((contact, index) => (
           <motion.div
             key={contact.name}
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 w-full justify-center sm:justify-end sm:w-auto"
             initial={{ opacity: 0, x: 20 }}
             animate={{ 
               opacity: isOpen ? 1 : 0, 
