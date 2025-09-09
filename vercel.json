@@ -3,5 +3,22 @@
     "src/app/api/media/[folder]/route.ts": {
       "excludeFiles": "public/**/*.{mp4,mov,avi,mkv,webm,flv,wmv}"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/roxa",
+      "destination": "https://www.twitch.tv/leoveio",
+      "permanent": false
+    },
+    {
+      "source": "/verde",
+      "destination": "https://www.kick.com/leoveio",
+      "permanent": false
+    },
+    {
+      "source": "/betano",
+      "destination": "https://kg-br.com/C.ashx?btag=a_60937b_10037c_&affid=40817&siteid=60937&adid=10037&c=",
+      "permanent": false
+    }
+  ]
 } 
