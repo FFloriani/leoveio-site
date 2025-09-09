@@ -42,16 +42,17 @@ const Header = () => {
               >
                 <Link 
                   href="/eventos"
-                  className="relative group px-5 py-2.5 text-white/80 hover:text-white transition-all duration-300 font-medium text-sm rounded-lg bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-sm hover:bg-white/10"
+                  className="relative group px-3 py-2 text-white/80 hover:text-white transition-all duration-300 font-medium text-sm rounded-lg bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-sm hover:bg-white/10 sm:px-5 sm:py-2.5"
                 >
-                  <span className="relative z-10">Principais Eventos e Conquistas</span>
+                  <span className="relative z-10 hidden sm:inline">Principais Eventos e Conquistas</span>
+                  <span className="relative z-10 sm:hidden">Eventos</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </Link>
               </motion.div>
               
               <motion.button
                 onClick={() => setIsContactModalOpen(true)}
-                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 backdrop-blur-sm border border-purple-400/30 text-sm"
+                className="flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 backdrop-blur-sm border border-purple-400/30 text-sm sm:gap-2 sm:px-5 sm:py-2.5"
                 whileHover={{ 
                   scale: 1.02,
                   boxShadow: "0 8px 25px rgba(168, 85, 247, 0.4)"
@@ -61,8 +62,9 @@ const Header = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <Mail size={16} />
-                <span>Entrar em Contato</span>
+                <Mail size={14} className="sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Entrar em Contato</span>
+                <span className="sm:hidden">Contatos</span>
               </motion.button>
             </div>
           </div>

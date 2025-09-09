@@ -85,9 +85,9 @@ const HeroBanner = () => {
       <div className="relative z-20 container mx-auto px-4 py-8 pt-24 min-h-screen flex items-center">
         <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
           
-          {/* Left Side - Content */}
+          {/* Left Side - Content - Hidden on Mobile */}
           <motion.div
-            className="space-y-6"
+            className="space-y-6 hidden lg:block"
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -153,14 +153,14 @@ const HeroBanner = () => {
 
           {/* Right Side - Player Section */}
           <motion.div 
-            className="relative"
+            className="relative w-full"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           >
             {/* Platform Buttons */}
             <motion.div
-              className="flex flex-wrap gap-3 mb-8 relative z-50"
+              className="flex flex-wrap gap-3 mb-8 relative z-50 justify-center lg:justify-start"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}

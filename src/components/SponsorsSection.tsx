@@ -211,7 +211,6 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                               <span className="text-sm text-white/80">Cupom de Desconto</span>
                               <div className="flex items-center gap-2 mt-1">
                                 <code className="text-lg font-bold text-purple-300 drop-shadow-md">{sponsor.coupon.toUpperCase()}</code>
-                                <Percent size={16} className="text-purple-300" />
                               </div>
                             </div>
                             <motion.button
