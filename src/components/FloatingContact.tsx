@@ -33,7 +33,7 @@ const FloatingContact = () => {
   ];
 
   return (
-    <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 ml-20 sm:left-auto sm:right-0 sm:ml-100 sm:transform-none z-50">
+    <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 ml-20 sm:left-auto sm:right-0 sm:ml-0 sm:transform-none z-50">
       {/* Contact Options */}
       <motion.div
         className="flex flex-col gap-3 mb-4 items-center sm:items-end"

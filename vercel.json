@@ -19,6 +19,11 @@
       "source": "/betano",
       "destination": "https://kg-br.com/C.ashx?btag=a_60937b_10037c_&affid=40817&siteid=60937&adid=10037&c=",
       "permanent": false
+    },
+    {
+      "source": "/forra",
+      "destination": "https://www.youtube.com/@LeoVeioYT",
+      "permanent": false
     }
   ]
 } 
