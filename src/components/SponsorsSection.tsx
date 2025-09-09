@@ -14,6 +14,7 @@ interface ActiveSponsor {
   color: string;
   iconSrc: string;
   isSpecial?: boolean;
+  customCreative?: string;
 }
 
 interface PreviousSponsor {
@@ -61,7 +62,8 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       url: 'https://www.betano.bet.br/casino/register/?pid=incomeaccess_int-60937&af_sub1=a_60937b_10037c_&af_ad_id=40817&utm_medium=40817&utm_source=60937&utm_campaign=10037&siteid=60937',
       category: 'Gaming',
       color: 'from-blue-600 to-cyan-500',
-      iconSrc: '/betano.png'
+      iconSrc: '/betano.png',
+      customCreative: '/betanocupom.jpg'
     }
   ];
 
@@ -147,63 +149,95 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                   <div className={`absolute -inset-1 bg-gradient-to-r ${sponsor.color} rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition duration-300`}></div>
                   
                   {/* Card Content */}
-                  <div className="relative bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-white/20 h-full shadow-2xl">
-                    {/* Header */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/10">
+                  <div className="relative bg-black/40 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20 h-full shadow-2xl">
+                    {/* Custom Creative Background - Only for sponsors with customCreative */}
+                    {sponsor.customCreative && (
+                      <div className="absolute inset-0 opacity-15">
                         <Image
-                          src={sponsor.iconSrc}
-                          alt={`${sponsor.name} logo`}
-                          width={32}
-                          height={32}
-                          className="rounded-lg object-contain"
+                          src={sponsor.customCreative}
+                          alt={`${sponsor.name} creative`}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-white drop-shadow-md">{sponsor.name}</h3>
-                        <span className="text-sm text-white/70">{sponsor.category}</span>
-                      </div>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-white/90 mb-6 leading-relaxed drop-shadow-sm text-sm">
-                      {sponsor.description}
-                    </p>
-
-                    {/* Coupon - Only if exists */}
-                    {sponsor.coupon && (
-                      <div className="mb-6 p-4 bg-white/20 rounded-lg border border-white/30 backdrop-blur-sm">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <span className="text-sm text-white/80">Cupom de Desconto</span>
-                            <div className="flex items-center gap-2 mt-1">
-                              <code className="text-lg font-bold text-purple-300 drop-shadow-md">{sponsor.coupon.toUpperCase()}</code>
-                              <Percent size={16} className="text-purple-300" />
-                            </div>
-                          </div>
-                          <motion.button
-                            className="px-3 py-2 bg-purple-600/30 border border-purple-400/50 rounded-lg text-purple-200 text-sm hover:bg-purple-600/50 transition-colors backdrop-blur-sm"
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => navigator.clipboard.writeText(sponsor.coupon || '')}
-                          >
-                            Copiar
-                          </motion.button>
-                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                       </div>
                     )}
 
-                    {/* Action Button */}
-                    <motion.a
-                      href={sponsor.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold text-white bg-gradient-to-r ${sponsor.color} hover:shadow-lg transition-all duration-300 shadow-lg`}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <ExternalLink size={18} />
-                      <span>Acessar {sponsor.name}</span>
-                    </motion.a>
+                    <div className="relative z-10 p-6">
+                      {/* Header */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/10">
+                          <Image
+                            src={sponsor.iconSrc}
+                            alt={`${sponsor.name} logo`}
+                            width={32}
+                            height={32}
+                            className="rounded-lg object-contain"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-white drop-shadow-md">{sponsor.name}</h3>
+                          <span className="text-sm text-white/70">{sponsor.category}</span>
+                        </div>
+                      </div>
+
+                      {/* Custom Creative Display - Only for Betano */}
+                      {sponsor.customCreative && sponsor.name === 'Betano' && (
+                        <div className="mb-6 relative">
+                          <div className="relative aspect-[3/4] max-w-[200px] mx-auto rounded-xl overflow-hidden border-2 border-white/20 shadow-lg">
+                            <Image
+                              src={sponsor.customCreative}
+                              alt={`${sponsor.name} cupom criativo`}
+                              fill
+                              className="object-cover"
+                              sizes="200px"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Description */}
+                      <p className="text-white/90 mb-6 leading-relaxed drop-shadow-sm text-sm">
+                        {sponsor.description}
+                      </p>
+
+                      {/* Coupon - Only if exists */}
+                      {sponsor.coupon && (
+                        <div className="mb-6 p-4 bg-white/20 rounded-lg border border-white/30 backdrop-blur-sm">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <span className="text-sm text-white/80">Cupom de Desconto</span>
+                              <div className="flex items-center gap-2 mt-1">
+                                <code className="text-lg font-bold text-purple-300 drop-shadow-md">{sponsor.coupon.toUpperCase()}</code>
+                                <Percent size={16} className="text-purple-300" />
+                              </div>
+                            </div>
+                            <motion.button
+                              className="px-3 py-2 bg-purple-600/30 border border-purple-400/50 rounded-lg text-purple-200 text-sm hover:bg-purple-600/50 transition-colors backdrop-blur-sm"
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => navigator.clipboard.writeText(sponsor.coupon || '')}
+                            >
+                              Copiar
+                            </motion.button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Action Button */}
+                      <motion.a
+                        href={sponsor.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold text-white bg-gradient-to-r ${sponsor.color} hover:shadow-lg transition-all duration-300 shadow-lg`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <ExternalLink size={18} />
+                        <span>Acessar {sponsor.name}</span>
+                      </motion.a>
+                    </div>
                   </div>
                 </motion.div>
               ))}

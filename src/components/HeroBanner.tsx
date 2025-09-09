@@ -2,23 +2,65 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState, useRef } from 'react';
 import { LazyTwitchPlayer } from './LazyComponents';
 
 const HeroBanner = () => {
+  const [isIntroFinished, setIsIntroFinished] = useState(false);
+  const introVideoRef = useRef<HTMLVideoElement>(null);
+  const loopVideoRef = useRef<HTMLVideoElement>(null);
+
+  const handleIntroEnd = () => {
+    console.log('🎬 Intro finished, starting loop video');
+    setIsIntroFinished(true);
+    if (loopVideoRef.current) {
+      loopVideoRef.current.play();
+    }
+  };
+
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Custom Banner Background */}
+      {/* Animated Banner Background */}
       <div className="absolute inset-0">
+        {/* Intro Video - plays once */}
+        <video
+          ref={introVideoRef}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            isIntroFinished ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+          autoPlay
+          muted
+          playsInline
+          onEnded={handleIntroEnd}
+        >
+          <source src="/herobanner1.mp4" type="video/mp4" />
+        </video>
+
+        {/* Loop Video - plays after intro */}
+        <video
+          ref={loopVideoRef}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            isIntroFinished ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+          muted
+          playsInline
+          loop
+        >
+          <source src="/herobanner2.mp4" type="video/mp4" />
+        </video>
+
+        {/* Fallback Image - if videos fail */}
         <Image
           src="/herobanner.png"
           alt="LeoVeio Banner"
           fill
-          className="object-cover"
+          className="object-cover z-[-1]"
           priority
         />
+
         {/* Overlay gradiente para melhor legibilidade */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/40"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/40 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 z-10"></div>
       </div>
 
       {/* Background Effects - mais sutis para não competir com o banner */}
@@ -40,7 +82,7 @@ const HeroBanner = () => {
         }}
       ></div>
 
-      <div className="relative z-10 container mx-auto px-4 py-8 pt-24 min-h-screen flex items-center">
+      <div className="relative z-20 container mx-auto px-4 py-8 pt-24 min-h-screen flex items-center">
         <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
           
           {/* Left Side - Content */}

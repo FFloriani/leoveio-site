@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Gamepad2, Clock, Users, Star, Trophy, Award, Download, MapPin } from 'lucide-react';
-import { LazyAnimatedBackground } from './LazyComponents';
+import { Gamepad2, Clock, Users, Star, Trophy, Download } from 'lucide-react';
+import AnimatedBackground from './AnimatedBackground';
 
 const AboutSection = () => {
 
@@ -26,33 +26,13 @@ const AboutSection = () => {
       color: 'from-green-500 to-emerald-500'
     },
     {
-      icon: <Award className="w-6 h-6" />,
+      icon: <Star className="w-6 h-6" />,
       label: 'Vanguarda Hextech',
       value: 'Único Representante',
       color: 'from-yellow-500 to-orange-500'
     }
   ];
 
-  const achievements = [
-    {
-      title: 'Vanguarda Hextech Wild Rift',
-      description: 'Único representante do seleto grupo da Riot Games',
-      icon: <Star className="w-8 h-8" />,
-      color: 'from-yellow-500 to-orange-500'
-    },
-    {
-      title: 'Transformação Pessoal',
-      description: 'Superação inspiradora: perda de 70kg',
-      icon: <Trophy className="w-8 h-8" />,
-      color: 'from-green-500 to-emerald-500'
-    },
-    {
-      title: 'Representante Internacional',
-      description: 'Brasil nos principais eventos mundiais',
-      icon: <MapPin className="w-8 h-8" />,
-      color: 'from-blue-500 to-purple-500'
-    }
-  ];
 
 
   const handleDownloadMediaKit = () => {
@@ -63,7 +43,7 @@ const AboutSection = () => {
   };
 
   return (
-    <LazyAnimatedBackground variant="gaming" intensity="low">
+    <AnimatedBackground variant="tropical" intensity="medium">
       <section className="relative py-20" id="sobre">
         <div className="relative z-10 container mx-auto px-4">
           
@@ -129,7 +109,7 @@ const AboutSection = () => {
               </div>
             </motion.div>
 
-            {/* Right - Achievements */}
+            {/* Right - Key Highlights */}
             <motion.div
               className="space-y-6"
               initial={{ opacity: 0, x: 50 }}
@@ -137,29 +117,45 @@ const AboutSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">Principais Conquistas</h3>
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">Momentos Marcantes</h3>
               
-              {achievements.map((achievement, index) => (
-                <motion.div
-                  key={achievement.title}
-                  className="bg-black/40 backdrop-blur-lg rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-r ${achievement.color}`}>
-                      {achievement.icon}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-lg font-semibold text-white mb-2">{achievement.title}</h4>
-                      <p className="text-white/80 text-sm">{achievement.description}</p>
-                    </div>
+              <motion.div
+                className="bg-black/40 backdrop-blur-lg rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500">
+                    <Star className="w-8 h-8" />
                   </div>
-                </motion.div>
-              ))}
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-white mb-2">Vanguarda Hextech Wild Rift</h4>
+                    <p className="text-white/80 text-sm">Único representante do seleto grupo da Riot Games</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="bg-black/40 backdrop-blur-lg rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500">
+                    <Trophy className="w-8 h-8" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-white mb-2">Transformação Inspiradora</h4>
+                    <p className="text-white/80 text-sm">Jornada de superação com perda de 70kg</p>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
 
@@ -193,7 +189,7 @@ const AboutSection = () => {
         </div>
 
       </section>
-    </LazyAnimatedBackground>
+    </AnimatedBackground>
   );
 };
 

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
+import Footer from '@/components/Footer';
 
 interface EventMedia {
   type: 'image' | 'video';
@@ -149,7 +150,8 @@ const EventsPage = () => {
   };
 
   return (
-    <AnimatedBackground variant="gaming" intensity="low">
+    <>
+      <AnimatedBackground variant="tropical" intensity="medium">
       <div className="min-h-screen py-8 pt-24">
         <div className="container mx-auto px-4">
           
@@ -340,6 +342,8 @@ const EventsPage = () => {
         )}
       </div>
     </AnimatedBackground>
+    <Footer />
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import HeroBanner from '@/components/HeroBanner';
 import AboutSection from '@/components/AboutSection';
 import SponsorsSection from '@/components/SponsorsSection';
-import SocialFeed from '@/components/SocialFeed';
+import Footer from '@/components/Footer';
 import FloatingContact from '@/components/FloatingContact';
 import ContactModal from '@/components/ContactModal';
 
@@ -16,7 +16,7 @@ export default function Home() {
       <HeroBanner />
       <AboutSection />
       <SponsorsSection onOpenContact={() => setIsContactModalOpen(true)} />
-      <SocialFeed />
+      <Footer />
       <FloatingContact />
       <ContactModal 
         isOpen={isContactModalOpen} 
