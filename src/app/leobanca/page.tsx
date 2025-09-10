@@ -18,10 +18,12 @@ import {
   Trash2,
   Save,
   FileText,
-  BarChart3
+  BarChart3,
+  ArrowLeft
 } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Footer from '@/components/Footer';
+import Link from 'next/link';
 
 // Types
 interface Participant {
@@ -224,12 +226,19 @@ export default function LeoBancaPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-8"
           >
+            <div className="flex items-center justify-center mb-4">
+              <Link
+                href="/"
+                className="flex items-center gap-2 px-4 py-2 bg-white/10 text-white/80 hover:text-white rounded-lg hover:bg-white/20 transition-all duration-300 mr-4"
+              >
+                <ArrowLeft size={20} />
+                <span className="hidden sm:inline">Voltar ao Site</span>
+                <span className="sm:hidden">Voltar</span>
+              </Link>
+            </div>
             <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4">
-              LEO BANCA
+              BANCA DO BALÃO
             </h1>
-            <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto">
-              Gerencie bancas compartilhadas para suas lives de cassino
-            </p>
           </motion.div>
 
           {/* Dashboard */}
