@@ -26,6 +26,20 @@ const Header = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Link 
+                  href="/leobanca"
+                  className="relative group px-3 py-2 text-white/80 hover:text-white transition-all duration-300 font-medium text-sm rounded-lg bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-sm hover:bg-white/10 sm:px-5 sm:py-2.5"
+                >
+                  <span className="relative z-10 hidden sm:inline">Leo Banca</span>
+                  <span className="relative z-10 sm:hidden">Banca</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Link 
                   href="/eventos"
                   className="relative group px-3 py-2 text-white/80 hover:text-white transition-all duration-300 font-medium text-sm rounded-lg bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-sm hover:bg-white/10 sm:px-5 sm:py-2.5"
                 >
