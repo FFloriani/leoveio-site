@@ -199,7 +199,7 @@ const HeroBanner = () => {
                 <span className="text-sm font-bold">KICK</span>
               </motion.a>
 
-              {/* YouTube */}
+              {/* YouTube Principal */}
               <motion.a
                 href="https://www.youtube.com/@LeoVeio"
                 target="_blank"
@@ -212,6 +212,21 @@ const HeroBanner = () => {
                   <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                 </svg>
                 <span className="text-sm font-bold">YOUTUBE</span>
+              </motion.a>
+
+              {/* YouTube Forras */}
+              <motion.a
+                href="https://www.youtube.com/@LeoVeioYT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-5 py-3 bg-orange-600/90 border-2 border-orange-400 rounded-xl text-white font-semibold hover:bg-orange-500 hover:border-orange-300 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-orange-500/25 cursor-pointer"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span className="text-sm font-bold">FORRAS</span>
               </motion.a>
             </motion.div>
 

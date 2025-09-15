@@ -21,6 +21,11 @@
       "permanent": false
     },
     {
+      "source": "/youtube",
+      "destination": "https://www.youtube.com/@LeoVeio",
+      "permanent": false
+    },
+    {
       "source": "/forra",
       "destination": "https://www.youtube.com/@LeoVeioYT",
       "permanent": false

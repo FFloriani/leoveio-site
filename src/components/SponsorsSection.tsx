@@ -42,7 +42,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       name: 'Growth Suplementos',
       description: 'Os melhores suplementos para potencializar seu desempenho',
       url: 'https://gsuplementos.com.br/?cupom=leoveio&fbclid=PAZXh0bgNhZW0CMTEAAaYymVSEnYVah0jtjA-iFznsCVNua1YmF8_DqN020XoqMjWQwSLfs3KOZSo_aem_hASjju_cOhW62kSJdH7sbQ',
-      coupon: 'LEOVEIO ATÉ 15%',
+      coupon: 'LEOVEIO ATÉ 14%',
       category: 'Fitness',
       color: 'from-green-500 to-emerald-500',
       iconSrc: '/growth.png'
@@ -51,7 +51,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       name: 'Liveup',
       description: 'Produtos naturais e saudáveis para uma vida melhor',
       url: 'https://livup.com.br/?utm_source=instagram&utm_medium=influencers&utm_campaign=creator_awon_leoveio',
-      coupon: 'LEOVEIO ATÉ 15%',
+      coupon: 'LEOVEIO ATÉ 25%',
       category: 'Lifestyle',
       color: 'from-blue-500 to-cyan-500',
       iconSrc: '/liveup.jpg'
@@ -208,7 +208,11 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                         <div className="mb-6 p-4 bg-white/20 rounded-lg border border-white/30 backdrop-blur-sm">
                           <div className="flex items-center justify-between">
                             <div>
-                              <span className="text-sm text-white/80">Cupom de Desconto</span>
+                              <span className="text-sm text-white/80">
+                                {sponsor.name === 'Liveup' ? 'Cupom de Desconto (1ª Compra)' : 
+                                 sponsor.name === 'Growth Suplementos' ? 'Cupom de Desconto (Recorrente)' :
+                                 'Cupom de Desconto'}
+                              </span>
                               <div className="flex items-center gap-2 mt-1">
                                 <code className="text-lg font-bold text-purple-300 drop-shadow-md">{sponsor.coupon.toUpperCase()}</code>
                               </div>

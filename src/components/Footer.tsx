@@ -24,6 +24,14 @@ const Footer = () => {
       description: 'Vídeos e Highlights'
     },
     {
+      name: 'YouTube Forras',
+      username: 'LeoVeioYT',
+      url: 'https://www.youtube.com/@LeoVeioYT',
+      icon: <Youtube size={24} />,
+      color: 'from-orange-500 to-orange-600',
+      description: 'Conteúdo de Forras'
+    },
+    {
       name: 'Instagram',
       username: 'leoveio',
       url: 'https://www.instagram.com/leoveio/',
@@ -105,7 +113,7 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h4 className="text-xl font-bold text-white mb-6">Redes Sociais</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {socialNetworks.map((social, index) => (
                 <motion.a
                   key={social.name}
