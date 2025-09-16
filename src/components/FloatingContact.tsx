@@ -11,7 +11,7 @@ const FloatingContact = () => {
     {
       name: 'Discord',
       description: 'Entre no servidor',
-      url: 'https://discord.gg/9jdxEWts',
+      url: 'https://discord.gg/HpSPGs7kQ7',
       color: 'from-indigo-500 to-purple-600',
       icon: (
         <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
