@@ -2,7 +2,8 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, User, MessageCircle, Paperclip, Send, Check, AlertCircle } from 'lucide-react';
+import { X, Mail, User, MessageCircle, Paperclip, Send, Check, AlertCircle, Upload, Trash2, Download } from 'lucide-react';
+import { useFileUpload, UploadedFile } from '@/hooks/useFileUpload';
 // Formspree configuration
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xjkedznl';
 
@@ -26,13 +27,24 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     message: ''
   });
   
-  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  // Hook para upload de arquivos
+  const {
+    isUploading,
+    uploadProgress,
+    uploadedFiles,
+    error: uploadError,
+    uploadFile,
+    uploadMultipleFiles,
+    removeFile,
+    clearFiles
+  } = useFileUpload();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -42,24 +54,22 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     }));
   };
 
-  const handleFileAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileAttach = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const maxSize = 10 * 1024 * 1024; // 10MB
     
-    const validFiles = files.filter(file => {
-      if (file.size > maxSize) {
-        setSubmitStatus('error');
-        setSubmitMessage(`Arquivo ${file.name} é muito grande. Máximo 10MB.`);
-        return false;
-      }
-      return true;
-    });
+    if (files.length === 0) return;
     
-    setAttachedFiles(prev => [...prev, ...validFiles].slice(0, 5)); // Máximo 5 arquivos
+    // Upload dos arquivos
+    await uploadMultipleFiles(files);
+    
+    // Limpar o input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
-  const removeFile = (index: number) => {
-    setAttachedFiles(prev => prev.filter((_, i) => i !== index));
+  const handleRemoveFile = (publicId: string) => {
+    removeFile(publicId);
   };
 
 
@@ -74,12 +84,18 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
       formDataToSend.append('name', formData.name);
       formDataToSend.append('email', formData.email);
       formDataToSend.append('subject', formData.subject);
-      formDataToSend.append('message', formData.message);
       
-      // Adicionar arquivos anexados
-      attachedFiles.forEach((file, index) => {
-        formDataToSend.append(`attachment_${index}`, file);
-      });
+      // Adicionar mensagem com links dos arquivos
+      let messageWithFiles = formData.message;
+      if (uploadedFiles.length > 0) {
+        messageWithFiles += '\n\n📎 ARQUIVOS ANEXADOS:\n';
+        uploadedFiles.forEach((file, index) => {
+          messageWithFiles += `${index + 1}. ${file.originalName}\n`;
+          messageWithFiles += `   📥 Download: ${file.downloadUrl}\n\n`;
+        });
+      }
+      
+      formDataToSend.append('message', messageWithFiles);
 
       // Enviar para Formspree
       const response = await fetch(FORMSPREE_ENDPOINT, {
@@ -96,7 +112,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
         
         // Limpar formulário
         setFormData({ name: '', email: '', subject: '', message: '' });
-        setAttachedFiles([]);
+        clearFiles();
         
         setTimeout(() => {
           onClose();
@@ -267,23 +283,64 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                 accept="image/*,.pdf,.doc,.docx,.txt"
               />
 
-              {/* Attached Files */}
-              {attachedFiles.length > 0 && (
+              {/* Upload Progress */}
+              {isUploading && uploadProgress && (
                 <div className="space-y-2">
-                  {attachedFiles.map((file, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
+                  <div className="flex items-center gap-2 text-sm text-white/80">
+                    <Upload className="w-4 h-4 animate-pulse" />
+                    <span>Enviando arquivo... {uploadProgress.percentage}%</span>
+                  </div>
+                  <div className="w-full bg-white/10 rounded-full h-2">
+                    <div 
+                      className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress.percentage}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Upload Error */}
+              {uploadError && (
+                <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <AlertCircle className="w-4 h-4 text-red-400" />
+                  <span className="text-sm text-red-300">{uploadError}</span>
+                </div>
+              )}
+
+              {/* Uploaded Files */}
+              {uploadedFiles.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-sm text-white/70 font-medium">📎 Arquivos enviados:</div>
+                  {uploadedFiles.map((file) => (
+                    <div key={file.publicId} className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <Paperclip className="w-4 h-4 text-white/70" />
-                        <span className="text-sm text-white/90">{file.name}</span>
-                        <span className="text-xs text-white/50">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                        <Check className="w-4 h-4 text-green-400" />
+                        <div className="flex flex-col">
+                          <span className="text-sm text-white/90">{file.originalName}</span>
+                          <span className="text-xs text-white/50">
+                            {file.format.toUpperCase()} • {(file.size / 1024 / 1024).toFixed(2)} MB
+                          </span>
+                        </div>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => removeFile(index)}
-                        className="text-red-400 hover:text-red-300 transition-colors"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={file.downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300 transition-colors"
+                          title="Baixar arquivo"
+                        >
+                          <Download className="w-4 h-4" />
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFile(file.publicId)}
+                          className="text-red-400 hover:text-red-300 transition-colors"
+                          title="Remover arquivo"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
