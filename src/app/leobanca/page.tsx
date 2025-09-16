@@ -5,19 +5,14 @@ import { motion } from 'framer-motion';
 import { 
   Plus, 
   Users, 
-  Calculator, 
   History, 
   Download, 
-  Settings,
   DollarSign,
   Percent,
   CheckCircle,
-  AlertCircle,
   X,
   Edit,
   Trash2,
-  Save,
-  FileText,
   BarChart3,
   ArrowLeft
 } from 'lucide-react';
@@ -56,7 +51,6 @@ export default function LeoBancaPage() {
   const [showParticipantModal, setShowParticipantModal] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const [editingParticipant, setEditingParticipant] = useState<Participant | null>(null);
 
   // Form states
   const [bancaForm, setBancaForm] = useState({
@@ -367,12 +361,6 @@ export default function LeoBancaPage() {
                           </div>
                         </div>
                         <div className="flex gap-2 ml-4">
-                          <button
-                            onClick={() => setEditingParticipant(participant)}
-                            className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-colors"
-                          >
-                            <Edit size={16} />
-                          </button>
                           <button
                             onClick={() => {
                               const updatedParticipants = currentBanca.participants.filter(p => p.id !== participant.id);

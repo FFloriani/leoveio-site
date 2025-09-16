@@ -6,7 +6,6 @@ import { MobileDrawer } from './MobileDrawer';
 import { useSocialSidebar } from '@/hooks/useSocialSidebar';
 import { SocialPlatform } from '@/types/sidebar.types';
 import { motion } from 'framer-motion';
-import { Share2 } from 'lucide-react';
 import Image from 'next/image';
 
 interface SocialSidebarProps {

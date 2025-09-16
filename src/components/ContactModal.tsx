@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, User, MessageCircle, Paperclip, Send, Check, AlertCircle, Upload, Trash2, Download } from 'lucide-react';
-import { useFileUpload, UploadedFile } from '@/hooks/useFileUpload';
+import { useFileUpload } from '@/hooks/useFileUpload';
 // Formspree configuration
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xjkedznl';
 
@@ -40,7 +40,6 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     uploadProgress,
     uploadedFiles,
     error: uploadError,
-    uploadFile,
     uploadMultipleFiles,
     removeFile,
     clearFiles

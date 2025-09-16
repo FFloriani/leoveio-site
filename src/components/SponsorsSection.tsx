@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ExternalLink, Gift, Percent, Star } from 'lucide-react';
+import { ExternalLink, Gift, Star } from 'lucide-react';
 import Image from 'next/image';
 import AnimatedBackground from './AnimatedBackground';
 

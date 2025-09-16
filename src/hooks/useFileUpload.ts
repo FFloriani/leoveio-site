@@ -29,7 +29,7 @@ export const useFileUpload = () => {
     // Só forçar download para arquivos não-imagem
     if (!mimeType.startsWith('image/')) {
       // Substitui /image/ por /raw/
-      let rawUrl = secureUrl.replace(/\/image\//, '/raw/');
+      const rawUrl = secureUrl.replace(/\/image\//, '/raw/');
       // Adiciona fl_attachment com nome amigável
       const friendlyName = encodeURIComponent(originalName);
       return rawUrl.replace('/upload/', `/upload/fl_attachment:${friendlyName}/`);
