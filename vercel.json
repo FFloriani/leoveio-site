@@ -29,6 +29,16 @@
       "source": "/forra",
       "destination": "https://www.youtube.com/@LeoVeioYT",
       "permanent": false
+    },
+    {
+      "source": "/zap",
+      "destination": "https://chat.whatsapp.com/JUotvnWvLi2D8eoqfQ1OB2?mode=ac_t",
+      "permanent": false
+    },
+    {
+      "source": "/discord",
+      "destination": "https://discord.gg/9jdxEWts",
+      "permanent": false
     }
   ]
 } 
