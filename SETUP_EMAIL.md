@@ -1,67 +1,21 @@
-# 📧 Configuração do Sistema de Email
+# 📧 Sistema de Email - LEOVEIO
 
-Este guia explica como configurar o sistema de email do site LeoVeio para funcionar completamente.
+## ✅ **CONFIGURADO COM FORMSPREE**
 
-## 🚀 Como Funciona Atualmente
+O sistema de email está **100% funcional** usando Formspree!
 
-- ✅ **Interface completa**: Formulário com nome, email, assunto, mensagem e anexos
-- ✅ **Validações**: Campos obrigatórios e validação de tamanho de arquivos
-- ✅ **Simulação**: Sistema funciona em modo demonstração
-- ⏳ **EmailJS**: Precisa ser configurado para envios reais
+## 🎯 **Como Funciona**
 
-## 🔧 Configuração do EmailJS (Gratuito)
+### **Fluxo de Envio:**
+1. **Usuário** preenche formulário no site
+2. **Formspree** recebe os dados automaticamente
+3. **Formspree** envia email para `contato@leoveio.com`
+4. **Você** recebe no Zoho e pode responder
 
-### Passo 1: Criar Conta
-1. Acesse [https://www.emailjs.com/](https://www.emailjs.com/)
-2. Clique em "Sign Up" e crie uma conta gratuita
-3. Confirme seu email
-
-### Passo 2: Configurar Serviço de Email
-1. No dashboard, vá em "Email Services"
-2. Clique "Add New Service"
-3. Escolha "Gmail" (recomendado)
-4. Conecte sua conta Gmail (`contatoleoveio@gmail.com`)
-5. Anote o **Service ID** gerado
-
-### Passo 3: Criar Template
-1. Vá em "Email Templates"
-2. Clique "Create New Template"
-3. Use este template:
-
-```html
-Assunto: {{subject}} - Contato do Site LeoVeio
-
-De: {{from_name}} <{{from_email}}>
-Para: contatoleoveio@gmail.com
-
-Mensagem:
-{{message}}
-
----
-Email de resposta: {{from_email}}
-Nome: {{from_name}}
-
-{{#if attachment_count}}
-Anexos: {{attachment_count}} arquivo(s)
-{{/if}}
-```
-
-4. Anote o **Template ID** gerado
-
-### Passo 4: Obter Public Key
-1. Vá em "Account" → "General"
-2. Copie a **Public Key**
-
-### Passo 5: Configurar no Código
-Edite o arquivo `src/lib/emailConfig.ts`:
-
-```typescript
-export const emailConfig = {
-  serviceId: 'seu_service_id_aqui',
-  templateId: 'seu_template_id_aqui', 
-  publicKey: 'sua_public_key_aqui',
-};
-```
+### **Configuração Atual:**
+- **Endpoint**: `https://formspree.io/f/xjkedznl`
+- **Email destino**: `contato@leoveio.com`
+- **Status**: ✅ **Funcionando**
 
 ## 🎯 Funcionalidades do Sistema
 

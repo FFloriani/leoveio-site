@@ -3,8 +3,8 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, User, MessageCircle, Paperclip, Send, Check, AlertCircle } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-import { emailConfig } from '@/lib/emailConfig';
+// Formspree configuration
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xjkedznl';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -62,14 +62,6 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     setAttachedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,82 +69,50 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     setSubmitStatus('idle');
 
     try {
-      // Para demonstração, vamos simular o envio sem EmailJS configurado
-      if (emailConfig.publicKey === 'your_public_key_here') {
-        // Simulação para demonstração
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
+      // Preparar dados para Formspree
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('subject', formData.subject);
+      formDataToSend.append('message', formData.message);
+      
+      // Adicionar arquivos anexados
+      attachedFiles.forEach((file, index) => {
+        formDataToSend.append(`attachment_${index}`, file);
+      });
+
+      // Enviar para Formspree
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: formDataToSend,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
         setSubmitStatus('success');
-        setSubmitMessage(`✅ Formulário preenchido com sucesso! 
+        setSubmitMessage('✅ Email enviado com sucesso! Responderemos em breve.');
         
-📧 Para enviar emails reais, configure o EmailJS seguindo as instruções em src/lib/emailConfig.ts
+        // Limpar formulário
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setAttachedFiles([]);
         
-📋 Dados coletados:
-• Nome: ${formData.name}
-• Email: ${formData.email} 
-• Assunto: ${formData.subject}
-• Arquivos: ${attachedFiles.length}
-        
-Por enquanto, entre em contato diretamente: contatoleoveio@gmail.com`);
-        
-        // Limpar formulário após 5 segundos
         setTimeout(() => {
-          setFormData({ name: '', email: '', subject: '', message: '' });
-          setAttachedFiles([]);
           onClose();
           setSubmitStatus('idle');
           setSubmitMessage('');
-        }, 5000);
-        
-        return;
+        }, 3000);
+      } else {
+        throw new Error('Erro na resposta do servidor');
       }
-
-      // Converter arquivos para base64 (apenas para arquivos pequenos)
-      const attachments = await Promise.all(
-        attachedFiles.slice(0, 3).map(async (file) => ({
-          name: file.name,
-          data: await convertFileToBase64(file)
-        }))
-      );
-
-      // Preparar dados do template
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        to_email: 'contatoleoveio@gmail.com',
-        subject: formData.subject,
-        message: formData.message,
-        attachments: JSON.stringify(attachments),
-        attachment_count: attachments.length
-      };
-
-      // Enviar email usando EmailJS
-      await emailjs.send(
-        emailConfig.serviceId,
-        emailConfig.templateId,
-        templateParams,
-        emailConfig.publicKey
-      );
-
-      setSubmitStatus('success');
-      setSubmitMessage('Email enviado com sucesso! Responderemos em breve.');
-      
-      // Limpar formulário
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setAttachedFiles([]);
-      
-      setTimeout(() => {
-        onClose();
-        setSubmitStatus('idle');
-        setSubmitMessage('');
-      }, 2000);
 
     } catch (error) {
       console.error('Erro ao enviar email:', error);
       setSubmitStatus('error');
       setSubmitMessage(`❌ Erro ao enviar email. 
       
-📧 Entre em contato diretamente: contatoleoveio@gmail.com
+📧 Entre em contato diretamente: contato@leoveio.com
       
 📋 Seus dados:
 • Nome: ${formData.name}
@@ -200,7 +160,7 @@ Por enquanto, entre em contato diretamente: contatoleoveio@gmail.com`);
               </div>
               <div>
                 <h2 className="text-xl font-bold text-white">Entrar em Contato</h2>
-                <p className="text-sm text-white/70">Envie um email para contatoleoveio@gmail.com</p>
+                <p className="text-sm text-white/70">Envie um email para contato@leoveio.com</p>
               </div>
             </div>
             <motion.button
