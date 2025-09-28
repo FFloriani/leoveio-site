@@ -51,6 +51,8 @@ export default function LeoBancaPage() {
   const [showParticipantModal, setShowParticipantModal] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showEditParticipantModal, setShowEditParticipantModal] = useState(false);
+  const [editingParticipant, setEditingParticipant] = useState<Participant | null>(null);
 
   // Form states
   const [bancaForm, setBancaForm] = useState({
@@ -70,15 +72,38 @@ export default function LeoBancaPage() {
   // Load data from localStorage
   useEffect(() => {
     const savedBancas = localStorage.getItem('leobanca-bancas');
+    const savedCurrentBanca = localStorage.getItem('leobanca-current');
+    
     if (savedBancas) {
-      setBancas(JSON.parse(savedBancas));
+      const parsedBancas = JSON.parse(savedBancas);
+      console.log('Bancas carregadas do localStorage:', parsedBancas);
+      setBancas(parsedBancas);
+    }
+    
+    if (savedCurrentBanca) {
+      const currentBancaData = JSON.parse(savedCurrentBanca);
+      console.log('Banca atual carregada:', currentBancaData);
+      // Verificar se a banca ainda está ativa
+      if (currentBancaData.status === 'active') {
+        setCurrentBanca(currentBancaData);
+      }
     }
   }, []);
 
   // Save data to localStorage
   useEffect(() => {
+    console.log('Salvando bancas no localStorage:', bancas);
     localStorage.setItem('leobanca-bancas', JSON.stringify(bancas));
   }, [bancas]);
+
+  // Save current banca to localStorage
+  useEffect(() => {
+    if (currentBanca) {
+      localStorage.setItem('leobanca-current', JSON.stringify(currentBanca));
+    } else {
+      localStorage.removeItem('leobanca-current');
+    }
+  }, [currentBanca]);
 
   // Calculate percentages
   const calculatePercentages = (participants: Participant[], total: number) => {
@@ -161,6 +186,74 @@ export default function LeoBancaPage() {
     setShowParticipantModal(false);
   };
 
+  // Edit participant
+  const editParticipant = (participant: Participant) => {
+    setEditingParticipant(participant);
+    setParticipantForm({
+      name: participant.name,
+      contribution: participant.contribution.toString()
+    });
+    setShowEditParticipantModal(true);
+  };
+
+  // Update participant
+  const updateParticipant = () => {
+    if (!participantForm.name.trim() || !participantForm.contribution || !editingParticipant || !currentBanca) return;
+
+    const contribution = parseFloat(participantForm.contribution);
+    if (contribution <= 0) return;
+
+    const updatedParticipants = currentBanca.participants.map(p => 
+      p.id === editingParticipant.id 
+        ? { ...p, name: participantForm.name, contribution }
+        : p
+    );
+
+    const totalInvested = updatedParticipants.reduce((sum, p) => sum + p.contribution, 0);
+    const participantsWithPercentages = calculatePercentages(updatedParticipants, totalInvested);
+
+    const updatedBanca = {
+      ...currentBanca,
+      participants: participantsWithPercentages,
+      totalInvested
+    };
+
+    setCurrentBanca(updatedBanca);
+    setBancas(prev => prev.map(b => b.id === currentBanca.id ? updatedBanca : b));
+    setParticipantForm({ name: '', contribution: '' });
+    setEditingParticipant(null);
+    setShowEditParticipantModal(false);
+  };
+
+  // Reopen banca from history
+  const reopenBanca = (banca: Banca) => {
+    if (banca.status === 'closed') {
+      // Criar nova banca baseada na anterior
+      const reopenedBanca: Banca = {
+        ...banca,
+        id: Date.now().toString(),
+        title: `${banca.title} (Reaberta)`,
+        startDate: new Date().toISOString(),
+        participants: banca.participants.map(p => ({
+          ...p,
+          finalAmount: 0,
+          profit: 0
+        })),
+        finalBalance: 0,
+        status: 'active',
+        createdAt: new Date().toISOString()
+      };
+      
+      setCurrentBanca(reopenedBanca);
+      setBancas(prev => [reopenedBanca, ...prev]);
+      setShowHistory(false);
+    } else {
+      // Reabrir banca ativa existente
+      setCurrentBanca(banca);
+      setShowHistory(false);
+    }
+  };
+
   // Close banca
   const closeBanca = () => {
     if (!currentBanca || !finalBalance) return;
@@ -177,10 +270,29 @@ export default function LeoBancaPage() {
       status: 'closed' as const
     };
 
-    setBancas(prev => prev.map(b => b.id === currentBanca.id ? closedBanca : b));
+    // Debug: verificar se a banca está sendo atualizada corretamente
+    console.log('Encerrando banca:', closedBanca);
+    
+    setBancas(prev => {
+      const updated = prev.map(b => b.id === currentBanca.id ? closedBanca : b);
+      console.log('Bancas após encerramento:', updated);
+      return updated;
+    });
+    
     setCurrentBanca(null);
     setFinalBalance('');
     setShowCloseModal(false);
+  };
+
+  // Clear all data (for debugging)
+  const clearAllData = () => {
+    if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
+      localStorage.removeItem('leobanca-bancas');
+      localStorage.removeItem('leobanca-current');
+      setBancas([]);
+      setCurrentBanca(null);
+      console.log('Todos os dados foram limpos');
+    }
   };
 
   // Export to CSV
@@ -362,6 +474,13 @@ export default function LeoBancaPage() {
                         </div>
                         <div className="flex gap-2 ml-4">
                           <button
+                            onClick={() => editParticipant(participant)}
+                            className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-colors"
+                            title="Editar participante"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button
                             onClick={() => {
                               const updatedParticipants = currentBanca.participants.filter(p => p.id !== participant.id);
                               const totalInvested = updatedParticipants.reduce((sum, p) => sum + p.contribution, 0);
@@ -375,6 +494,7 @@ export default function LeoBancaPage() {
                               setBancas(prev => prev.map(b => b.id === currentBanca.id ? updatedBanca : b));
                             }}
                             className="p-2 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
+                            title="Remover participante"
                           >
                             <Trash2 size={16} />
                           </button>
@@ -615,12 +735,21 @@ export default function LeoBancaPage() {
               >
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-semibold text-white">Histórico de Bancas</h3>
-                  <button
-                    onClick={() => setShowHistory(false)}
-                    className="text-white/70 hover:text-white"
-                  >
-                    <X size={24} />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={clearAllData}
+                      className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-lg hover:bg-red-500/30 transition-colors"
+                      title="Limpar todos os dados"
+                    >
+                      Limpar Dados
+                    </button>
+                    <button
+                      onClick={() => setShowHistory(false)}
+                      className="text-white/70 hover:text-white"
+                    >
+                      <X size={24} />
+                    </button>
+                  </div>
                 </div>
 
                 {bancas.length === 0 ? (
@@ -644,10 +773,18 @@ export default function LeoBancaPage() {
                             }`}>
                               {banca.status === 'active' ? 'Ativa' : 'Encerrada'}
                             </span>
+                            <button
+                              onClick={() => reopenBanca(banca)}
+                              className="p-2 text-green-400 hover:bg-green-500/20 rounded-lg transition-colors"
+                              title={banca.status === 'active' ? 'Abrir banca' : 'Reabrir banca'}
+                            >
+                              <ArrowLeft size={16} className="rotate-180" />
+                            </button>
                             {banca.status === 'closed' && (
                               <button
                                 onClick={() => exportToCSV(banca)}
                                 className="p-2 text-blue-400 hover:bg-blue-500/20 rounded-lg transition-colors"
+                                title="Exportar CSV"
                               >
                                 <Download size={16} />
                               </button>
@@ -683,6 +820,76 @@ export default function LeoBancaPage() {
                     ))}
                   </div>
                 )}
+              </motion.div>
+            </div>
+          )}
+
+          {/* Edit Participant Modal */}
+          {showEditParticipantModal && (
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-slate-800 rounded-xl p-6 w-full max-w-md border border-white/20"
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-semibold text-white">Editar Participante</h3>
+                  <button
+                    onClick={() => {
+                      setShowEditParticipantModal(false);
+                      setEditingParticipant(null);
+                      setParticipantForm({ name: '', contribution: '' });
+                    }}
+                    className="text-white/70 hover:text-white"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-white/70 text-sm mb-2">Nome do Participante</label>
+                    <input
+                      type="text"
+                      value={participantForm.name}
+                      onChange={(e) => setParticipantForm(prev => ({ ...prev, name: e.target.value }))}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500"
+                      placeholder="Ex: João Silva"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-white/70 text-sm mb-2">Valor do Aporte (R$)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={participantForm.contribution}
+                      onChange={(e) => setParticipantForm(prev => ({ ...prev, contribution: e.target.value }))}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500"
+                      placeholder="0,00"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 mt-6">
+                  <button
+                    onClick={() => {
+                      setShowEditParticipantModal(false);
+                      setEditingParticipant(null);
+                      setParticipantForm({ name: '', contribution: '' });
+                    }}
+                    className="flex-1 px-4 py-3 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={updateParticipant}
+                    className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all"
+                  >
+                    Atualizar
+                  </button>
+                </div>
               </motion.div>
             </div>
           )}
