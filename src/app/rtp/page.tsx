@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { LazyTwitchPlayer } from '@/components/LazyComponents';
 
@@ -17,14 +16,7 @@ interface RTPGame {
 }
 
 const RTPPage = () => {
-  const [games, setGames] = useState<RTPGame[]>([]);
-  const [filteredGames, setFilteredGames] = useState<RTPGame[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('Pragmatic Play');
-  const [sortBy, setSortBy] = useState<'rtp' | 'name' | 'provider'>('rtp');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const [lastUpdate, setLastUpdate] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
   const [iframeBlocked, setIframeBlocked] = useState(false);
 
   // Mock data expandido com todos os provedores do site de referência
@@ -488,73 +480,7 @@ const RTPPage = () => {
   };
 
   const currentUrl = selectedProvider !== 'all' ? `/api/rtp-proxy?provider=${getProviderUrl(selectedProvider)}` : '';
-  const originalUrl = selectedProvider !== 'all' ? `https://alibabaslots.org/rtp-live/${getProviderUrl(selectedProvider)}/` : '';
 
-  useEffect(() => {
-    let filtered = games;
-
-    // Filtrar por termo de busca
-    if (searchTerm) {
-      filtered = filtered.filter(game =>
-        game.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        game.provider.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Filtrar por provedor
-    if (selectedProvider !== 'all') {
-      filtered = filtered.filter(game => game.provider === selectedProvider);
-    }
-
-    // Ordenar
-    filtered.sort((a, b) => {
-      let aValue, bValue;
-      
-      switch (sortBy) {
-        case 'rtp':
-          aValue = a.rtp;
-          bValue = b.rtp;
-          break;
-        case 'name':
-          aValue = a.name.toLowerCase();
-          bValue = b.name.toLowerCase();
-          break;
-        case 'provider':
-          aValue = a.provider.toLowerCase();
-          bValue = b.provider.toLowerCase();
-          break;
-        default:
-          aValue = a.rtp;
-          bValue = b.rtp;
-      }
-
-      if (sortOrder === 'asc') {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
-    });
-
-    setFilteredGames(filtered);
-  }, [games, searchTerm, selectedProvider, sortBy, sortOrder]);
-
-  const getRTPColor = (rtp: number) => {
-    if (rtp >= 90) return 'text-green-400';
-    if (rtp >= 80) return 'text-green-300';
-    if (rtp >= 70) return 'text-yellow-300';
-    if (rtp >= 60) return 'text-yellow-400';
-    if (rtp >= 50) return 'text-orange-400';
-    return 'text-red-400';
-  };
-
-  const getRTPBadge = (rtp: number) => {
-    if (rtp >= 90) return 'bg-green-500/20 text-green-400 border-green-500/30';
-    if (rtp >= 80) return 'bg-green-400/20 text-green-300 border-green-400/30';
-    if (rtp >= 70) return 'bg-yellow-400/20 text-yellow-300 border-yellow-400/30';
-    if (rtp >= 60) return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-    if (rtp >= 50) return 'bg-orange-400/20 text-orange-300 border-orange-400/30';
-    return 'bg-red-400/20 text-red-300 border-red-400/30';
-  };
 
   return (
     <div className="min-h-screen relative overflow-hidden">

@@ -116,7 +116,7 @@ const AboutSection = () => {
                   
                   <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-xl p-4 border border-yellow-400/20">
                     <p>
-                      Reconhecido como o <strong className="text-yellow-400">único representante do seleto grupo "Vanguarda Hextech"</strong> do Wild Rift, uma honraria concedida pela Riot Games a jogadores talentosos e comprometidos com a comunidade do jogo.
+                      Reconhecido como o <strong className="text-yellow-400">único representante do seleto grupo &quot;Vanguarda Hextech&quot;</strong> do Wild Rift, uma honraria concedida pela Riot Games a jogadores talentosos e comprometidos com a comunidade do jogo.
                     </p>
                   </div>
                   
