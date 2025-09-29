@@ -167,3 +167,186 @@ img[loading="lazy"] {
     cursor: auto !important;
   }
 }
+
+/* Professional enhancements */
+.professional-card {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.professional-card:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.professional-button {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.8), rgba(236, 72, 153, 0.8));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.professional-button:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 1), rgba(236, 72, 153, 1));
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+}
+
+.professional-input {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.professional-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Status indicators */
+.status-online {
+  position: relative;
+}
+
+.status-online::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(34, 197, 94, 0.1), transparent);
+  border-radius: inherit;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* Professional animations */
+@keyframes professional-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes professional-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.professional-fade-in {
+  animation: professional-fade-in 0.6s ease-out;
+}
+
+.professional-slide-in {
+  animation: professional-slide-in 0.6s ease-out;
+}
+
+/* Enhanced focus styles for accessibility */
+.focus-ring:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.6);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Professional loading states */
+.professional-loading {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: professional-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes professional-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Beach vibes enhancements */
+.beach-wave {
+  background: linear-gradient(45deg, 
+    rgba(173, 216, 230, 0.1) 0%, 
+    rgba(135, 206, 235, 0.15) 25%, 
+    rgba(70, 130, 180, 0.1) 50%, 
+    rgba(135, 206, 235, 0.15) 75%, 
+    rgba(173, 216, 230, 0.1) 100%
+  );
+  background-size: 400% 400%;
+  animation: beach-wave-flow 8s ease-in-out infinite;
+}
+
+@keyframes beach-wave-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.beach-glow {
+  background: radial-gradient(circle at center, 
+    rgba(173, 216, 230, 0.2) 0%, 
+    rgba(135, 206, 235, 0.1) 30%, 
+    transparent 70%
+  );
+}
+
+.beach-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(173, 216, 230, 0.2);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.beach-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(173, 216, 230, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(173, 216, 230, 0.1);
+}
+
+.beach-button {
+  background: linear-gradient(135deg, 
+    rgba(173, 216, 230, 0.8), 
+    rgba(135, 206, 235, 0.8)
+  );
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(173, 216, 230, 0.3);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.beach-button:hover {
+  background: linear-gradient(135deg, 
+    rgba(173, 216, 230, 1), 
+    rgba(135, 206, 235, 1)
+  );
+  border-color: rgba(173, 216, 230, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(173, 216, 230, 0.3);
+}

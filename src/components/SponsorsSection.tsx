@@ -99,11 +99,17 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-400/30 rounded-full mb-6">
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+              <span className="text-sm text-purple-300 font-semibold tracking-wider uppercase">Parcerias Estratégicas</span>
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+            </div>
+            
             <h2 className="text-4xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 mb-4 drop-shadow-lg">
               Parceiros & Patrocinadores
             </h2>
             <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md">
-              Parcerias estratégicas que impulsionam o crescimento da comunidade
+              Parcerias estratégicas que impulsionam o crescimento da comunidade e oferecem benefícios exclusivos
             </p>
           </motion.div>
 
@@ -116,14 +122,21 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-                <Star className="w-8 h-8 text-yellow-400" />
-                Parceiros Ativos
-                <Star className="w-8 h-8 text-yellow-400" />
-              </h3>
-              <p className="text-white/70">
-                Descontos exclusivos! Use o cupom <span className="text-purple-400 font-bold">LEOVEIO</span>
-              </p>
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent flex-1"></div>
+                <h3 className="text-2xl lg:text-3xl font-bold text-white flex items-center gap-3">
+                  <Star className="w-8 h-8 text-yellow-400" />
+                  Parceiros Ativos
+                  <Star className="w-8 h-8 text-yellow-400" />
+                </h3>
+                <div className="h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent flex-1"></div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl p-4 border border-purple-400/20 max-w-md mx-auto">
+                <p className="text-white/80 text-sm">
+                  <span className="text-purple-400 font-bold">Descontos exclusivos!</span> Use o cupom <span className="text-yellow-400 font-bold">LEOVEIO</span>
+                </p>
+              </div>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

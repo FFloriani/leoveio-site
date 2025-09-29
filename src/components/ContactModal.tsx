@@ -176,6 +176,10 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
               <div>
                 <h2 className="text-xl font-bold text-white">Entrar em Contato</h2>
                 <p className="text-sm text-white/70">Envie um email para contato@leoveio.com</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-green-400">Resposta rápida garantida</span>
+                </div>
               </div>
             </div>
             <motion.button
@@ -195,30 +199,30 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/90 flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  Nome *
+                  Nome completo *
                 </label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
-                  placeholder="Seu nome"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all hover:border-white/30"
+                  placeholder="Digite seu nome completo"
                   required
                 />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/90 flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  Email *
+                  Email profissional *
                 </label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
-                  placeholder="seu@email.com"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all hover:border-white/30"
+                  placeholder="seu@empresa.com"
                   required
                 />
               </div>
@@ -228,33 +232,37 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
             <div className="space-y-2">
               <label className="text-sm font-medium text-white/90 flex items-center gap-2">
                 <MessageCircle className="w-4 h-4" />
-                Assunto *
+                Assunto da proposta *
               </label>
               <input
                 type="text"
                 name="subject"
                 value={formData.subject}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
-                placeholder="Sobre o que você quer falar?"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all hover:border-white/30"
+                placeholder="Ex: Proposta de parceria, colaboração, etc."
                 required
               />
             </div>
 
             {/* Message */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-white/90">
-                Mensagem *
+              <label className="text-sm font-medium text-white/90 flex items-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                Detalhes da proposta *
               </label>
               <textarea
                 name="message"
                 value={formData.message}
                 onChange={handleInputChange}
                 rows={5}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
-                placeholder="Digite sua mensagem aqui..."
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none hover:border-white/30"
+                placeholder="Descreva sua proposta, objetivos, valores envolvidos e como podemos trabalhar juntos..."
                 required
               />
+              <div className="text-xs text-white/50">
+                Seja específico sobre sua proposta para uma resposta mais rápida
+              </div>
             </div>
 
             {/* File Attachments */}
@@ -374,7 +382,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
               disabled={!isFormValid || isSubmitting}
               className={`w-full flex items-center justify-center gap-2 py-4 px-6 rounded-lg font-semibold transition-all duration-300 ${
                 isFormValid && !isSubmitting
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25'
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25 hover:scale-105'
                   : 'bg-white/10 text-white/50 cursor-not-allowed'
               }`}
               whileHover={isFormValid && !isSubmitting ? { scale: 1.02 } : {}}
@@ -383,15 +391,22 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
               {isSubmitting ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Enviando...</span>
+                  <span>Enviando proposta...</span>
                 </>
               ) : (
                 <>
                   <Send className="w-5 h-5" />
-                  <span>Enviar Email</span>
+                  <span>Enviar Proposta</span>
                 </>
               )}
             </motion.button>
+            
+            <div className="text-center text-xs text-white/50">
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
+                <span>Resposta em até 24 horas</span>
+              </div>
+            </div>
           </form>
         </motion.div>
       </motion.div>

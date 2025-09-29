@@ -15,28 +15,59 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LEOVEIO - Streamer",
-  description: "Site oficial do streamer LEOVEIO - Lives de Clash Royale, Wild Rift, Cassino e muito mais. Seg-Sex das 17:30 às 22h.",
-  keywords: ["LEOVEIO", "streamer", "Clash Royale", "Wild Rift", "gaming", "twitch", "kick", "youtube"],
-  authors: [{ name: "LEOVEIO" }],
+  title: "LEOVEIO - Streamer Profissional | Vanguarda Hextech Wild Rift",
+  description: "Site oficial do streamer LEOVEIO - Vanguarda Hextech da Riot Games, Campeão Internacional de Wild Rift. Lives profissionais de Clash Royale, Wild Rift e muito mais. Seg-Sex das 17:30 às 22h.",
+  keywords: [
+    "LEOVEIO", 
+    "streamer profissional", 
+    "Vanguarda Hextech", 
+    "Wild Rift", 
+    "Clash Royale", 
+    "Riot Games", 
+    "campeão internacional", 
+    "gaming", 
+    "twitch", 
+    "kick", 
+    "youtube",
+    "streamer brasileiro",
+    "eSports",
+    "transformação pessoal"
+  ],
+  authors: [{ name: "LEOVEIO", url: "https://leoveio-streamer-site.vercel.app" }],
   creator: "LEOVEIO",
   publisher: "LEOVEIO",
   openGraph: {
-    title: "LEOVEIO - Streamer",
-    description: "Lives de gaming e entretenimento com LEOVEIO",
+    title: "LEOVEIO - Streamer Profissional | Vanguarda Hextech",
+    description: "Campeão Internacional de Wild Rift e único representante brasileiro da Vanguarda Hextech da Riot Games. Lives profissionais e conteúdo de qualidade.",
     url: "https://leoveio-streamer-site.vercel.app",
     siteName: "LEOVEIO",
     type: "website",
     locale: "pt_BR",
+    images: [
+      {
+        url: "/herobanner.png",
+        width: 1200,
+        height: 630,
+        alt: "LEOVEIO - Streamer Profissional",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "LEOVEIO - Streamer",
-    description: "Lives de gaming e entretenimento",
+    title: "LEOVEIO - Streamer Profissional",
+    description: "Vanguarda Hextech da Riot Games | Campeão Internacional de Wild Rift",
+    images: ["/herobanner.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   icons: {
     icon: [
@@ -48,6 +79,9 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   metadataBase: new URL("https://leoveio-streamer-site.vercel.app"),
+  alternates: {
+    canonical: "https://leoveio-streamer-site.vercel.app",
+  },
 };
 
 export default function RootLayout({
@@ -65,7 +99,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-slate-800 via-blue-900 to-teal-800 min-h-screen overflow-x-hidden professional-fade-in`}
         suppressHydrationWarning={true}
       >
         <Header />

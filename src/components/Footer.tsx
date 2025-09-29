@@ -107,16 +107,33 @@ const Footer = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 mb-4">
-              LEOVEIO
-            </h3>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">LV</span>
+              </div>
+              <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400">
+                LEOVEIO
+              </h3>
+            </div>
+            
             <p className="text-white/70 mb-6 leading-relaxed">
               Streamer profissional especializado em Wild Rift e Clash Royale. 
-              Vanguarda Hextech da Riot Games e inspiração na jornada de transformação.
+              Vanguarda Hextech da Riot Games e inspiração na jornada de transformação pessoal.
             </p>
-            <div className="text-sm text-white/60">
-              <p>📅 Lives: Segunda à Sexta</p>
-              <p>🕐 Horário: 17:30 às 22:00</p>
+            
+            <div className="space-y-2 text-sm text-white/60">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>📅 Lives: Segunda à Sexta</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                <span>🕐 Horário: 17:30 às 22:00</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                <span>🏆 Vanguarda Hextech</span>
+              </div>
             </div>
           </motion.div>
 
@@ -128,8 +145,18 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-xl font-bold text-white mb-6">Redes Sociais</h4>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">📱</span>
+              </div>
+              <h4 className="text-xl font-bold text-white">Redes Sociais</h4>
+            </div>
+            
+            <p className="text-white/60 text-sm mb-6">
+              Acompanhe o LEOVEIO em todas as plataformas e não perca nenhum conteúdo
+            </p>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {socialNetworks.map((social, index) => (
                 <motion.a
                   key={social.name}
@@ -144,9 +171,9 @@ const Footer = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-300 text-center">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-300 text-center group-hover:bg-white/15">
                     {/* Icon */}
-                    <div className={`w-12 h-12 mx-auto mb-3 rounded-lg bg-gradient-to-br ${social.color} flex items-center justify-center text-white shadow-lg`}>
+                    <div className={`w-12 h-12 mx-auto mb-3 rounded-lg bg-gradient-to-br ${social.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                       {social.icon}
                     </div>
 
@@ -184,25 +211,37 @@ const Footer = () => {
           viewport={{ once: true }}
         >
           <div className="text-sm text-white/60 text-center md:text-left">
-            © 2024 LEOVEIO. Todos os direitos reservados.
-            <br />
-            <span className="text-xs text-white/40">
-              Site criado por{' '}
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+              <span>© 2024 LEOVEIO. Todos os direitos reservados.</span>
+            </div>
+            <div className="text-xs text-white/40">
+              Site desenvolvido por{' '}
               <a 
                 href="https://wa.me/+5511917163488" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-purple-400 hover:text-purple-300 transition-colors underline"
+                className="text-purple-400 hover:text-purple-300 transition-colors underline hover:no-underline"
               >
                 Floriani
               </a>
-            </span>
+              {' '}• Desenvolvimento profissional
+            </div>
           </div>
           
-          <div className="flex items-center gap-6 text-sm text-white/50">
-            <span>🎮 Vanguarda Hextech</span>
-            <span>🏆 Campeão Internacional</span>
-            <span>💪 Transformação 70kg</span>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-white/50">
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
+              <span>🎮 Vanguarda Hextech</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+              <span>🏆 Campeão Internacional</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+              <span>💪 Transformação 70kg</span>
+            </div>
           </div>
         </motion.div>
       </div>

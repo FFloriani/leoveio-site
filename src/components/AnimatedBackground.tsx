@@ -35,38 +35,38 @@ const AnimatedBackground = ({
     switch (variant) {
       case 'ocean':
         return {
-          primary: 'from-blue-600 via-cyan-500 to-teal-400',
-          secondary: 'from-blue-500/30 to-cyan-400/30',
-          accent: 'from-teal-400/20 to-blue-600/20',
-          particles: 'bg-cyan-300/40',
+          primary: 'from-blue-400 via-cyan-300 to-teal-200',
+          secondary: 'from-blue-300/40 to-cyan-200/40',
+          accent: 'from-teal-200/30 to-blue-400/30',
+          particles: 'bg-cyan-200/50',
         };
       case 'sunset':
         return {
-          primary: 'from-orange-500 via-pink-500 to-purple-600',
-          secondary: 'from-yellow-400/30 to-orange-500/30',
-          accent: 'from-pink-400/20 to-purple-500/20',
-          particles: 'bg-orange-300/40',
+          primary: 'from-orange-300 via-pink-300 to-purple-400',
+          secondary: 'from-yellow-200/40 to-orange-300/40',
+          accent: 'from-pink-200/30 to-purple-300/30',
+          particles: 'bg-orange-200/50',
         };
       case 'tropical':
         return {
-          primary: 'from-green-500 via-emerald-400 to-cyan-400',
-          secondary: 'from-lime-400/30 to-green-500/30',
-          accent: 'from-emerald-400/20 to-cyan-500/20',
-          particles: 'bg-lime-300/40',
+          primary: 'from-emerald-300 via-teal-200 to-cyan-300',
+          secondary: 'from-lime-200/40 to-emerald-300/40',
+          accent: 'from-teal-200/30 to-cyan-300/30',
+          particles: 'bg-lime-200/50',
         };
       case 'gaming':
         return {
-          primary: 'from-purple-600 via-pink-500 to-cyan-400',
-          secondary: 'from-purple-500/30 to-pink-400/30',
-          accent: 'from-pink-400/20 to-cyan-500/20',
-          particles: 'bg-pink-300/40',
+          primary: 'from-purple-400 via-pink-300 to-cyan-300',
+          secondary: 'from-purple-300/40 to-pink-200/40',
+          accent: 'from-pink-200/30 to-cyan-300/30',
+          particles: 'bg-pink-200/50',
         };
       default:
         return {
-          primary: 'from-blue-600 via-cyan-500 to-teal-400',
-          secondary: 'from-blue-500/30 to-cyan-400/30',
-          accent: 'from-teal-400/20 to-blue-600/20',
-          particles: 'bg-cyan-300/40',
+          primary: 'from-blue-400 via-cyan-300 to-teal-200',
+          secondary: 'from-blue-300/40 to-cyan-200/40',
+          accent: 'from-teal-200/30 to-blue-400/30',
+          particles: 'bg-cyan-200/50',
         };
     }
   };
@@ -77,78 +77,78 @@ const AnimatedBackground = ({
 
   return (
     <div className="relative overflow-hidden">
-      {/* Base gradient background */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${styles.primary} opacity-20`} />
+      {/* Base gradient background - Beach vibe */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${styles.primary} opacity-30`} />
       
-      {/* Animated wave layers */}
+      {/* Beach wave layers - More natural and subtle */}
       <div className="absolute inset-0">
-        {/* Wave 1 - Main wave */}
+        {/* Wave 1 - Subtle ocean movement */}
         <motion.div
-          className={`absolute inset-0 bg-gradient-to-r ${styles.secondary} opacity-60`}
+          className={`absolute inset-0 bg-gradient-to-r ${styles.secondary} opacity-30`}
           animate={{
             clipPath: [
-              "polygon(0 60%, 100% 40%, 100% 100%, 0% 100%)",
-              "polygon(0 40%, 100% 60%, 100% 100%, 0% 100%)",
-              "polygon(0 50%, 100% 30%, 100% 100%, 0% 100%)",
-              "polygon(0 60%, 100% 40%, 100% 100%, 0% 100%)",
+              "polygon(0 85%, 100% 75%, 100% 100%, 0% 100%)",
+              "polygon(0 75%, 100% 85%, 100% 100%, 0% 100%)",
+              "polygon(0 80%, 100% 70%, 100% 100%, 0% 100%)",
+              "polygon(0 85%, 100% 75%, 100% 100%, 0% 100%)",
             ],
           }}
           transition={{
-            duration: 8 * intensityMultiplier,
+            duration: 20 * intensityMultiplier,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
 
-        {/* Wave 2 - Secondary wave */}
+        {/* Wave 2 - Very subtle secondary movement */}
         <motion.div
-          className={`absolute inset-0 bg-gradient-to-l ${styles.accent} opacity-40`}
+          className={`absolute inset-0 bg-gradient-to-l ${styles.accent} opacity-20`}
           animate={{
             clipPath: [
-              "polygon(0 70%, 100% 50%, 100% 100%, 0% 100%)",
-              "polygon(0 50%, 100% 70%, 100% 100%, 0% 100%)",
-              "polygon(0 60%, 100% 40%, 100% 100%, 0% 100%)",
-              "polygon(0 70%, 100% 50%, 100% 100%, 0% 100%)",
+              "polygon(0 90%, 100% 80%, 100% 100%, 0% 100%)",
+              "polygon(0 80%, 100% 90%, 100% 100%, 0% 100%)",
+              "polygon(0 85%, 100% 75%, 100% 100%, 0% 100%)",
+              "polygon(0 90%, 100% 80%, 100% 100%, 0% 100%)",
             ],
           }}
           transition={{
-            duration: 12 * intensityMultiplier,
+            duration: 25 * intensityMultiplier,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
 
-        {/* Wave 3 - Top accent wave */}
+        {/* Wave 3 - Minimal top accent */}
         <motion.div
-          className={`absolute inset-0 bg-gradient-to-br ${styles.secondary} opacity-30`}
+          className={`absolute inset-0 bg-gradient-to-br ${styles.secondary} opacity-15`}
           animate={{
             clipPath: [
-              "polygon(0 0%, 100% 0%, 100% 30%, 0% 20%)",
-              "polygon(0 0%, 100% 0%, 100% 20%, 0% 40%)",
-              "polygon(0 0%, 100% 0%, 100% 35%, 0% 15%)",
-              "polygon(0 0%, 100% 0%, 100% 30%, 0% 20%)",
+              "polygon(0 0%, 100% 0%, 100% 15%, 0% 5%)",
+              "polygon(0 0%, 100% 0%, 100% 5%, 0% 20%)",
+              "polygon(0 0%, 100% 0%, 100% 18%, 0% 3%)",
+              "polygon(0 0%, 100% 0%, 100% 15%, 0% 5%)",
             ],
           }}
           transition={{
-            duration: 10 * intensityMultiplier,
+            duration: 30 * intensityMultiplier,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
       </div>
 
-      {/* Floating particles - only render on client */}
+      {/* Floating particles - Very subtle ambient particles */}
       {isClient && (
         <div className="absolute inset-0 overflow-hidden">
-          {Array.from({ length: particleCount }).map((_, i) => {
+          {Array.from({ length: Math.max(2, particleCount - 1) }).map((_, i) => {
             const randomX = Math.random() * 100;
             const randomY = Math.random() * 100;
-            const randomSize = Math.random() * 4 + 2;
+            const randomSize = Math.random() * 3 + 2;
             
             return (
               <motion.div
                 key={i}
-                className={`absolute rounded-full blur-sm ${styles.particles}`}
+                className={`absolute rounded-full blur-md ${styles.particles} opacity-20`}
                 style={{
                   width: `${randomSize}px`,
                   height: `${randomSize}px`,
@@ -160,24 +160,24 @@ const AnimatedBackground = ({
                 animate={{
                   x: [
                     `${randomX}vw`,
-                    `${(randomX + 20) % 100}vw`,
-                    `${(randomX + 40) % 100}vw`,
+                    `${(randomX + 8) % 100}vw`,
+                    `${(randomX + 16) % 100}vw`,
                     `${randomX}vw`,
                   ],
                   y: [
                     `${randomY}vh`,
-                    `${(randomY + 15) % 100}vh`,
-                    `${(randomY + 30) % 100}vh`,
+                    `${(randomY + 5) % 100}vh`,
+                    `${(randomY + 10) % 100}vh`,
                     `${randomY}vh`,
                   ],
-                  scale: [0.5, 1.5, 0.8, 0.5],
-                  opacity: [0.3, 0.8, 0.4, 0.3],
+                  scale: [0.9, 1.1, 0.95, 0.9],
+                  opacity: [0.1, 0.3, 0.15, 0.1],
                 }}
                 transition={{
-                  duration: 20 + Math.random() * 15,
+                  duration: 40 + Math.random() * 30,
                   repeat: Infinity,
-                  ease: "linear",
-                  delay: i * 1,
+                  ease: "easeInOut",
+                  delay: i * 5,
                 }}
               />
             );
@@ -185,42 +185,74 @@ const AnimatedBackground = ({
         </div>
       )}
 
-      {/* Interactive light effect that follows mouse */}
+      {/* Interactive subtle light effect that follows mouse */}
       <motion.div
-        className="absolute w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none"
+        className="absolute w-96 h-96 rounded-full opacity-8 blur-3xl pointer-events-none"
         style={{
-          background: `radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%)`,
+          background: `radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(173,216,230,0.1) 30%, transparent 70%)`,
           left: `${mousePosition.x}%`,
           top: `${mousePosition.y}%`,
           transform: 'translate(-50%, -50%)',
         }}
         animate={{
-          scale: [1, 1.2, 1],
+          scale: [1, 1.1, 1],
+          opacity: [0.05, 0.1, 0.05],
         }}
         transition={{
-          duration: 3,
+          duration: 6,
           repeat: Infinity,
           ease: "easeInOut",
         }}
       />
 
-      {/* Subtle grid pattern */}
+      {/* Very subtle texture pattern */}
       <div 
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-3"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)
           `,
-          backgroundSize: '60px 60px'
+          backgroundSize: '100px 100px'
         }}
       />
+
+      {/* Additional subtle glow effects for tropical variant */}
+      {variant === 'tropical' && (
+        <div className="absolute inset-0">
+          <motion.div
+            className="absolute top-1/3 left-1/3 w-40 h-40 bg-emerald-300/10 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.2, 0.1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-teal-200/10 rounded-full blur-3xl"
+            animate={{
+              scale: [1.05, 0.95, 1.05],
+              opacity: [0.15, 0.25, 0.15],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2,
+            }}
+          />
+        </div>
+      )}
 
       {/* Additional glow effects for gaming variant */}
       {variant === 'gaming' && (
         <div className="absolute inset-0">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full blur-2xl"
+            className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-400/20 rounded-full blur-2xl"
             animate={{
               scale: [1, 1.5, 1],
               opacity: [0.2, 0.5, 0.2],
@@ -232,7 +264,7 @@ const AnimatedBackground = ({
             }}
           />
           <motion.div
-            className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-cyan-500/20 rounded-full blur-2xl"
+            className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-cyan-300/20 rounded-full blur-2xl"
             animate={{
               scale: [1.2, 0.8, 1.2],
               opacity: [0.3, 0.6, 0.3],

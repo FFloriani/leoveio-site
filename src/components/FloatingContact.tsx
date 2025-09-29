@@ -10,7 +10,7 @@ const FloatingContact = () => {
   const contacts = [
     {
       name: 'Discord',
-      description: 'Entre no servidor',
+      description: 'Entre no servidor oficial',
       url: 'https://discord.gg/HpSPGs7kQ7',
       color: 'from-indigo-500 to-purple-600',
       icon: (
@@ -21,7 +21,7 @@ const FloatingContact = () => {
     },
     {
       name: 'WhatsApp',
-      description: 'Grupo e comunidade',
+      description: 'Grupo da comunidade',
       url: 'https://chat.whatsapp.com/JUotvnWvLi2D8eoqfQ1OB2?mode=ac_t',
       color: 'from-green-500 to-green-600',
       icon: (
@@ -61,9 +61,13 @@ const FloatingContact = () => {
             }}
           >
             {/* Tooltip */}
-            <div className="bg-black/80 backdrop-blur-sm text-white px-3 py-2 rounded-lg shadow-lg border border-white/10 min-w-[140px]">
-              <div className="font-semibold text-sm">{contact.name}</div>
+            <div className="bg-black/90 backdrop-blur-sm text-white px-4 py-3 rounded-xl shadow-lg border border-white/10 min-w-[160px]">
+              <div className="font-semibold text-sm mb-1">{contact.name}</div>
               <div className="text-xs opacity-80">{contact.description}</div>
+              <div className="flex items-center gap-1 mt-1">
+                <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs text-green-400">Ativo agora</span>
+              </div>
             </div>
 
             {/* Button */}
@@ -104,6 +108,11 @@ const FloatingContact = () => {
 
         {/* Ripple effect */}
         <div className="absolute inset-0 rounded-full bg-purple-400 animate-ping opacity-20"></div>
+        
+        {/* Online indicator */}
+        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center z-10">
+          <div className="w-2 h-2 bg-white rounded-full"></div>
+        </div>
       </motion.button>
     </div>
   );
