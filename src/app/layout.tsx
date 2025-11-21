@@ -33,13 +33,13 @@ export const metadata: Metadata = {
     "eSports",
     "transformação pessoal"
   ],
-  authors: [{ name: "LEOVEIO", url: "https://leoveio-streamer-site.vercel.app" }],
+  authors: [{ name: "LEOVEIO", url: "https://leoveio.com" }],
   creator: "LEOVEIO",
   publisher: "LEOVEIO",
   openGraph: {
     title: "LEOVEIO - Streamer Profissional | Vanguarda Hextech",
     description: "Campeão Internacional de Wild Rift e único representante brasileiro da Vanguarda Hextech da Riot Games. Lives profissionais e conteúdo de qualidade.",
-    url: "https://leoveio-streamer-site.vercel.app",
+    url: "https://leoveio.com",
     siteName: "LEOVEIO",
     type: "website",
     locale: "pt_BR",
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
     apple: "/favicon-32x32.png",
   },
   manifest: "/site.webmanifest",
-  metadataBase: new URL("https://leoveio-streamer-site.vercel.app"),
+  metadataBase: new URL("https://leoveio.com"),
   alternates: {
-    canonical: "https://leoveio-streamer-site.vercel.app",
+    canonical: "https://leoveio.com",
   },
 };
 

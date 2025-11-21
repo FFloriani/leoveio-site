@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  
+
   // Otimizações básicas para reduzir o tamanho das funções
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
@@ -52,6 +52,16 @@ const nextConfig: NextConfig = {
             value: 'public, max-age=300, stale-while-revalidate=600',
           },
         ],
+      },
+    ];
+  },
+
+  async redirects() {
+    return [
+      {
+        source: '/growth',
+        destination: 'https://www.gsuplementos.com.br/?cupom=LEOVEIO&fbclid=PAb21jcAONiY9leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaeyqQnebWFfIdeR1VrjiJ7gl0iYCNxMluHqYG6dNmiyPkZQvTCQLBhw_TN7sg_aem_nlLLdZiSaDIwodMtFyx90Q',
+        permanent: false,
       },
     ];
   },

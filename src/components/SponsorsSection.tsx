@@ -41,7 +41,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
     {
       name: 'Growth Suplementos',
       description: 'Os melhores suplementos para potencializar seu desempenho',
-      url: 'https://gsuplementos.com.br/?cupom=leoveio&fbclid=PAZXh0bgNhZW0CMTEAAaYymVSEnYVah0jtjA-iFznsCVNua1YmF8_DqN020XoqMjWQwSLfs3KOZSo_aem_hASjju_cOhW62kSJdH7sbQ',
+      url: 'https://www.gsuplementos.com.br/?cupom=LEOVEIO&fbclid=PAb21jcAONiY9leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaeyqQnebWFfIdeR1VrjiJ7gl0iYCNxMluHqYG6dNmiyPkZQvTCQLBhw_TN7sg_aem_nlLLdZiSaDIwodMtFyx90Q',
       coupon: 'LEOVEIO ATÉ 14%',
       category: 'Fitness',
       color: 'from-green-500 to-emerald-500',
@@ -92,7 +92,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       <section className="relative py-20">
         <div className="relative z-10 container mx-auto px-4">
           {/* Section Header */}
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -104,7 +104,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
               <span className="text-sm text-purple-300 font-semibold tracking-wider uppercase">Parcerias Estratégicas</span>
               <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
             </div>
-            
+
             <h2 className="text-4xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 mb-4 drop-shadow-lg">
               Parceiros & Patrocinadores
             </h2>
@@ -131,7 +131,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                 </h3>
                 <div className="h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent flex-1"></div>
               </div>
-              
+
               <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl p-4 border border-purple-400/20 max-w-md mx-auto">
                 <p className="text-white/80 text-sm">
                   <span className="text-purple-400 font-bold">Descontos exclusivos!</span> Use o cupom <span className="text-yellow-400 font-bold">LEOVEIO</span>
@@ -161,7 +161,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
 
                   {/* Glowing Border Effect */}
                   <div className={`absolute -inset-1 bg-gradient-to-r ${sponsor.color} rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition duration-300`}></div>
-                  
+
                   {/* Card Content */}
                   <div className="relative bg-black/40 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20 h-full shadow-2xl">
                     {/* Custom Creative Background - Only for sponsors with customCreative */}
@@ -223,9 +223,9 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                           <div className="flex items-center justify-between">
                             <div>
                               <span className="text-sm text-white/80">
-                                {sponsor.name === 'Liveup' ? 'Cupom de Desconto (1ª Compra)' : 
-                                 sponsor.name === 'Growth Suplementos' ? 'Cupom de Desconto (Recorrente)' :
-                                 'Cupom de Desconto'}
+                                {sponsor.name === 'Liveup' ? 'Cupom de Desconto (1ª Compra)' :
+                                  sponsor.name === 'Growth Suplementos' ? 'Cupom de Desconto (Recorrente)' :
+                                    'Cupom de Desconto'}
                               </span>
                               <div className="flex items-center gap-2 mt-1">
                                 <code className="text-lg font-bold text-purple-300 drop-shadow-md">{sponsor.coupon.toUpperCase()}</code>
@@ -305,7 +305,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                     />
                   </div>
                 ))}
-                
+
                 {/* Duplicate set for seamless loop */}
                 {previousSponsors.map((sponsor) => (
                   <div
@@ -326,7 +326,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
           </motion.div>
 
           {/* Call to Action - Clickable */}
-          <motion.div 
+          <motion.div
             className="text-center mt-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
