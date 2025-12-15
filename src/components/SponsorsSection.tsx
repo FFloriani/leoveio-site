@@ -56,15 +56,6 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       category: 'Lifestyle',
       color: 'from-blue-500 to-cyan-500',
       iconSrc: '/liveup.jpg'
-    },
-    {
-      name: 'Betano',
-      description: 'A casa de apostas mais completa do Brasil com odds competitivas e promoções exclusivas',
-      url: 'https://www.betano.bet.br/casino/register/?pid=incomeaccess_int-60937&af_sub1=a_60937b_10037c_&af_ad_id=40817&utm_medium=40817&utm_source=60937&utm_campaign=10037&siteid=60937',
-      category: 'Gaming',
-      color: 'from-blue-600 to-cyan-500',
-      iconSrc: '/betano.png',
-      customCreative: '/betanocupom.jpg'
     }
   ];
 
@@ -74,7 +65,6 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
     { name: 'PicPay', category: 'Fintech', logo: '/picpay.png' },
     { name: 'Santander', category: 'Banco', logo: '/santander.png' },
     { name: 'Bet365', category: 'Gaming', logo: '/bet365.png' },
-    { name: 'Betano', category: 'Gaming', logo: '/betano.jpg' },
     { name: 'Lenovo', category: 'Tech', logo: '/lenovo.png' },
     { name: 'Estrela Bet', category: 'Gaming', logo: '/estrelabet.png' },
     { name: 'ALFABET', category: 'Gaming', logo: '/alfabet.png' },
