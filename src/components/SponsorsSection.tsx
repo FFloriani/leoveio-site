@@ -186,8 +186,8 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                         </div>
                       </div>
 
-                      {/* Custom Creative Display - Only for Betano and Growth */}
-                      {sponsor.customCreative && (sponsor.name === 'Betano' || sponsor.name === 'Growth Suplementos') && (
+                      {/* Custom Creative Display - Only for Growth */}
+                      {sponsor.customCreative && (sponsor.name === 'Growth Suplementos') && (
                         <div className="mb-6 relative">
                           <div className="relative aspect-[3/4] max-w-[200px] mx-auto rounded-xl overflow-hidden border-2 border-white/20 shadow-lg">
                             <Image
