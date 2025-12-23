@@ -63,6 +63,11 @@ const nextConfig: NextConfig = {
         destination: 'https://www.gsuplementos.com.br/?cupom=LEOVEIO&fbclid=PAb21jcAONiY9leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaeyqQnebWFfIdeR1VrjiJ7gl0iYCNxMluHqYG6dNmiyPkZQvTCQLBhw_TN7sg_aem_nlLLdZiSaDIwodMtFyx90Q',
         permanent: false,
       },
+      {
+        source: '/super',
+        destination: 'https://superbet.bet.br/registro?bonus=LEOVEIO',
+        permanent: false,
+      },
     ];
   },
 };

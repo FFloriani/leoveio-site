@@ -49,6 +49,16 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       customCreative: '/growthcupom.png'
     },
     {
+      name: 'Superbet',
+      description: 'A melhor casa de apostas do Brasil. Bônus exclusivo para a comunidade LEOVEIO!',
+      url: 'https://superbet.bet.br/registro?bonus=LEOVEIO',
+      coupon: 'LEOVEIO',
+      category: 'Apostas',
+      color: 'from-red-500 to-yellow-500',
+      iconSrc: '/superbet.jpeg',
+      customCreative: '/superbet.jpeg'
+    },
+    {
       name: 'Liveup',
       description: 'Produtos naturais e saudáveis para uma vida melhor',
       url: 'https://livup.com.br/?utm_source=instagram&utm_medium=influencers&utm_campaign=creator_awon_leoveio',
@@ -186,8 +196,8 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                         </div>
                       </div>
 
-                      {/* Custom Creative Display - Only for Growth */}
-                      {sponsor.customCreative && (sponsor.name === 'Growth Suplementos') && (
+                      {/* Custom Creative Display */}
+                      {sponsor.customCreative && (
                         <div className="mb-6 relative">
                           <div className="relative aspect-[3/4] max-w-[200px] mx-auto rounded-xl overflow-hidden border-2 border-white/20 shadow-lg">
                             <Image
