@@ -69,7 +69,7 @@ const LinkTreePage = () => {
   const sponsorLinks: LinkItem[] = [
     {
       name: 'Superbet',
-      url: 'https://superbet.bet.br/registro?bonus=LEOVEIO',
+      url: 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_9504b_431c_&affid=624&siteid=9504&adid=431&c=LEOVEIO&asclurl=https://superbet.bet.br/registro?bonus=LEOVEIO',
       icon: 'superbet',
       color: 'from-red-500 to-yellow-500',
       description: 'Cupom: LEOVEIO',
