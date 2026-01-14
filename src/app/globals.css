@@ -71,9 +71,12 @@ body {
 }
 
 /* Optimized transitions - only for interactive elements */
-button, a, [role="button"], .interactive {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, 
-              box-shadow 0.2s ease, transform 0.2s ease;
+button,
+a,
+[role="button"],
+.interactive {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 /* Enhanced focus styles */
@@ -126,9 +129,12 @@ img[loading="lazy"] {
 }
 
 @keyframes gradientShift {
-  0%, 100% {
+
+  0%,
+  100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
@@ -150,6 +156,7 @@ img[loading="lazy"] {
 
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -157,11 +164,11 @@ img[loading="lazy"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .gradient-text {
     animation: none;
   }
-  
+
   /* Show default cursor when motion is reduced */
   * {
     cursor: auto !important;
@@ -231,8 +238,15 @@ img[loading="lazy"] {
 }
 
 @keyframes status-pulse {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 /* Professional animations */
@@ -241,6 +255,7 @@ img[loading="lazy"] {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -252,6 +267,7 @@ img[loading="lazy"] {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -275,44 +291,53 @@ img[loading="lazy"] {
 
 /* Professional loading states */
 .professional-loading {
-  background: linear-gradient(90deg, 
-    rgba(255, 255, 255, 0.1) 0%, 
-    rgba(255, 255, 255, 0.2) 50%, 
-    rgba(255, 255, 255, 0.1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.1) 100%);
   background-size: 200% 100%;
   animation: professional-shimmer 1.5s ease-in-out infinite;
 }
 
 @keyframes professional-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* Beach vibes enhancements */
 .beach-wave {
-  background: linear-gradient(45deg, 
-    rgba(173, 216, 230, 0.1) 0%, 
-    rgba(135, 206, 235, 0.15) 25%, 
-    rgba(70, 130, 180, 0.1) 50%, 
-    rgba(135, 206, 235, 0.15) 75%, 
-    rgba(173, 216, 230, 0.1) 100%
-  );
+  background: linear-gradient(45deg,
+      rgba(173, 216, 230, 0.1) 0%,
+      rgba(135, 206, 235, 0.15) 25%,
+      rgba(70, 130, 180, 0.1) 50%,
+      rgba(135, 206, 235, 0.15) 75%,
+      rgba(173, 216, 230, 0.1) 100%);
   background-size: 400% 400%;
   animation: beach-wave-flow 8s ease-in-out infinite;
 }
 
 @keyframes beach-wave-flow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .beach-glow {
-  background: radial-gradient(circle at center, 
-    rgba(173, 216, 230, 0.2) 0%, 
-    rgba(135, 206, 235, 0.1) 30%, 
-    transparent 70%
-  );
+  background: radial-gradient(circle at center,
+      rgba(173, 216, 230, 0.2) 0%,
+      rgba(135, 206, 235, 0.1) 30%,
+      transparent 70%);
 }
 
 .beach-card {
@@ -331,10 +356,9 @@ img[loading="lazy"] {
 }
 
 .beach-button {
-  background: linear-gradient(135deg, 
-    rgba(173, 216, 230, 0.8), 
-    rgba(135, 206, 235, 0.8)
-  );
+  background: linear-gradient(135deg,
+      rgba(173, 216, 230, 0.8),
+      rgba(135, 206, 235, 0.8));
   backdrop-filter: blur(10px);
   border: 1px solid rgba(173, 216, 230, 0.3);
   border-radius: 12px;
@@ -342,10 +366,9 @@ img[loading="lazy"] {
 }
 
 .beach-button:hover {
-  background: linear-gradient(135deg, 
-    rgba(173, 216, 230, 1), 
-    rgba(135, 206, 235, 1)
-  );
+  background: linear-gradient(135deg,
+      rgba(173, 216, 230, 1),
+      rgba(135, 206, 235, 1));
   border-color: rgba(173, 216, 230, 0.5);
   transform: translateY(-1px);
   box-shadow: 0 10px 30px rgba(173, 216, 230, 0.3);
