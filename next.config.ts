@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "frame-src 'self' https://*.twitch.tv https://twitch.tv https://www.twitch.tv https://player.twitch.tv https://embed.twitch.tv https://*.youtube.com https://youtube.com; frame-ancestors 'self' https://*.twitch.tv https://*.youtube.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://player.twitch.tv https://embed.twitch.tv;",
+            value: "frame-src 'self' https://*.twitch.tv https://twitch.tv https://www.twitch.tv https://player.twitch.tv https://embed.twitch.tv https://*.youtube.com https://youtube.com https://platform.twitter.com https://*.twitter.com https://twitter.com https://*.x.com https://x.com https://twitframe.com https://*.instagram.com https://instagram.com https://*.tiktok.com https://tiktok.com; frame-ancestors 'self' https://*.twitch.tv https://*.youtube.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://player.twitch.tv https://embed.twitch.tv https://platform.twitter.com;",
           },
         ],
       },

@@ -224,7 +224,12 @@ export default function LeoBancaPage() {
             <div className="hidden xl:block xl:w-96 xl:flex-shrink-0">
               <div className="sticky top-24">
                 <div className="h-[calc(100vh-150px)]">
-                  <TwitchCallsPanel channels={['leoveio', 'florianitv']} enabled={true} />
+                  <TwitchCallsPanel
+                    channels={['leoveio', 'florianitv']}
+                    enabled={true}
+                    vipNames={localBanca?.participants.map(p => p.name) || []}
+                    participantNames={localBanca?.participants.map(p => p.name) || []}
+                  />
                 </div>
               </div>
             </div>

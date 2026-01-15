@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Menu, X, Home, Calendar, DollarSign, ExternalLink, BarChart3 } from 'lucide-react';
+import { Mail, Menu, X, Home, Calendar, DollarSign, ExternalLink, BarChart3, Play } from 'lucide-react';
 import Link from 'next/link';
 import ContactModal from './ContactModal';
 
@@ -34,34 +34,39 @@ const Header = () => {
       mobileLabel: 'Banca'
     },
     {
+      href: '/react',
+      label: 'React',
+      icon: <Play size={16} />,
+      mobileLabel: 'React'
+    },
+    {
       href: '/eventos',
       label: 'Eventos',
       icon: <Calendar size={16} />,
       mobileLabel: 'Eventos'
     },
-          {
-            href: '/rtp',
-            label: 'RTP Live',
-            icon: <BarChart3 size={16} />,
-            mobileLabel: 'RTP Live'
-          }
+    {
+      href: '/rtp',
+      label: 'RTP Live',
+      icon: <BarChart3 size={16} />,
+      mobileLabel: 'RTP Live'
+    }
   ];
 
   return (
     <>
-      <motion.header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'backdrop-blur-xl bg-black/40 border-b border-white/20 shadow-lg' 
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+            ? 'backdrop-blur-xl bg-black/40 border-b border-white/20 shadow-lg'
             : 'backdrop-blur-md bg-black/20 border-b border-white/10'
-        }`}
+          }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            
+
             {/* Logo/Brand */}
             <motion.div
               className="flex items-center gap-3"
@@ -90,7 +95,7 @@ const Header = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                 >
-                  <Link 
+                  <Link
                     href={item.href}
                     className="relative group px-4 py-2 text-white/80 hover:text-white transition-all duration-300 font-medium text-sm rounded-lg bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-sm hover:bg-white/10 flex items-center gap-2"
                   >
@@ -100,11 +105,11 @@ const Header = () => {
                   </Link>
                 </motion.div>
               ))}
-              
+
               <motion.button
                 onClick={() => setIsContactModalOpen(true)}
                 className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 backdrop-blur-sm border border-purple-400/30 text-sm"
-                whileHover={{ 
+                whileHover={{
                   scale: 1.02,
                   boxShadow: "0 8px 25px rgba(168, 85, 247, 0.4)"
                 }}
@@ -148,7 +153,7 @@ const Header = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                   >
-                    <Link 
+                    <Link
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 text-white/80 hover:text-white transition-all duration-300 font-medium rounded-lg bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-sm hover:bg-white/10"
@@ -159,7 +164,7 @@ const Header = () => {
                     </Link>
                   </motion.div>
                 ))}
-                
+
                 <motion.button
                   onClick={() => {
                     setIsContactModalOpen(true);
@@ -180,9 +185,9 @@ const Header = () => {
       </motion.header>
 
       {/* Contact Modal */}
-      <ContactModal 
-        isOpen={isContactModalOpen} 
-        onClose={() => setIsContactModalOpen(false)} 
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
       />
     </>
   );

@@ -9,6 +9,17 @@ export interface TwitchCall {
     displayName: string;
     slotName: string;
     timestamp: Date;
+    receivedAt?: number; // When frontend received this call (ms)
+    color?: string;
+}
+
+// Estatísticas de usuário (mensagens + primeira aparição)
+export interface UserStats {
+    username: string;
+    displayName: string;
+    messageCount: number;
+    firstSeenAt: number; // timestamp em ms
+    lastSeenAt: number; // timestamp em ms
     color?: string;
 }
 
@@ -18,8 +29,12 @@ interface UseTwitchChatOptions {
     maxCalls?: number;
 }
 
+// Cache global de estatísticas de usuários (persistente entre rerenders)
+const userStatsCache = new Map<string, UserStats>();
+
 export function useTwitchChat({ channels, enabled = true, maxCalls = 50 }: UseTwitchChatOptions) {
     const [calls, setCalls] = useState<TwitchCall[]>([]);
+    const [userStats, setUserStats] = useState<Map<string, UserStats>>(new Map());
     const [isConnected, setIsConnected] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const wsRef = useRef<WebSocket | null>(null);
@@ -73,17 +88,40 @@ export function useTwitchChat({ channels, enabled = true, maxCalls = 50 }: UseTw
                     const parsed = parseMessage(message);
 
                     if (parsed) {
+                        const now = Date.now();
+                        const userKey = parsed.username.toLowerCase();
+
+                        // Atualizar estatísticas do usuário (para TODAS as mensagens)
+                        const existingStats = userStatsCache.get(userKey);
+                        if (existingStats) {
+                            existingStats.messageCount++;
+                            existingStats.lastSeenAt = now;
+                            if (parsed.displayName) existingStats.displayName = parsed.displayName;
+                            if (parsed.color) existingStats.color = parsed.color;
+                        } else {
+                            userStatsCache.set(userKey, {
+                                username: parsed.username,
+                                displayName: parsed.displayName || parsed.username,
+                                messageCount: 1,
+                                firstSeenAt: now,
+                                lastSeenAt: now,
+                                color: parsed.color
+                            });
+                        }
+                        // Atualizar state para refletir mudanças
+                        setUserStats(new Map(userStatsCache));
 
                         // Verificar se é um comando !call
                         const callMatch = parsed.message.match(/^!call\s+(.+)/i);
                         if (callMatch) {
                             const slotName = callMatch[1].trim();
                             const newCall: TwitchCall = {
-                                id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                                id: now.toString() + Math.random().toString(36).substr(2, 9),
                                 username: parsed.username,
                                 displayName: parsed.displayName || parsed.username,
                                 slotName,
                                 timestamp: new Date(),
+                                receivedAt: now,
                                 color: parsed.color
                             };
 
@@ -171,11 +209,25 @@ export function useTwitchChat({ channels, enabled = true, maxCalls = 50 }: UseTw
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [enabled]);
 
+    // Função para obter estatísticas de um usuário específico
+    const getUserStats = useCallback((username: string): UserStats | null => {
+        return userStatsCache.get(username.toLowerCase()) || null;
+    }, []);
+
+    // Função para limpar estatísticas
+    const clearUserStats = useCallback(() => {
+        userStatsCache.clear();
+        setUserStats(new Map());
+    }, []);
+
     return {
         calls,
+        userStats,
         isConnected,
         error,
         clearCalls,
+        getUserStats,
+        clearUserStats,
         reconnect: connect
     };
 }
