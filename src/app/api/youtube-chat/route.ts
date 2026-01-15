@@ -32,10 +32,10 @@ const userStatsCache = new Map<string, YouTubeUserStats>();
 const liveChats = new Map<string, InstanceType<typeof LiveChat>>();
 const channelStatus = new Map<string, { isListening: boolean; error: string | null }>();
 
-// Lista de canais a monitorar (do .env ou hardcoded)
+// Lista de canais a monitorar
 const YOUTUBE_CHANNELS = [
-    process.env.YOUTUBE_CHANNEL_ID || 'UCyftCA0NLN5q8Ora3S0k7dw', // LeoVeio
-    'UC1Xdu6upiWUyXvCG6GYdvnw' // Segundo canal
+    'UC1Xdu6upiWUyXvCG6GYdvnw',  // Canal @leoveio
+    'FlorianiTV'                   // Canal @FlorianiTV (handle)
 ].filter(Boolean) as string[];
 
 // Converter MessageItem[] para string
@@ -108,8 +108,11 @@ async function startChannelListener(channelId: string) {
     try {
         console.log('[YouTube Chat] Iniciando listener para canal:', channelId);
 
-        // Criar instância do LiveChat
-        const liveChat = new LiveChat({ channelId });
+        // Criar instância do LiveChat - suporta channelId (UC...) ou handle (nome do canal)
+        const isChannelId = channelId.startsWith('UC');
+        const liveChat = isChannelId
+            ? new LiveChat({ channelId })
+            : new LiveChat({ handle: channelId });
         liveChats.set(channelId, liveChat);
 
         liveChat.on('start', (liveId: string) => {
