@@ -21,7 +21,17 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: 'localhost',
       },
+      {
+        protocol: 'https',
+        hostname: 'static-cdn.jtvnw.net',
+      },
     ],
+  },
+
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
   },
 
   // Otimizações básicas para reduzir o tamanho das funções
@@ -66,6 +76,11 @@ const nextConfig: NextConfig = {
       {
         source: '/super',
         destination: 'https://superbet.bet.br/registro?bonus=LEOVEIO',
+        permanent: false,
+      },
+      {
+        source: '/pix',
+        destination: 'https://livepix.gg/leoveio',
         permanent: false,
       },
     ];

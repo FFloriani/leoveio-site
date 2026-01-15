@@ -1,11 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
-import AnimatedBackground from '@/components/AnimatedBackground';
 import TwitchCallsPanel from '@/components/TwitchCallsPanel';
 
 import {
@@ -26,6 +23,9 @@ import {
 } from '@/features/banca';
 
 export default function LeoBancaPage() {
+  // Intro Video State: 'intro1' -> 'intro2' -> 'finished'
+  const [introStage, setIntroStage] = useState<'intro1' | 'intro2' | 'finished'>('intro1');
+
   // Hooks de gerenciamento
   const {
     bancas,
@@ -33,8 +33,7 @@ export default function LeoBancaPage() {
     createBanca,
     closeBanca,
     reopenBanca,
-    updateFinalBalance,
-    clearCurrentBanca
+    updateFinalBalance
   } = useBanca();
 
   const {
@@ -113,38 +112,76 @@ export default function LeoBancaPage() {
     setLocalBanca(null);
   };
 
-  const handleBack = () => {
-    clearCurrentBanca();
-    setLocalBanca(null);
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <AnimatedBackground variant="tropical" intensity="medium" />
+    <div className="min-h-screen relative">
+      {/* Background Layer */}
+      <div className="fixed inset-0 z-0">
+        {/* Static Background - Always present behind */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'url(/backgroundchines.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        />
 
-      <div className="relative z-10 pt-20 pb-16">
-        <div className="container mx-auto px-4">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-8"
+        {/* Intro Videos Sequence */}
+        <AnimatePresence mode="wait">
+          {introStage === 'intro1' && (
+            <motion.video
+              key="intro1"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0 }}
+              autoPlay
+              muted
+              playsInline
+              onEnded={() => setIntroStage('intro2')}
+              className="absolute inset-0 w-full h-full object-cover z-20"
+              src="/bgbancaintro.mp4"
+            />
+          )}
+
+          {introStage === 'intro2' && (
+            <motion.video
+              key="intro2"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+              autoPlay
+              muted
+              playsInline
+              onEnded={() => setIntroStage('finished')}
+              className="absolute inset-0 w-full h-full object-cover z-20"
+              src="/bgbancaintro2.mp4"
+            />
+          )}
+        </AnimatePresence>
+      </div>
+      {/* Dark overlay */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-black/30 via-transparent to-black/70" />
+
+      {/* Logo - Layer between background and content */}
+      {/* Logo - Layer between background and content */}
+      <AnimatePresence>
+        {introStage === 'finished' && (
+          <div
+            className="absolute top-12 left-0 right-0 z-5 flex justify-center pointer-events-none"
           >
-            <div className="flex items-center justify-center mb-4">
-              <Link
-                href="/"
-                className="flex items-center gap-2 px-4 py-2 bg-white/10 text-white/80 hover:text-white rounded-lg hover:bg-white/20 transition-all duration-300 mr-4"
-              >
-                <ArrowLeft size={20} />
-                <span className="hidden sm:inline">Voltar ao Site</span>
-                <span className="sm:hidden">Voltar</span>
-              </Link>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4">
-              BANCA DO BALÃO
-            </h1>
-          </motion.div>
+            <img
+              src="/bancadobalao.png"
+              alt="Banca do Balão"
+              className="max-w-4xl w-full h-auto"
+              style={{ filter: 'drop-shadow(0 4px 40px rgba(0,0,0,0.7))' }}
+            />
+          </div>
+        )}
+      </AnimatePresence>
+
+      <div className="relative z-10 pt-[850px] pb-16">
+        <div className="container mx-auto px-4">
 
           {/* Layout Principal */}
           <div className="flex flex-col xl:flex-row gap-6">
@@ -168,7 +205,6 @@ export default function LeoBancaPage() {
                     banca={localBanca}
                     onAddParticipant={() => setShowAddModal(true)}
                     onCloseBanca={() => setShowCloseModal(true)}
-                    onBack={handleBack}
                     onUpdateFinalBalance={handleUpdateFinalBalance}
                   />
 
@@ -193,10 +229,11 @@ export default function LeoBancaPage() {
               </div>
             </div>
           </div>
-
-          <BancaFooter />
         </div>
       </div>
+
+      {/* Footer - Full Width */}
+      <BancaFooter />
 
       {/* Modais */}
       <CreateBancaModal

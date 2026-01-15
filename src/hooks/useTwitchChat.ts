@@ -31,6 +31,12 @@ export function useTwitchChat({ channels, enabled = true, maxCalls = 50 }: UseTw
     const connect = useCallback(() => {
         if (!enabled || channelList.length === 0) return;
 
+        // Fechar conexão existente antes de criar nova
+        if (wsRef.current) {
+            wsRef.current.close();
+            wsRef.current = null;
+        }
+
         try {
             // Conectar ao IRC da Twitch via WebSocket
             const ws = new WebSocket('wss://irc-ws.chat.twitch.tv:443');
@@ -82,7 +88,19 @@ export function useTwitchChat({ channels, enabled = true, maxCalls = 50 }: UseTw
                             };
 
                             setCalls(prev => {
-                                const updated = [newCall, ...prev].slice(0, maxCalls);
+                                // Evitar duplicatas do mesmo usuário em 5 segundos
+                                const isDuplicate = prev.some(c =>
+                                    c.username === newCall.username &&
+                                    c.slotName === newCall.slotName &&
+                                    (newCall.timestamp.getTime() - c.timestamp.getTime()) < 5000
+                                );
+
+                                if (isDuplicate) {
+                                    console.log(`[Twitch Call] Ignorando duplicata: ${parsed.displayName}: ${slotName}`);
+                                    return prev;
+                                }
+
+                                const updated = [...prev, newCall].slice(-maxCalls);
                                 return updated;
                             });
 

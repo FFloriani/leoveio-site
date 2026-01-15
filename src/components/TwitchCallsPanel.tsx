@@ -1,14 +1,18 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTwitchChat, TwitchCall } from '@/hooks/useTwitchChat';
-import { Radio, RefreshCw, Trash2, Wifi, WifiOff } from 'lucide-react';
+import { Radio, RefreshCw, Trash2, X } from 'lucide-react';
 
 interface TwitchCallsPanelProps {
     channels?: string | string[];
     enabled?: boolean;
     onCallSelect?: (call: TwitchCall) => void;
 }
+
+// Cache de fotos de perfil
+const profileCache = new Map<string, string | null>();
 
 export default function TwitchCallsPanel({
     channels = ['leoveio', 'florianitv'],
@@ -21,7 +25,10 @@ export default function TwitchCallsPanel({
         maxCalls: 30
     });
 
-    // Cores padrão da Twitch para viewers sem cor customizada
+    const [hiddenCalls, setHiddenCalls] = useState<Set<string>>(new Set());
+    const [profilePics, setProfilePics] = useState<Map<string, string | null>>(new Map());
+    const listRef = useRef<HTMLDivElement>(null);
+
     const defaultColors = [
         '#FF4500', '#FF6347', '#2E8B57', '#DAA520', '#D2691E',
         '#5F9EA0', '#1E90FF', '#FF69B4', '#8A2BE2', '#00CED1'
@@ -29,122 +36,155 @@ export default function TwitchCallsPanel({
 
     const getColor = (call: TwitchCall) => {
         if (call.color) return call.color;
-        // Gerar cor consistente baseada no username
         const hash = call.username.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
         return defaultColors[hash % defaultColors.length];
     };
 
-    const formatTime = (date: Date) => {
-        return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const hideCall = (callId: string, e: React.MouseEvent) => {
+        e.stopPropagation();
+        setHiddenCalls(prev => new Set([...prev, callId]));
     };
 
+    const visibleCalls = calls.filter(call => !hiddenCalls.has(call.id));
+
+    // Buscar fotos de perfil
+    useEffect(() => {
+        const fetchProfiles = async () => {
+            for (const call of calls) {
+                const username = call.username.toLowerCase();
+
+                // Já tem no cache local
+                if (profileCache.has(username)) {
+                    continue;
+                }
+
+                try {
+                    const response = await fetch(`/api/twitch-profile?username=${encodeURIComponent(username)}`);
+                    const data = await response.json();
+
+                    profileCache.set(username, data.profile_image_url || null);
+                    setProfilePics(new Map(profileCache));
+                } catch (err) {
+                    profileCache.set(username, null);
+                }
+            }
+        };
+
+        if (calls.length > 0) {
+            fetchProfiles();
+        }
+    }, [calls]);
+
+    // Auto-scroll
+    useEffect(() => {
+        if (listRef.current) {
+            listRef.current.scrollTop = listRef.current.scrollHeight;
+        }
+    }, [calls]);
+
     return (
-        <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/10 overflow-hidden h-full flex flex-col">
+        <div className="chinese-card overflow-hidden h-full flex flex-col">
             {/* Header */}
-            <div className="bg-gradient-to-r from-purple-600/30 to-pink-600/30 px-4 py-3 border-b border-white/10">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <Radio size={18} className="text-red-400 animate-pulse" />
-                        <span className="text-white font-semibold text-sm">Live Calls</span>
-                        <span className="text-white/50 text-xs">
-                            #{Array.isArray(channels) ? channels.join(' #') : channels}
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        {/* Status de conexão */}
-                        <div className="flex items-center gap-1">
-                            {isConnected ? (
-                                <Wifi size={14} className="text-green-400" />
-                            ) : (
-                                <WifiOff size={14} className="text-red-400" />
-                            )}
-                            <span className={`text-xs ${isConnected ? 'text-green-400' : 'text-red-400'}`}>
-                                {isConnected ? 'Online' : 'Offline'}
-                            </span>
-                        </div>
-
-                        {/* Botões de ação */}
-                        <button
-                            onClick={reconnect}
-                            className="p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded transition-colors"
-                            title="Reconectar"
-                        >
-                            <RefreshCw size={14} />
-                        </button>
-                        <button
-                            onClick={clearCalls}
-                            className="p-1.5 text-white/50 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
-                            title="Limpar calls"
-                        >
-                            <Trash2 size={14} />
-                        </button>
-                    </div>
+            <div className="px-4 py-3 border-b-2 border-[#DEB066]/50 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <Radio size={16} className="text-[#DEB066]" />
+                    <span className="text-[#DEB066] font-bold text-sm">Live Calls</span>
+                    <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
                 </div>
-
-                {error && (
-                    <p className="text-red-400 text-xs mt-1">{error}</p>
-                )}
+                <div className="flex items-center gap-1">
+                    <button onClick={reconnect} className="p-1.5 text-[#DEB066]/50 hover:text-[#DEB066] rounded">
+                        <RefreshCw size={14} />
+                    </button>
+                    <button onClick={() => { clearCalls(); setHiddenCalls(new Set()); }} className="p-1.5 text-[#DEB066]/50 hover:text-red-400 rounded">
+                        <Trash2 size={14} />
+                    </button>
+                </div>
             </div>
 
-            {/* Instruções */}
-            <div className="px-3 py-2 bg-yellow-500/10 border-b border-white/10">
-                <p className="text-yellow-400 text-xs text-center">
-                    💬 Digite <span className="font-mono bg-yellow-500/20 px-1 rounded">!call nome do slot</span> no chat
-                </p>
-            </div>
+            {error && <p className="text-red-400 text-xs px-4 py-1">{error}</p>}
 
             {/* Lista de calls */}
-            <div className="flex-1 overflow-y-auto p-2 space-y-1.5">
-                {calls.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-full text-center p-4">
-                        <Radio size={32} className="text-white/20 mb-2" />
-                        <p className="text-white/40 text-sm">Nenhuma call ainda</p>
-                        <p className="text-white/30 text-xs mt-1">Aguardando !call no chat...</p>
+            <div ref={listRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+                {visibleCalls.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center">
+                        <Radio size={32} className="text-[#DEB066]/70 mb-2" />
+                        <p className="text-[#DEB066]/70 text-sm font-medium">Aguardando !call...</p>
                     </div>
                 ) : (
                     <AnimatePresence mode="popLayout">
-                        {calls.map((call) => (
-                            <motion.div
-                                key={call.id}
-                                initial={{ opacity: 0, x: 20, scale: 0.95 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                exit={{ opacity: 0, x: -20, scale: 0.95 }}
-                                transition={{ duration: 0.2 }}
-                                onClick={() => onCallSelect?.(call)}
-                                className={`bg-white/5 hover:bg-white/10 rounded-lg p-2.5 cursor-pointer transition-colors border border-transparent hover:border-white/20 ${onCallSelect ? 'cursor-pointer' : ''}`}
-                            >
-                                <div className="flex items-start justify-between gap-2">
-                                    <div className="flex-1 min-w-0">
-                                        {/* Username com cor da Twitch */}
-                                        <span
-                                            className="font-semibold text-sm"
-                                            style={{ color: getColor(call) }}
-                                        >
-                                            {call.displayName}
-                                        </span>
+                        {visibleCalls.map((call) => {
+                            const profileUrl = profilePics.get(call.username.toLowerCase());
 
-                                        {/* Slot name */}
-                                        <p className="text-yellow-400 text-sm font-medium truncate mt-0.5">
-                                            🎰 {call.slotName}
-                                        </p>
+                            return (
+                                <motion.div
+                                    key={call.id}
+                                    initial={{ opacity: 0, x: -50, rotate: -2 }}
+                                    animate={{ opacity: 1, x: 0, rotate: 0 }}
+                                    exit={{ opacity: 0, x: 50 }}
+                                    transition={{ duration: 0.3, type: "spring" }}
+                                    onClick={() => onCallSelect?.(call)}
+                                    className="group flex items-start gap-3"
+                                >
+                                    {/* Avatar */}
+                                    <div
+                                        className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-black text-lg shadow-lg border-2 border-[#DEB066] flex-shrink-0 transform -rotate-3 overflow-hidden"
+                                        style={{ backgroundColor: profileUrl ? 'transparent' : getColor(call) }}
+                                    >
+                                        {profileUrl ? (
+                                            <img
+                                                src={profileUrl}
+                                                alt={call.displayName}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    // Fallback para inicial se imagem falhar
+                                                    (e.target as HTMLImageElement).style.display = 'none';
+                                                }}
+                                            />
+                                        ) : (
+                                            call.displayName.charAt(0).toUpperCase()
+                                        )}
                                     </div>
 
-                                    {/* Timestamp */}
-                                    <span className="text-white/30 text-xs flex-shrink-0">
-                                        {formatTime(call.timestamp)}
-                                    </span>
-                                </div>
-                            </motion.div>
-                        ))}
+                                    {/* Balão de mensagem */}
+                                    <div className="flex-1 relative">
+                                        {/* Seta */}
+                                        <div className="absolute left-0 top-3 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[12px] border-r-[#DEB066] -ml-3" />
+
+                                        {/* Conteúdo */}
+                                        <div className="relative bg-gradient-to-r from-[#DEB066] to-[#F1D08B] rounded-lg border-2 border-[#C9A050] shadow-lg overflow-hidden hover:scale-[1.02] transition-transform cursor-pointer">
+                                            {/* Header */}
+                                            <div className="bg-[#5a2a00] px-3 py-1.5 flex items-center justify-between">
+                                                <span className="text-[#DEB066] font-bold text-sm">
+                                                    {call.displayName}
+                                                </span>
+                                                <button
+                                                    onClick={(e) => hideCall(call.id, e)}
+                                                    className="text-[#DEB066]/50 hover:text-red-300 transition-colors"
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </div>
+
+                                            {/* Slot name */}
+                                            <div className="px-4 py-3">
+                                                <p className="text-[#5a2a00] font-black text-xl leading-tight">
+                                                    {call.slotName}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </AnimatePresence>
                 )}
             </div>
 
-            {/* Footer com contagem */}
-            <div className="px-3 py-2 bg-white/5 border-t border-white/10">
-                <p className="text-white/40 text-xs text-center">
-                    {calls.length} call{calls.length !== 1 ? 's' : ''} registrada{calls.length !== 1 ? 's' : ''}
-                </p>
+            {/* Footer */}
+            <div className="px-4 py-2 border-t border-[#DEB066]/30 text-center">
+                <span className="text-[#DEB066] text-xs font-medium">
+                    {visibleCalls.length} call{visibleCalls.length !== 1 ? 's' : ''} • #{Array.isArray(channels) ? channels.join(' #') : channels}
+                </span>
             </div>
         </div>
     );

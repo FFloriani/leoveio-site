@@ -1,4 +1,4 @@
-// Componente de lista de participantes
+// Lista de participantes - Chinese Casino Style (Reference Match)
 
 'use client';
 
@@ -21,21 +21,32 @@ export default function ParticipantList({
     isLocked = false
 }: ParticipantListProps) {
     return (
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                <Users size={20} />
-                Participantes
-            </h3>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="chinese-card p-5"
+        >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                    <Users size={18} className="text-yellow-500" />
+                    <h3 className="text-lg font-bold text-gold-gradient">Participantes</h3>
+                </div>
+                {/* Delete all button placeholder */}
+                <div className="flex items-center gap-2 text-yellow-600/40">
+                    {/* Future: batch actions */}
+                </div>
+            </div>
 
+            {/* Lista */}
             {participants.length === 0 ? (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="text-center py-8"
-                >
-                    <Users size={48} className="mx-auto text-white/20 mb-3" />
-                    <p className="text-white/50">Nenhum participante adicionado ainda</p>
-                </motion.div>
+                <div className="text-center py-12">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#DEB066]/10 flex items-center justify-center border-2 border-[#DEB066]/30">
+                        <Users size={32} className="text-[#DEB066]" />
+                    </div>
+                    <p className="text-[#DEB066] font-medium text-lg">Nenhum participante adicionado ainda</p>
+                </div>
             ) : (
                 <div className="space-y-3">
                     {participants.map((participant, index) => (
@@ -50,6 +61,6 @@ export default function ParticipantList({
                     ))}
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }

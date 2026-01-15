@@ -1,17 +1,16 @@
-// Componente de cabeçalho da banca ativa
+// Componente de cabeçalho da banca ativa - Chinese Casino Style (EXACT Reference Match)
 
 'use client';
 
 import { motion } from 'framer-motion';
-import { Plus, CheckCircle, Download, ArrowLeft } from 'lucide-react';
+import { Plus, CheckCircle, Coins, Calendar } from 'lucide-react';
 import { Banca } from '../types';
-import { formatDate, formatCurrency, exportToCSV } from '../utils/export';
+import { formatDate, formatCurrency } from '../utils/export';
 
 interface BancaHeaderProps {
     banca: Banca;
     onAddParticipant: () => void;
     onCloseBanca: () => void;
-    onBack: () => void;
     onUpdateFinalBalance: (balance: number) => void;
 }
 
@@ -19,70 +18,77 @@ export default function BancaHeader({
     banca,
     onAddParticipant,
     onCloseBanca,
-    onBack,
     onUpdateFinalBalance
 }: BancaHeaderProps) {
     return (
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 mb-6">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+        <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="chinese-card p-5 mb-5"
+        >
+            {/* Header Row */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
                 <div className="flex-1">
-                    <div className="flex items-center gap-3">
-                        <button
-                            onClick={onBack}
-                            className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                            title="Voltar"
-                        >
-                            <ArrowLeft size={20} />
-                        </button>
-                        <div>
-                            <h2 className="text-2xl font-bold text-white">{banca.title}</h2>
-                            {banca.description && (
-                                <p className="text-white/70 text-sm">{banca.description}</p>
-                            )}
-                            <p className="text-white/50 text-xs mt-1">
-                                Iniciada em {formatDate(banca.startDate)}
-                            </p>
-                        </div>
+                    <h2 className="text-xl font-bold text-[#E8D5B0] tracking-wide">
+                        {banca.title}
+                    </h2>
+                    <div className="flex items-center gap-2 text-[#E8D5B0] text-xs mt-1 font-medium">
+                        <Calendar size={14} />
+                        <span>Iniciada em {formatDate(banca.startDate)}</span>
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                {/* Action Buttons - Cream border style */}
+                <div className="flex flex-wrap gap-3">
                     <motion.button
                         onClick={onAddParticipant}
-                        className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/25 transition-all flex items-center gap-2"
+                        className="btn-chinese-gold flex items-center gap-2"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        <Plus size={18} />
-                        Adicionar
+                        <Plus size={14} strokeWidth={2.5} />
+                        ADICIONAR
                     </motion.button>
 
                     <motion.button
                         onClick={onCloseBanca}
-                        className="px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-lg hover:shadow-lg hover:shadow-red-500/25 transition-all flex items-center gap-2"
+                        className="btn-chinese-red flex items-center gap-2"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        <CheckCircle size={18} />
-                        Encerrar
+                        <CheckCircle size={14} />
+                        ENCERRAR
                     </motion.button>
                 </div>
             </div>
 
-            {/* Saldo Final */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 bg-white/5 rounded-lg border border-white/10">
-                <label className="text-white/70 text-sm whitespace-nowrap">Saldo Final (R$):</label>
-                <input
-                    type="number"
-                    placeholder="0.00"
-                    value={banca.finalBalance || ''}
-                    onChange={(e) => onUpdateFinalBalance(parseFloat(e.target.value) || 0)}
-                    className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-green-500/50"
-                />
-                <span className="text-green-400 font-bold text-lg">
-                    {formatCurrency(banca.finalBalance)}
-                </span>
+            {/* Saldo Final Box - Golden background like reference */}
+            <div className="inner-card">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-700 flex items-center justify-center">
+                            <Coins size={16} className="text-white" />
+                        </div>
+                        <label className="text-[#3d1a00] font-bold text-sm uppercase">Saldo Final</label>
+                    </div>
+
+                    <div className="flex-1 flex items-center gap-3">
+                        <input
+                            type="number"
+                            placeholder="R$ 0.00"
+                            value={banca.finalBalance || ''}
+                            onChange={(e) => onUpdateFinalBalance(parseFloat(e.target.value) || 0)}
+                            className="chinese-input flex-1 px-4 py-2 text-base font-bold"
+                        />
+
+                        <div className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-800 to-red-900 border-2 border-[#DEB066]">
+                            <span className="text-[#DEB066] font-bold text-lg">
+                                {formatCurrency(banca.finalBalance)}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </motion.div>
     );
 }

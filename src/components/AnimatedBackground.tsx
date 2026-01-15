@@ -9,17 +9,17 @@ interface AnimatedBackgroundProps {
   children?: React.ReactNode;
 }
 
-const AnimatedBackground = ({ 
-  variant = 'ocean', 
+const AnimatedBackground = ({
+  variant = 'ocean',
   intensity = 'medium',
-  children 
+  children
 }: AnimatedBackgroundProps) => {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
@@ -79,7 +79,7 @@ const AnimatedBackground = ({
     <div className="relative overflow-hidden">
       {/* Base gradient background - Beach vibe */}
       <div className={`absolute inset-0 bg-gradient-to-br ${styles.primary} opacity-30`} />
-      
+
       {/* Beach wave layers - More natural and subtle */}
       <div className="absolute inset-0">
         {/* Wave 1 - Subtle ocean movement */}
@@ -144,7 +144,7 @@ const AnimatedBackground = ({
             const randomX = Math.random() * 100;
             const randomY = Math.random() * 100;
             const randomSize = Math.random() * 3 + 2;
-            
+
             return (
               <motion.div
                 key={i}
@@ -206,7 +206,7 @@ const AnimatedBackground = ({
       />
 
       {/* Very subtle texture pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-3"
         style={{
           backgroundImage: `

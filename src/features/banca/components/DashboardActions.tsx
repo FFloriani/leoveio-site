@@ -1,9 +1,9 @@
-// Componente com os botões de ação do dashboard
+// Componente com os botões de ação do dashboard - Chinese Casino Style
 
 'use client';
 
 import { motion } from 'framer-motion';
-import { Plus, History } from 'lucide-react';
+import { Plus, Clock } from 'lucide-react';
 
 interface DashboardActionsProps {
     onCreateBanca: () => void;
@@ -21,26 +21,58 @@ export default function DashboardActions({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
         >
+            {/* Nova Banca - Gold Theme */}
             <motion.button
                 onClick={onCreateBanca}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 p-6 rounded-xl text-white text-center hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
-                whileHover={{ scale: 1.02 }}
+                className="group relative chinese-card glow-gold p-8 text-center overflow-hidden"
+                whileHover={{ scale: 1.02, y: -4 }}
                 whileTap={{ scale: 0.98 }}
             >
-                <Plus size={32} className="mx-auto mb-3" />
-                <h3 className="text-xl font-semibold mb-2">Nova Banca</h3>
-                <p className="text-white/80">Criar nova banca compartilhada</p>
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Icon container */}
+                <motion.div
+                    className="relative w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-amber-600 flex items-center justify-center shadow-lg border-4 border-yellow-300/50"
+                    whileHover={{ rotate: [0, -5, 5, 0] }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <Plus size={40} className="text-red-900" strokeWidth={3} />
+                </motion.div>
+
+                <h3 className="text-2xl font-black text-gold-gradient mb-2 tracking-wider">
+                    NOVA BANCA
+                </h3>
+                <p className="text-yellow-200/60 text-sm">
+                    Criar nova banca compartilhada
+                </p>
             </motion.button>
 
+            {/* Histórico - Red/Gold Theme */}
             <motion.button
                 onClick={onShowHistory}
-                className="bg-gradient-to-r from-blue-500 to-cyan-500 p-6 rounded-xl text-white text-center hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
-                whileHover={{ scale: 1.02 }}
+                className="group relative chinese-card p-8 text-center overflow-hidden"
+                whileHover={{ scale: 1.02, y: -4 }}
                 whileTap={{ scale: 0.98 }}
             >
-                <History size={32} className="mx-auto mb-3" />
-                <h3 className="text-xl font-semibold mb-2">Histórico</h3>
-                <p className="text-white/80">Ver bancas anteriores</p>
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Icon container */}
+                <motion.div
+                    className="relative w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-red-500 via-red-600 to-red-800 flex items-center justify-center shadow-lg border-4 border-yellow-500/50"
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                    <Clock size={40} className="text-yellow-400" strokeWidth={2} />
+                </motion.div>
+
+                <h3 className="text-2xl font-black text-gold-gradient mb-2 tracking-wider">
+                    HISTÓRICO
+                </h3>
+                <p className="text-yellow-200/60 text-sm">
+                    Ver bancas anteriores
+                </p>
             </motion.button>
         </motion.div>
     );

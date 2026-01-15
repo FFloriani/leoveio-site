@@ -3,8 +3,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Banca, Participant } from '../types';
-import { calculatePercentages, calculateDistribution, generateId } from '../utils/calculations';
+import { Banca } from '../types';
+import { calculateDistribution, generateId } from '../utils/calculations';
 
 const STORAGE_KEYS = {
     BANCAS: 'leobanca_bancas',
