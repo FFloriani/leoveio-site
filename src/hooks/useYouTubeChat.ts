@@ -50,11 +50,25 @@ export function useYouTubeChat({
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const lastCallIdRef = useRef<string | null>(null);
 
+    // URL base - usa Railway em produção, API local em dev
+    const getApiUrl = () => {
+        // Se tiver variável de ambiente, usa Railway
+        if (process.env.NEXT_PUBLIC_YOUTUBE_CHAT_URL) {
+            return process.env.NEXT_PUBLIC_YOUTUBE_CHAT_URL;
+        }
+        // Fallback para API local
+        return '/api/youtube-chat';
+    };
+
     const fetchCalls = useCallback(async () => {
         if (!enabled) return;
 
         try {
-            const response = await fetch('/api/youtube-chat');
+            const baseUrl = getApiUrl();
+            const isExternal = baseUrl.startsWith('http');
+            const url = isExternal ? `${baseUrl}/calls` : baseUrl;
+
+            const response = await fetch(url);
             const data: YouTubeChatResponse = await response.json();
 
             setIsConnected(data.isConnected);
@@ -87,7 +101,11 @@ export function useYouTubeChat({
 
     const reconnect = useCallback(async () => {
         try {
-            await fetch('/api/youtube-chat?action=reconnect');
+            const baseUrl = getApiUrl();
+            const isExternal = baseUrl.startsWith('http');
+            const url = isExternal ? `${baseUrl}/reconnect` : `${baseUrl}?action=reconnect`;
+
+            await fetch(url, { method: isExternal ? 'POST' : 'GET' });
             await fetchCalls();
         } catch (err) {
             console.error('[YouTube Chat] Erro ao reconectar:', err);
@@ -96,7 +114,11 @@ export function useYouTubeChat({
 
     const clearCalls = useCallback(async () => {
         try {
-            await fetch('/api/youtube-chat?action=clear');
+            const baseUrl = getApiUrl();
+            const isExternal = baseUrl.startsWith('http');
+            const url = isExternal ? `${baseUrl}/calls` : `${baseUrl}?action=clear`;
+
+            await fetch(url, { method: isExternal ? 'DELETE' : 'GET' });
             setCalls([]);
             lastCallIdRef.current = null;
         } catch (err) {
