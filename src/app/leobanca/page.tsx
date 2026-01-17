@@ -33,7 +33,8 @@ export default function LeoBancaPage() {
     createBanca,
     closeBanca,
     reopenBanca,
-    updateFinalBalance
+    updateFinalBalance,
+    updateCurrentBanca
   } = useBanca();
 
   const {
@@ -66,6 +67,14 @@ export default function LeoBancaPage() {
     setLocalBanca(currentBanca);
   }
 
+  // Helper para atualizar local e persistir no hook
+  const updateLocalAndPersist = (updated: typeof currentBanca) => {
+    if (updated) {
+      setLocalBanca(updated);
+      updateCurrentBanca(updated);
+    }
+  };
+
   // Handlers
   const handleCreateBanca = (title: string, description: string) => {
     createBanca(title, description);
@@ -74,9 +83,7 @@ export default function LeoBancaPage() {
   const handleAddParticipant = () => {
     if (!localBanca) return;
     const updated = addParticipant(localBanca);
-    if (updated) {
-      setLocalBanca(updated);
-    }
+    updateLocalAndPersist(updated);
   };
 
   const handleEditParticipant = (participant: typeof editingParticipant) => {
@@ -88,20 +95,20 @@ export default function LeoBancaPage() {
   const handleUpdateParticipant = () => {
     if (!localBanca) return;
     const updated = updateParticipant(localBanca);
-    if (updated) {
-      setLocalBanca(updated);
-    }
+    updateLocalAndPersist(updated);
   };
 
   const handleRemoveParticipant = (participantId: string) => {
     if (!localBanca) return;
     const updated = removeParticipant(localBanca, participantId);
-    setLocalBanca(updated);
+    updateLocalAndPersist(updated);
   };
 
   const handleUpdateFinalBalance = (balance: number) => {
     if (!localBanca) return;
-    setLocalBanca({ ...localBanca, finalBalance: balance });
+    const updated = { ...localBanca, finalBalance: balance };
+    setLocalBanca(updated);
+    updateCurrentBanca(updated);
     updateFinalBalance(balance);
   };
 

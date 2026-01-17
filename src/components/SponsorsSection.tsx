@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ExternalLink, Gift, Star } from 'lucide-react';
+import { ExternalLink, Gift, Star, Copy, Check } from 'lucide-react';
 import Image from 'next/image';
-import AnimatedBackground from './AnimatedBackground';
+import { useState } from 'react';
 
 interface ActiveSponsor {
   name: string;
@@ -11,7 +11,8 @@ interface ActiveSponsor {
   url: string;
   coupon?: string;
   category: string;
-  color: string;
+  color: string; // Tailwind gradient classes or hex
+  glowColor: string; // Hex for shadow
   iconSrc: string;
   isSpecial?: boolean;
   customCreative?: string;
@@ -19,7 +20,6 @@ interface ActiveSponsor {
 
 interface PreviousSponsor {
   name: string;
-  category: string;
   logo: string;
 }
 
@@ -28,331 +28,249 @@ interface SponsorsProps {
 }
 
 const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
+  const [copiedCoupon, setCopiedCoupon] = useState<string | null>(null);
+
+  const handleCopy = (coupon: string) => {
+    navigator.clipboard.writeText(coupon);
+    setCopiedCoupon(coupon);
+    setTimeout(() => setCopiedCoupon(null), 2000);
+  };
+
   const activeSponsors: ActiveSponsor[] = [
     {
       name: 'Riot Games',
-      description: 'Vanguarda Hextech - Wild Rift | Parceria oficial como embaixador da comunidade',
+      description: 'Vanguarda Hextech - Wild Rift | Parceria oficial como embaixador da comunidade.',
       url: 'https://wildrift.leagueoflegends.com/',
-      category: 'Gaming Partner',
-      color: 'from-yellow-500 via-blue-500 to-cyan-400',
+      category: 'PARCEIRO OFICIAL',
+      color: 'text-[#00FFB2]',
+      glowColor: '#00FFB2',
       iconSrc: '/riotgames.png',
       isSpecial: true
     },
     {
-      name: 'Growth Suplementos',
-      description: 'Os melhores suplementos para potencializar seu desempenho',
-      url: 'https://www.gsuplementos.com.br/?cupom=LEOVEIO&fbclid=PAb21jcAONiY9leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaeyqQnebWFfIdeR1VrjiJ7gl0iYCNxMluHqYG6dNmiyPkZQvTCQLBhw_TN7sg_aem_nlLLdZiSaDIwodMtFyx90Q',
-      coupon: 'LEOVEIO ATÉ 14%',
-      category: 'Fitness',
-      color: 'from-green-500 to-emerald-500',
+      name: 'Growth',
+      description: 'Os melhores suplementos para potencializar seu desempenho nos treinos.',
+      url: 'https://www.gsuplementos.com.br/?cupom=LEOVEIO',
+      coupon: 'LEOVEIO',
+      category: 'SUPLEMENTOS',
+      color: 'text-[#DEB066]',
+      glowColor: '#DEB066',
       iconSrc: '/growth.png',
       customCreative: '/growthcupom.png'
     },
     {
       name: 'Superbet',
-      description: 'A melhor casa de apostas do Brasil. Bônus exclusivo para a comunidade LEOVEIO!',
+      description: 'A melhor casa de apostas do Brasil. Bônus exclusivo com meu cupom!',
       url: 'https://superbet.bet.br/registro?bonus=LEOVEIO',
       coupon: 'LEOVEIO',
-      category: 'Apostas',
-      color: 'from-red-500 to-yellow-500',
+      category: 'BETTING',
+      color: 'text-[#FFD700]',
+      glowColor: '#FFD700',
       iconSrc: '/superbet.jpeg',
       customCreative: '/superbet.jpeg'
     },
     {
       name: 'Liveup',
-      description: 'Produtos naturais e saudáveis para uma vida melhor',
-      url: 'https://livup.com.br/?utm_source=instagram&utm_medium=influencers&utm_campaign=creator_awon_leoveio',
-      coupon: 'LEOVEIO ATÉ 25%',
-      category: 'Lifestyle',
-      color: 'from-blue-500 to-cyan-500',
+      description: 'Alimentação saudável e prática para o seu dia a dia.',
+      url: 'https://livup.com.br/',
+      coupon: 'LEOVEIO',
+      category: 'LIFESTYLE',
+      color: 'text-[#00BFFF]',
+      glowColor: '#00BFFF',
       iconSrc: '/liveup.jpg'
     }
   ];
 
   const previousSponsors: PreviousSponsor[] = [
-    { name: 'Intel', category: 'Tech', logo: '/intel.png' },
-    { name: 'Coca-Cola', category: 'Bebidas', logo: '/cocacola.jpg' },
-    { name: 'PicPay', category: 'Fintech', logo: '/picpay.png' },
-    { name: 'Santander', category: 'Banco', logo: '/santander.png' },
-    { name: 'Bet365', category: 'Gaming', logo: '/bet365.png' },
-    { name: 'Lenovo', category: 'Tech', logo: '/lenovo.png' },
-    { name: 'Estrela Bet', category: 'Gaming', logo: '/estrelabet.png' },
-    { name: 'ALFABET', category: 'Gaming', logo: '/alfabet.png' },
-    { name: 'Heineken', category: 'Bebidas', logo: '/heineken.png' },
-    { name: 'Old Spice', category: 'Cuidados', logo: '/oldspice.png' },
-    { name: 'TIM', category: 'Telecom', logo: '/tim.jpeg' },
-    { name: 'Johnnie Walker', category: 'Bebidas', logo: '/johnnie walker.png' },
-    { name: 'Blizzard', category: 'Gaming', logo: '/blizzard.png' },
-    { name: 'Estácio', category: 'Educação', logo: '/estacio.png' },
-    { name: 'Netflix', category: 'Streaming', logo: '/netflix.jpeg' }
+    { name: 'Intel', logo: '/intel.png' },
+    { name: 'Coca-Cola', logo: '/cocacola.jpg' },
+    { name: 'PicPay', logo: '/picpay.png' },
+    { name: 'Santander', logo: '/santander.png' },
+    { name: 'Bet365', logo: '/bet365.png' },
+    { name: 'Lenovo', logo: '/lenovo.png' },
+    { name: 'Estrela Bet', logo: '/estrelabet.png' },
+    { name: 'Heineken', logo: '/heineken.png' },
+    { name: 'Old Spice', logo: '/oldspice.png' },
+    { name: 'TIM', logo: '/tim.jpeg' },
+    { name: 'Netflix', logo: '/netflix.jpeg' }
   ];
 
   return (
-    <AnimatedBackground variant="tropical" intensity="medium">
-      <section className="relative py-20">
-        <div className="relative z-10 container mx-auto px-4">
-          {/* Section Header */}
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-400/30 rounded-full mb-6">
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-              <span className="text-sm text-purple-300 font-semibold tracking-wider uppercase">Parcerias Estratégicas</span>
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-            </div>
+    <section className="relative py-24 bg-[#050b0c] overflow-hidden" id="parcerias">
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#DEB066]/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#DEB066]/20 to-transparent" />
 
-            <h2 className="text-4xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 mb-4 drop-shadow-lg">
-              Parceiros & Patrocinadores
-            </h2>
-            <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md">
-              Parcerias estratégicas que impulsionam o crescimento da comunidade e oferecem benefícios exclusivos
-            </p>
-          </motion.div>
+      <div className="container mx-auto px-4 relative z-10">
 
-          {/* Active Sponsors - Main Partners */}
-          <div className="mb-20">
+        {/* Header */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div className="inline-block px-4 py-1 rounded-full border border-[#DEB066]/30 bg-[#DEB066]/5 mb-4">
+            <span className="text-[#DEB066] text-xs font-bold tracking-[0.2em] uppercase">Patrocínios</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter drop-shadow-xl">
+            Parcerias <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DEB066] to-[#F1D08B]">Estratégicas</span>
+          </h2>
+          <div className="w-24 h-1 bg-[#DEB066] mx-auto rounded-full shadow-[0_0_15px_rgba(222,176,102,0.4)] mt-4" />
+        </motion.div>
+
+        {/* Active Sponsors Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24 max-w-7xl mx-auto">
+          {activeSponsors.map((sponsor, index) => (
             <motion.div
-              className="text-center mb-12"
-              initial={{ opacity: 0, y: 20 }}
+              key={index}
+              className="bg-[#0a0f10] border border-[#DEB066]/10 rounded-xl overflow-hidden group hover:border-[#DEB066]/50 hover:shadow-[0_0_20px_rgba(222,176,102,0.1)] transition-all duration-300 relative flex flex-col w-full"
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent flex-1"></div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-white flex items-center gap-3">
-                  <Star className="w-8 h-8 text-yellow-400" />
-                  Parceiros Ativos
-                  <Star className="w-8 h-8 text-yellow-400" />
-                </h3>
-                <div className="h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent flex-1"></div>
+              {/* Special Badge */}
+              {sponsor.isSpecial && (
+                <div className="absolute top-3 right-3 z-20">
+                  <div className="px-2 py-1 bg-[#DEB066] text-black text-[10px] font-black uppercase rounded shadow-lg flex items-center gap-1">
+                    <Star size={10} fill="black" /> Oficial
+                  </div>
+                </div>
+              )}
+
+              {/* Image / Creative Area */}
+              <div className="h-80 w-full relative bg-[#151a1c] overflow-hidden border-b border-[#DEB066]/10 group-hover:border-[#DEB066]/30 transition-colors">
+                {sponsor.customCreative ? (
+                  <>
+                    {/* Blurred Background for Fill */}
+                    <div className="absolute inset-0 opacity-40 blur-2xl scale-125">
+                      <Image
+                        src={sponsor.customCreative}
+                        alt=""
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    {/* Main Image - Maximized */}
+                    <div className="absolute inset-0">
+                      <Image
+                        src={sponsor.customCreative}
+                        alt={sponsor.name}
+                        fill
+                        className="object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1a1f20] to-[#050b0c]">
+                    <Image
+                      src={sponsor.iconSrc}
+                      alt={sponsor.name}
+                      width={200}
+                      height={120}
+                      className="object-contain opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 drop-shadow-lg"
+                    />
+                  </div>
+                )}
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f10] to-transparent opacity-30" />
               </div>
 
-              <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl p-4 border border-purple-400/20 max-w-md mx-auto">
-                <p className="text-white/80 text-sm">
-                  <span className="text-purple-400 font-bold">Descontos exclusivos!</span> Use o cupom <span className="text-yellow-400 font-bold">LEOVEIO</span>
+              {/* Content */}
+              <div className="p-6 pt-6 flex-1 flex flex-col relative z-10">
+                <div className="mb-4 text-center">
+                  <div className={`text-[10px] font-black tracking-widest uppercase mb-2 ${sponsor.color}`}>
+                    {sponsor.category}
+                  </div>
+                  <h3 className="text-2xl font-black text-white uppercase italic tracking-wide">{sponsor.name}</h3>
+                </div>
+
+                <p className="text-sm text-slate-400 mb-6 flex-1 text-center leading-relaxed">
+                  {sponsor.description}
                 </p>
-              </div>
-            </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {activeSponsors.map((sponsor, index) => (
-                <motion.div
-                  key={sponsor.name}
-                  className="group relative"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -10 }}
-                >
-                  {/* Special Partner Badge */}
-                  {sponsor.isSpecial && (
-                    <div className="absolute -top-3 -right-3 z-20">
-                      <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                        🏆 OFICIAL
+                <div className="space-y-3">
+                  {/* Coupon Code */}
+                  {sponsor.coupon && (
+                    <div className="bg-[#DEB066]/5 border border-[#DEB066]/20 dashed rounded-lg p-3 flex items-center justify-between group/coupon hover:bg-[#DEB066]/10 transition-colors">
+                      <div className="text-xs text-[#DEB066] font-bold">
+                        CUPOM: <span className="text-white text-sm ml-2 tracking-widest font-black">{sponsor.coupon}</span>
                       </div>
+                      <button
+                        onClick={() => sponsor.coupon && handleCopy(sponsor.coupon)}
+                        className="text-[#DEB066]/70 hover:text-[#DEB066] transition-colors p-1"
+                        title="Copiar Cupom"
+                      >
+                        {copiedCoupon === sponsor.coupon ? <Check size={16} /> : <Copy size={16} />}
+                      </button>
                     </div>
                   )}
 
-                  {/* Glowing Border Effect */}
-                  <div className={`absolute -inset-1 bg-gradient-to-r ${sponsor.color} rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition duration-300`}></div>
-
-                  {/* Card Content */}
-                  <div className="relative bg-black/40 backdrop-blur-md rounded-2xl overflow-hidden border border-white/20 h-full shadow-2xl">
-                    {/* Custom Creative Background - Only for sponsors with customCreative */}
-                    {sponsor.customCreative && (
-                      <div className="absolute inset-0 opacity-15">
-                        <Image
-                          src={sponsor.customCreative}
-                          alt={`${sponsor.name} creative`}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                      </div>
-                    )}
-
-                    <div className="relative z-10 p-6">
-                      {/* Header */}
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="p-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/10">
-                          <Image
-                            src={sponsor.iconSrc}
-                            alt={`${sponsor.name} logo`}
-                            width={32}
-                            height={32}
-                            className="rounded-lg object-contain"
-                          />
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold text-white drop-shadow-md">{sponsor.name}</h3>
-                          <span className="text-sm text-white/70">{sponsor.category}</span>
-                        </div>
-                      </div>
-
-                      {/* Custom Creative Display */}
-                      {sponsor.customCreative && (
-                        <div className="mb-6 relative">
-                          <div className="relative aspect-[3/4] max-w-[200px] mx-auto rounded-xl overflow-hidden border-2 border-white/20 shadow-lg">
-                            <Image
-                              src={sponsor.customCreative}
-                              alt={`${sponsor.name} cupom criativo`}
-                              fill
-                              className="object-cover"
-                              sizes="200px"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Description */}
-                      <p className="text-white/90 mb-6 leading-relaxed drop-shadow-sm text-sm">
-                        {sponsor.description}
-                      </p>
-
-                      {/* Coupon - Only if exists */}
-                      {sponsor.coupon && (
-                        <div className="mb-6 p-4 bg-white/20 rounded-lg border border-white/30 backdrop-blur-sm">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <span className="text-sm text-white/80">
-                                {sponsor.name === 'Liveup' ? 'Cupom de Desconto (1ª Compra)' :
-                                  sponsor.name === 'Growth Suplementos' ? 'Cupom de Desconto (Recorrente)' :
-                                    'Cupom de Desconto'}
-                              </span>
-                              <div className="flex items-center gap-2 mt-1">
-                                <code className="text-lg font-bold text-purple-300 drop-shadow-md">{sponsor.coupon.toUpperCase()}</code>
-                              </div>
-                            </div>
-                            <motion.button
-                              className="px-3 py-2 bg-purple-600/30 border border-purple-400/50 rounded-lg text-purple-200 text-sm hover:bg-purple-600/50 transition-colors backdrop-blur-sm"
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => navigator.clipboard.writeText(sponsor.coupon || '')}
-                            >
-                              Copiar
-                            </motion.button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Action Button */}
-                      <motion.a
-                        href={sponsor.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold text-white bg-gradient-to-r ${sponsor.color} hover:shadow-lg transition-all duration-300 shadow-lg`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <ExternalLink size={18} />
-                        <span>Acessar {sponsor.name}</span>
-                      </motion.a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Previous Collaborations - Continuous Slide */}
-          <motion.div
-            className="mt-16 pt-16 border-t border-white/10"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <div className="text-center mb-12">
-              <h3 className="text-xl lg:text-2xl font-bold text-white/90 mb-4">
-                Colaborações Anteriores
-              </h3>
-              <p className="text-white/60 text-sm">
-                Marcas que já confiaram no trabalho do LEOVEIO
-              </p>
-            </div>
-
-            {/* Continuous Slider */}
-            <div className="relative overflow-hidden">
-              <motion.div
-                className="flex gap-8 items-center"
-                animate={{ x: ['0%', '-100%'] }}
-                transition={{
-                  duration: 30,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
-                style={{ width: '200%' }}
-              >
-                {/* First set */}
-                {previousSponsors.map((sponsor) => (
-                  <div
-                    key={`first-${sponsor.name}`}
-                    className="flex-shrink-0 w-24 h-24 bg-white/5 backdrop-blur-sm rounded-xl p-3 border border-white/10 hover:border-white/20 transition-all duration-300"
+                  {/* Link Button */}
+                  <a
+                    href={sponsor.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-3 rounded-lg text-xs font-black uppercase tracking-wider bg-gradient-to-r from-[#DEB066] to-[#B88A44] text-black hover:shadow-[0_0_15px_rgba(222,176,102,0.4)] hover:-translate-y-0.5 transition-all duration-300"
                   >
-                    <Image
-                      src={sponsor.logo}
-                      alt={`${sponsor.name} logo`}
-                      width={72}
-                      height={72}
-                      className="w-full h-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                    />
-                  </div>
-                ))}
-
-                {/* Duplicate set for seamless loop */}
-                {previousSponsors.map((sponsor) => (
-                  <div
-                    key={`second-${sponsor.name}`}
-                    className="flex-shrink-0 w-24 h-24 bg-white/5 backdrop-blur-sm rounded-xl p-3 border border-white/10 hover:border-white/20 transition-all duration-300"
-                  >
-                    <Image
-                      src={sponsor.logo}
-                      alt={`${sponsor.name} logo`}
-                      width={72}
-                      height={72}
-                      className="w-full h-full object-contain opacity-70 hover:opacity-100 transition-opacity"
-                    />
-                  </div>
-                ))}
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Call to Action - Clickable */}
-          <motion.div
-            className="text-center mt-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <motion.button
-              onClick={onOpenContact}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20 backdrop-blur-sm border border-white/30 rounded-full shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 cursor-pointer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Gift className="w-6 h-6 text-purple-300" />
-              <div className="text-center">
-                <div className="text-white/95 font-medium drop-shadow-sm">
-                  Quer ser nosso parceiro?
-                </div>
-                <div className="text-white/70 text-sm">
-                  Entre em contato
+                    <span>Acessar Site</span>
+                    <ExternalLink size={14} className="stroke-[3px]" />
+                  </a>
                 </div>
               </div>
-            </motion.button>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
-      </section>
-    </AnimatedBackground>
+
+        {/* Previous Sponsors Marquee */}
+        <div className="border-t border-[#DEB066]/10 pt-16">
+          <p className="text-center text-slate-500 text-xs font-bold uppercase tracking-[0.3em] mb-10 opacity-70">
+            Parceiros que fizeram história
+          </p>
+
+          <div className="relative overflow-hidden w-full mask-gradient-x py-4 bg-black/20">
+            <motion.div
+              className="flex gap-16 items-center whitespace-nowrap w-max"
+              animate={{ x: ["0%", "-300%"] }}
+              transition={{
+                duration: 120,
+                ease: "linear",
+                repeat: Infinity
+              }}
+            >
+              {/* Double output for infinite scroll */}
+              {[...previousSponsors, ...previousSponsors].map((sponsor, idx) => (
+                <div key={`${sponsor.name}-${idx}`} className="w-28 h-14 relative opacity-40 hover:opacity-100 transition-all duration-300 grayscale hover:grayscale-0 cursor-help transform hover:scale-110" title={sponsor.name}>
+                  <Image
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Contact CTA */}
+        <div className="mt-24 text-center">
+          <motion.button
+            onClick={onOpenContact}
+            className="group inline-flex items-center gap-3 px-10 py-5 bg-[#0a0f10] border border-[#DEB066] text-[#DEB066] font-black uppercase tracking-wider rounded-full shadow-[0_0_20px_rgba(222,176,102,0.1)] hover:bg-[#DEB066] hover:text-black hover:shadow-[0_0_40px_rgba(222,176,102,0.4)] transition-all duration-300"
+            whileTap={{ scale: 0.95 }}
+          >
+            <Gift size={20} className="group-hover:rotate-12 transition-transform stroke-[2.5px]" />
+            <span>Seja um Parceiro</span>
+          </motion.button>
+        </div>
+
+      </div>
+
+
+    </section >
   );
 };
 

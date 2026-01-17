@@ -49,18 +49,27 @@ body {
   min-height: 100vh;
 }
 
-/* ===== SCROLLBAR ===== */
+/* ===== SCROLLBAR (Casino Gold Style) ===== */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--red-dark);
+  background: #050b0c;
+  /* Hero bg color */
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--cream);
-  border-radius: 4px;
+  background: linear-gradient(180deg, #b88a44 0%, #e6c587 50%, #b88a44 100%);
+  border-radius: 5px;
+  border: 2px solid #050b0c;
+  box-shadow: 0 0 10px rgba(222, 176, 102, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d4a75b 0%, #f1d08b 50%, #d4a75b 100%);
+  box-shadow: 0 0 15px rgba(222, 176, 102, 0.5);
 }
 
 /* ===== SELECTION ===== */
@@ -265,4 +274,24 @@ a,
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ===== ANIMATIONS ===== */
+/* ===== ANIMATIONS ===== */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.mask-gradient-x {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }

@@ -8,27 +8,34 @@ import { SocialPlatform } from '@/types/sidebar.types';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+import { usePathname } from 'next/navigation';
+
 interface SocialSidebarProps {
   className?: string;
 }
 
 export const SocialSidebar = ({ className = '' }: SocialSidebarProps) => {
-  const { 
-    activePanel, 
-    isExpanded, 
-    isMobile, 
-    togglePanel, 
-    closePanel 
+  const {
+    activePanel,
+    isExpanded,
+    isMobile,
+    togglePanel,
+    closePanel
   } = useSocialSidebar();
+
+  const pathname = usePathname();
+
+  // Não mostrar na home (HeroBanner já tem)
+  if (pathname === '/') return null;
 
   const platforms: Array<{
     type: SocialPlatform;
     hasContent: boolean;
   }> = [
-    { type: 'youtube', hasContent: true },
-    { type: 'instagram', hasContent: false },
-    { type: 'twitter', hasContent: false },
-  ];
+      { type: 'youtube', hasContent: true },
+      { type: 'instagram', hasContent: false },
+      { type: 'twitter', hasContent: false },
+    ];
 
   // Desktop Sidebar
   if (!isMobile) {
@@ -80,11 +87,11 @@ export const SocialSidebar = ({ className = '' }: SocialSidebarProps) => {
         whileTap={{ scale: 0.9 }}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ 
-          type: 'spring', 
-          stiffness: 400, 
+        transition={{
+          type: 'spring',
+          stiffness: 400,
           damping: 15,
-          delay: 0.3 
+          delay: 0.3
         }}
         aria-label="Abrir redes sociais"
       >
@@ -95,7 +102,7 @@ export const SocialSidebar = ({ className = '' }: SocialSidebarProps) => {
           height={56}
           className="w-full h-full object-cover rounded-full"
         />
-        
+
         {/* Indicador de conteúdo disponível */}
         <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
           <div className="w-2 h-2 bg-white rounded-full" />

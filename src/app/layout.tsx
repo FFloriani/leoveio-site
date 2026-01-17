@@ -18,16 +18,16 @@ export const metadata: Metadata = {
   title: "LEOVEIO - Streamer Profissional | Vanguarda Hextech Wild Rift",
   description: "Site oficial do streamer LEOVEIO - Vanguarda Hextech da Riot Games, Campeão Internacional de Wild Rift. Lives profissionais de Clash Royale, Wild Rift e muito mais. Seg-Sex das 17:30 às 22h.",
   keywords: [
-    "LEOVEIO", 
-    "streamer profissional", 
-    "Vanguarda Hextech", 
-    "Wild Rift", 
-    "Clash Royale", 
-    "Riot Games", 
-    "campeão internacional", 
-    "gaming", 
-    "twitch", 
-    "kick", 
+    "LEOVEIO",
+    "streamer profissional",
+    "Vanguarda Hextech",
+    "Wild Rift",
+    "Clash Royale",
+    "Riot Games",
+    "campeão internacional",
+    "gaming",
+    "twitch",
+    "kick",
     "youtube",
     "streamer brasileiro",
     "eSports",
@@ -91,13 +91,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning={true}>
-      <head>
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="shortcut icon" href="/favicon-32x32.png" />
-        <link rel="apple-touch-icon" href="/favicon-32x32.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-slate-800 via-blue-900 to-teal-800 min-h-screen overflow-x-hidden professional-fade-in`}
         suppressHydrationWarning={true}
