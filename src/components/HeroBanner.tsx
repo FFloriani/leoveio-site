@@ -60,15 +60,25 @@ const HeroBanner = () => {
     ];
 
     return (
-        <section className="relative w-full h-screen overflow-hidden" id="home">
+        <section className="relative w-full h-[100vh] md:h-screen overflow-hidden" id="home">
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
+                {/* Mobile Background */}
                 <Image
-                    src="/herobanner8.png"
-                    alt="Leoveio Hero Background"
+                    src="/herobanner.mobile2.png"
+                    alt="Leoveio Hero Background Mobile"
                     fill
                     priority
-                    className="object-cover object-center"
+                    className="object-cover object-top md:hidden"
+                    quality={100}
+                />
+                {/* Desktop Background */}
+                <Image
+                    src="/herobanner8.png"
+                    alt="Leoveio Hero Background Desktop"
+                    fill
+                    priority
+                    className="hidden md:block object-cover object-center"
                     quality={100}
                 />
                 {/* Gradient Overlay for Text Readability */}
@@ -107,12 +117,12 @@ const HeroBanner = () => {
             </div>
 
             {/* Main Content (Center) */}
-            <div className="relative z-10 w-full h-full flex flex-col items-center justify-end pb-32 md:pb-28 pointer-events-none">
+            <div className="relative z-10 w-full h-full flex flex-col items-center justify-end pb-12 md:pb-28 pointer-events-none">
                 <div className="container mx-auto px-4 flex flex-col items-center text-center">
 
                     {/* Info Text */}
                     <motion.div
-                        className="mt-6 md:mt-8 flex flex-col md:flex-row items-center gap-2 md:gap-4 text-xs md:text-sm font-bold text-white/90 drop-shadow-md"
+                        className="mt-6 md:mt-8 mb-6 md:mb-12 hidden md:flex md:flex-row items-center gap-2 md:gap-4 text-xs md:text-sm font-bold text-white/90 drop-shadow-md"
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
@@ -125,26 +135,49 @@ const HeroBanner = () => {
                             <span className="text-[#DEB066]">Conquistas:</span> Vanguarda Hextech, Campeão Internacional Wild Rift, Transformação 70kg
                         </p>
                     </motion.div>
-                </div>
-            </div>
 
-            {/* Bottom Buttons */}
-            <div className="absolute bottom-12 left-0 right-0 z-20 flex justify-center items-center pointer-events-auto">
-                <div className="flex gap-6">
-                    {bottomButtons.map((btn, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.6 + (index * 0.1) }}
-                        >
-                            <Link href={btn.href}>
-                                <div className={`px-8 py-3 rounded-xl border-2 backdrop-blur-md font-black italic uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl ${btn.style}`}>
-                                    {btn.label}
+                    {/* Mobile Social Links Row */}
+                    <div className="flex md:hidden gap-4 mb-6 justify-center flex-wrap pointer-events-auto">
+                        {socialLinks.map((link, index) => (
+                            <motion.a
+                                key={index}
+                                href={link.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="group relative flex flex-col items-center gap-1"
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.8 + (index * 0.1) }}
+                            >
+                                <div className="w-10 h-10 flex items-center justify-center bg-black/60 border border-white/10 rounded-full shadow-lg text-white group-hover:bg-[#9A1207] group-hover:border-[#DEB066] transition-all duration-300 backdrop-blur-sm">
+                                    {/* Resize icon for mobile */}
+                                    <div className="transform scale-75 group-active:scale-95 transition-transform">
+                                        {link.icon}
+                                    </div>
                                 </div>
-                            </Link>
-                        </motion.div>
-                    ))}
+                                <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{link.label}</span>
+                            </motion.a>
+                        ))}
+                    </div>
+
+                    {/* Bottom Buttons - Integrated into Flow */}
+                    <div className="grid grid-cols-1 gap-3 w-full max-w-xs md:max-w-none md:flex md:gap-6 pointer-events-auto">
+                        {bottomButtons.map((btn, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.6 + (index * 0.1) }}
+                                className="w-full md:w-auto"
+                            >
+                                <Link href={btn.href} className="block w-full">
+                                    <div className={`w-full text-center px-4 py-3 md:px-8 bg-black/80 rounded-xl border-2 backdrop-blur-md font-black italic uppercase tracking-wider transition-all duration-300 transform active:scale-95 md:hover:-translate-y-1 md:hover:shadow-2xl text-sm md:text-base ${btn.style}`}>
+                                        {btn.label}
+                                    </div>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
