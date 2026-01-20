@@ -30,6 +30,11 @@ const Header = () => {
       href: '/rtp',
       label: 'RTP Live',
       icon: <BarChart3 size={16} />
+    },
+    {
+      href: '/overlay',
+      label: 'Overlay',
+      icon: <BarChart3 size={16} />
     }
   ];
 

@@ -25,8 +25,8 @@ export const SocialSidebar = ({ className = '' }: SocialSidebarProps) => {
 
   const pathname = usePathname();
 
-  // Não mostrar na home (HeroBanner já tem)
-  if (pathname === '/') return null;
+  // Não mostrar na home e nas páginas de overlay
+  if (pathname === '/' || pathname.startsWith('/overlay')) return null;
 
   const platforms: Array<{
     type: SocialPlatform;

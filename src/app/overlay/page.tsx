@@ -30,7 +30,7 @@ function ConfigContent() {
         }
 
         const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-        const url = `${baseUrl}/meta/overlay?v=${videoId}&meta=${goal}`;
+        const url = `${baseUrl}/overlay/overlay?v=${videoId}&meta=${goal}`;
         setGeneratedUrl(url);
         setCopied(false);
     };
