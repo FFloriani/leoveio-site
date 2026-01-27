@@ -37,11 +37,7 @@ function OverlayContent() {
         ? JSON.parse(decodeURIComponent(visualParam))
         : { viewersPosition: 'top', showSubscribeButton: true, showYouTubeIcon: true };
 
-    // Get custom text for a view
-    const getCustomText = (viewId: string, defaultText: string) => {
-        const custom = customTexts.find(t => t.id === viewId);
-        return custom ? custom.text : defaultText;
-    };
+    // Get custom text for a view - will be created after we have the goal value
 
     const {
         likes,
@@ -54,6 +50,26 @@ function OverlayContent() {
         removeParticle,
         formatNum
     } = useOverlayStats({ videoId, initialGoal, isTestMode });
+
+    // Process custom text with variable substitution and color
+    const processText = (viewId: string) => {
+        const custom = customTexts.find(t => t.id === viewId);
+
+        if (viewId === 'like') {
+            const text = custom?.text || 'DEIXA O LIKE!';
+            // Highlight "LIKE" in green
+            return text.replace(/LIKE/gi, '<span style="color: #22c55e">LIKE</span>');
+        }
+
+        if (viewId === 'meta') {
+            let text = custom?.text || 'META = {META} LIKES';
+            // Replace {META} with actual value and add color
+            text = text.replace(/\{META\}/gi, `<span style="color: #22c55e">${formatNum(goal)}</span>`);
+            return text;
+        }
+
+        return custom?.text || '';
+    };
 
     const [view, setView] = useState<ViewMode>('like');
 
@@ -171,9 +187,9 @@ function OverlayContent() {
                                     transition={{ duration: 0.3 }}
                                 >
                                     {view === 'like' ? (
-                                        <span dangerouslySetInnerHTML={{ __html: getCustomText('like', 'DEIXA O <span style="color: #22c55e">LIKE</span>!') }} />
+                                        <span dangerouslySetInnerHTML={{ __html: processText('like') }} />
                                     ) : (
-                                        <span dangerouslySetInnerHTML={{ __html: getCustomText('meta', `META = <span style="color: #22c55e">${formatNum(goal)}</span> LIKES`) }} />
+                                        <span dangerouslySetInnerHTML={{ __html: processText('meta') }} />
                                     )}
                                 </motion.div>
                             </AnimatePresence>
