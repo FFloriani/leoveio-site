@@ -25,6 +25,24 @@ function OverlayContent() {
     const initialGoal = parseInt(searchParams.get('meta') || '5000');
     const isTestMode = searchParams.get('test') === '1';
 
+    // Parse custom texts from URL
+    const textsParam = searchParams.get('texts');
+    const customTexts: { id: string; text: string }[] = textsParam
+        ? JSON.parse(decodeURIComponent(textsParam))
+        : [];
+
+    // Parse visual options from URL
+    const visualParam = searchParams.get('visual');
+    const visualOptions = visualParam
+        ? JSON.parse(decodeURIComponent(visualParam))
+        : { viewersPosition: 'top', showSubscribeButton: true, showYouTubeIcon: true };
+
+    // Get custom text for a view
+    const getCustomText = (viewId: string, defaultText: string) => {
+        const custom = customTexts.find(t => t.id === viewId);
+        return custom ? custom.text : defaultText;
+    };
+
     const {
         likes,
         viewers,
@@ -88,9 +106,9 @@ function OverlayContent() {
                 alignItems: 'center',
                 marginTop: 20
             }}>
-                {/* Viewers Badge */}
-                {viewers !== null && (
-                    <ViewersBadge viewers={viewers} formatNum={formatNum} />
+                {/* Viewers Badge - Top Position */}
+                {viewers !== null && visualOptions.viewersPosition === 'top' && (
+                    <ViewersBadge viewers={viewers} formatNum={formatNum} position="top" />
                 )}
 
                 {/* Floating Particles */}
@@ -153,9 +171,9 @@ function OverlayContent() {
                                     transition={{ duration: 0.3 }}
                                 >
                                     {view === 'like' ? (
-                                        <>DEIXA O <span style={{ color: '#22c55e' }}>LIKE</span>!</>
+                                        <span dangerouslySetInnerHTML={{ __html: getCustomText('like', 'DEIXA O <span style="color: #22c55e">LIKE</span>!') }} />
                                     ) : (
-                                        <>META = <span style={{ color: '#22c55e' }}>{formatNum(goal)}</span> LIKES</>
+                                        <span dangerouslySetInnerHTML={{ __html: getCustomText('meta', `META = <span style="color: #22c55e">${formatNum(goal)}</span> LIKES`) }} />
                                     )}
                                 </motion.div>
                             </AnimatePresence>
@@ -174,8 +192,14 @@ function OverlayContent() {
                         </div>
                     </div>
 
-                    {/* Subscribe Button */}
-                    <SubscribeButton />
+                    {/* Subscribe Button or Inside Viewers */}
+                    {visualOptions.viewersPosition === 'inside' ? (
+                        <ViewersBadge viewers={viewers || 0} formatNum={formatNum} position="inside" />
+                    ) : (
+                        visualOptions.showSubscribeButton && (
+                            <SubscribeButton showIcon={visualOptions.showYouTubeIcon} />
+                        )
+                    )}
                 </div>
             </div>
 

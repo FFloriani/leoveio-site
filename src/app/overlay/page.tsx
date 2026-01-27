@@ -78,7 +78,14 @@ function ConfigContent() {
             text: t.text
         }))));
 
-        let url = `${baseUrl}/overlay/overlay?v=${idToUse}&meta=${goal}&ig=${encodeURIComponent(instagramHandle)}&texts=${transitionsParam}`;
+        // Encode visual options
+        const visualOptionsParam = encodeURIComponent(JSON.stringify({
+            viewersPosition: visualOptions.viewersPosition,
+            showSubscribeButton: visualOptions.showSubscribeButton,
+            showYouTubeIcon: visualOptions.showYouTubeIcon
+        }));
+
+        let url = `${baseUrl}/overlay/overlay?v=${idToUse}&meta=${goal}&ig=${encodeURIComponent(instagramHandle)}&texts=${transitionsParam}&visual=${visualOptionsParam}`;
         if (idToUse === 'TEST_MODE') {
             url += '&test=1';
         }
@@ -350,8 +357,8 @@ function ConfigContent() {
                                         <button
                                             onClick={() => setVisualOptions(v => ({ ...v, viewersPosition: 'top' }))}
                                             className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${visualOptions.viewersPosition === 'top'
-                                                    ? 'bg-[#DEB066] text-black'
-                                                    : 'bg-black/40 text-gray-400 hover:bg-black/60'
+                                                ? 'bg-[#DEB066] text-black'
+                                                : 'bg-black/40 text-gray-400 hover:bg-black/60'
                                                 }`}
                                         >
                                             Em Cima
@@ -359,8 +366,8 @@ function ConfigContent() {
                                         <button
                                             onClick={() => setVisualOptions(v => ({ ...v, viewersPosition: 'inside' }))}
                                             className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${visualOptions.viewersPosition === 'inside'
-                                                    ? 'bg-[#DEB066] text-black'
-                                                    : 'bg-black/40 text-gray-400 hover:bg-black/60'
+                                                ? 'bg-[#DEB066] text-black'
+                                                : 'bg-black/40 text-gray-400 hover:bg-black/60'
                                                 }`}
                                         >
                                             Dentro do Painel
