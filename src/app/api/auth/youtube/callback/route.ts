@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFileSync, readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { cookies } from 'next/headers';
 
 // URL para trocar código por token
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 
-// Arquivo para persistir tokens (em produção, use um banco de dados)
-const TOKENS_FILE = join(process.cwd(), '.youtube-tokens.json');
+// Nome do cookie para armazenar tokens
+const TOKENS_COOKIE_NAME = 'youtube_tokens';
 
 interface TokenResponse {
     access_token: string;
@@ -16,20 +15,18 @@ interface TokenResponse {
     scope: string;
 }
 
-interface StoredTokens {
+export interface StoredTokens {
     access_token: string;
     refresh_token: string;
     expires_at: number;
 }
 
-function saveTokens(tokens: StoredTokens) {
-    writeFileSync(TOKENS_FILE, JSON.stringify(tokens, null, 2));
-}
-
-export function getStoredTokens(): StoredTokens | null {
-    if (!existsSync(TOKENS_FILE)) return null;
+export async function getStoredTokens(): Promise<StoredTokens | null> {
     try {
-        return JSON.parse(readFileSync(TOKENS_FILE, 'utf-8'));
+        const cookieStore = await cookies();
+        const tokensCookie = cookieStore.get(TOKENS_COOKIE_NAME);
+        if (!tokensCookie) return null;
+        return JSON.parse(tokensCookie.value);
     } catch {
         return null;
     }
@@ -91,21 +88,30 @@ export async function GET(request: NextRequest) {
 
         const data: TokenResponse = await response.json();
 
-        // Salvar tokens
+        // Salvar tokens em cookie
         const tokens: StoredTokens = {
             access_token: data.access_token,
             refresh_token: data.refresh_token || '',
             expires_at: Date.now() + (data.expires_in * 1000),
         };
 
-        saveTokens(tokens);
+        console.log('✅ YouTube OAuth: Tokens obtidos com sucesso!');
 
-        console.log('✅ YouTube OAuth: Tokens salvos com sucesso!');
-
-        // Redirecionar para página de sucesso
-        return NextResponse.redirect(
+        // Criar resposta com redirect
+        const redirectResponse = NextResponse.redirect(
             new URL('/overlay?auth_success=true', request.url)
         );
+
+        // Adicionar cookie com tokens (expira em 30 dias)
+        redirectResponse.cookies.set(TOKENS_COOKIE_NAME, JSON.stringify(tokens), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 60 * 60 * 24 * 30, // 30 dias
+            path: '/',
+        });
+
+        return redirectResponse;
 
     } catch (error) {
         console.error('Erro no callback OAuth:', error);
@@ -114,3 +120,4 @@ export async function GET(request: NextRequest) {
         );
     }
 }
+

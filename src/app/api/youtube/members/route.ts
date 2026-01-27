@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync, existsSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { cookies } from 'next/headers';
 
-const TOKENS_FILE = join(process.cwd(), '.youtube-tokens.json');
+const TOKENS_COOKIE_NAME = 'youtube_tokens';
 const MEMBERS_API_URL = 'https://www.googleapis.com/youtube/v3/members';
 const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 
@@ -36,17 +35,26 @@ interface MembersResponse {
     };
 }
 
-function getStoredTokens(): StoredTokens | null {
-    if (!existsSync(TOKENS_FILE)) return null;
+async function getStoredTokens(): Promise<StoredTokens | null> {
     try {
-        return JSON.parse(readFileSync(TOKENS_FILE, 'utf-8'));
+        const cookieStore = await cookies();
+        const tokensCookie = cookieStore.get(TOKENS_COOKIE_NAME);
+        if (!tokensCookie) return null;
+        return JSON.parse(tokensCookie.value);
     } catch {
         return null;
     }
 }
 
-function saveTokens(tokens: StoredTokens) {
-    writeFileSync(TOKENS_FILE, JSON.stringify(tokens, null, 2));
+async function saveTokens(tokens: StoredTokens): Promise<void> {
+    const cookieStore = await cookies();
+    cookieStore.set(TOKENS_COOKIE_NAME, JSON.stringify(tokens), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 30, // 30 dias
+        path: '/',
+    });
 }
 
 async function refreshAccessToken(refreshToken: string): Promise<string | null> {
@@ -79,7 +87,7 @@ async function refreshAccessToken(refreshToken: string): Promise<string | null> 
             refresh_token: refreshToken, // Manter o refresh_token original
             expires_at: Date.now() + (data.expires_in * 1000),
         };
-        saveTokens(newTokens);
+        await saveTokens(newTokens);
 
         return data.access_token;
     } catch {
@@ -88,7 +96,7 @@ async function refreshAccessToken(refreshToken: string): Promise<string | null> 
 }
 
 async function getValidAccessToken(): Promise<string | null> {
-    const tokens = getStoredTokens();
+    const tokens = await getStoredTokens();
     if (!tokens) return null;
 
     // Se o token ainda é válido (com margem de 5 minutos)
