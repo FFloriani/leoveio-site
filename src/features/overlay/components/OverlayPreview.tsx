@@ -14,6 +14,8 @@ import {
     ANIMATION_DURATIONS,
     ViewMode
 } from '@/features/overlay';
+import { MembersPanel } from './MembersPanel';
+import type { YouTubeMember } from '../hooks/useYouTubeMembers';
 
 export interface TextTransition {
     id: ViewMode;
@@ -31,6 +33,7 @@ export interface OverlayVisualOptions {
     transitionDelay: number; // segundos entre cada CTA (2-30)
     instagramDelay: number; // segundos para Instagram aparecer (1-120)
     instagramDuration: number; // segundos que o Instagram fica visível (1-120)
+    viewersPosition: 'top' | 'inside'; // 'top' = badge em cima, 'inside' = dentro do painel
 }
 
 export const DEFAULT_VISUAL_OPTIONS: OverlayVisualOptions = {
@@ -39,7 +42,8 @@ export const DEFAULT_VISUAL_OPTIONS: OverlayVisualOptions = {
     fontSize: 'medium',
     transitionDelay: 5,
     instagramDelay: 30,
-    instagramDuration: 10
+    instagramDuration: 10,
+    viewersPosition: 'top'
 };
 
 interface OverlayPreviewProps {
@@ -108,6 +112,25 @@ export function OverlayPreview({
     const [particles, setParticles] = useState<number[]>([]);
     const [lastMilestone, setLastMilestone] = useState(0);
     const [showInstagramPanel, setShowInstagramPanel] = useState(false); // Controle independente do painel Instagram
+
+    // Membros de demonstração
+    const demoLatestMember: YouTubeMember = {
+        channelId: 'demo123',
+        displayName: 'João Gaming',
+        profileImageUrl: 'https://i.pravatar.cc/100?img=12',
+        memberSince: new Date().toISOString(),
+        level: 'Membro',
+        duration: '1 mês'
+    };
+
+    const demoPreviousMember: YouTubeMember = {
+        channelId: 'demo456',
+        displayName: 'Maria Plays',
+        profileImageUrl: 'https://i.pravatar.cc/100?img=5',
+        memberSince: new Date(Date.now() - 86400000).toISOString(), // 1 dia atrás
+        level: 'Membro',
+        duration: '2 meses'
+    };
 
     const iconControls = useAnimation();
 
@@ -224,38 +247,39 @@ export function OverlayPreview({
             return;
         }
 
-        // Função para executar um ciclo
+        // Usar ref para rastrear o timeout atual e flag de montagem
+        let timeoutId: NodeJS.Timeout | null = null;
+        let isMounted = true;
+
         const runCycle = () => {
-            // Espera o delay, então mostra
-            const showTimeout = setTimeout(() => {
+            if (!isMounted) return;
+
+            // Fase 1: Esconde e espera o delay
+            setShowInstagramPanel(false);
+
+            timeoutId = setTimeout(() => {
+                if (!isMounted) return;
+
+                // Fase 2: Mostra
                 setShowInstagramPanel(true);
 
-                // Depois de duration, esconde
-                const hideTimeout = setTimeout(() => {
-                    setShowInstagramPanel(false);
+                // Fase 3: Após duration, reinicia o ciclo
+                timeoutId = setTimeout(() => {
+                    if (!isMounted) return;
+                    runCycle();
                 }, instagramDurationMs);
-
-                return () => clearTimeout(hideTimeout);
             }, instagramDelayMs);
-
-            return showTimeout;
         };
 
-        // Primeiro ciclo
-        let currentTimeout = runCycle();
+        // Inicia o ciclo
+        runCycle();
 
-        // Loop: depois que esconde, espera delay e mostra de novo
-        const totalCycleTime = instagramDelayMs + instagramDurationMs;
-        const interval = setInterval(() => {
-            setShowInstagramPanel(true);
-            setTimeout(() => {
-                setShowInstagramPanel(false);
-            }, instagramDurationMs);
-        }, totalCycleTime);
-
+        // Cleanup: limpa qualquer timeout pendente e marca como desmontado
         return () => {
-            clearTimeout(currentTimeout);
-            clearInterval(interval);
+            isMounted = false;
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
         };
     }, [instagramDelayMs, instagramDurationMs, transitions]);
 
@@ -283,10 +307,20 @@ export function OverlayPreview({
                 position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
-                marginTop: 30
+                marginTop: 60
             }}>
-                {/* Viewers Badge */}
-                <ViewersBadge viewers={viewers} formatNum={formatNum} />
+                {/* Members Panel - Sempre visível */}
+                {isDemo && (
+                    <MembersPanel
+                        latestMember={demoLatestMember}
+                        previousMember={demoPreviousMember}
+                    />
+                )}
+
+                {/* Viewers Badge (posição TOP) */}
+                {visualOptions.viewersPosition === 'top' && (
+                    <ViewersBadge viewers={viewers} formatNum={formatNum} position="top" />
+                )}
 
                 {/* Floating Particles */}
                 <div style={{ position: 'absolute', inset: 0, overflow: 'visible', zIndex: 30 }}>
@@ -369,9 +403,14 @@ export function OverlayPreview({
                         </div>
                     </div>
 
-                    {/* Subscribe Button */}
-                    {visualOptions.showSubscribeButton && (
-                        <SubscribeButton showIcon={visualOptions.showYouTubeIcon} fontScale={fontScale} />
+                    {/* Viewers Badge (posição INSIDE) - substitui o botão Inscreva-se */}
+                    {visualOptions.viewersPosition === 'inside' ? (
+                        <ViewersBadge viewers={viewers} formatNum={formatNum} position="inside" />
+                    ) : (
+                        /* Subscribe Button - só aparece se viewers não está inside */
+                        visualOptions.showSubscribeButton && (
+                            <SubscribeButton showIcon={visualOptions.showYouTubeIcon} fontScale={fontScale} />
+                        )
                     )}
                 </div>
             </div>

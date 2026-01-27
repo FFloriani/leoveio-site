@@ -27,20 +27,34 @@ export function useOverlayStats({
     const [likes, setLikes] = useState(isTestMode ? 2500 : 0);
     const [viewers, setViewers] = useState<number | null>(isTestMode ? 1234 : null);
     const [goal, setGoal] = useState(initialGoal);
+    const [previousGoal, setPreviousGoal] = useState(0); // Meta anterior para calcular o progresso
     const [particles, setParticles] = useState<number[]>([]);
 
     const prevLikes = useRef(likes);
     const iconControls = useAnimation();
+
+    // Função para verificar e atualizar meta quando atingida
+    const checkAndUpdateGoal = useCallback((currentLikes: number) => {
+        if (currentLikes >= goal) {
+            // Meta atingida! Atualizar para próxima meta
+            setPreviousGoal(goal);
+            setGoal(prev => prev + initialGoal);
+        }
+    }, [goal, initialGoal]);
 
     // Test function to simulate likes
     const simulateLike = useCallback(() => {
         const increment = Math.floor(Math.random() * 50) + 10;
         setLikes(prev => {
             const newLikes = prev + increment;
-            if (newLikes >= goal) setGoal(g => g + initialGoal);
             return newLikes;
         });
-    }, [goal, initialGoal]);
+    }, []);
+
+    // Verificar meta quando likes mudam
+    useEffect(() => {
+        checkAndUpdateGoal(likes);
+    }, [likes, checkAndUpdateGoal]);
 
     const removeParticle = useCallback((id: number) => {
         setParticles(prev => prev.filter(p => p !== id));
@@ -77,9 +91,7 @@ export function useOverlayStats({
                 const data = await res.json();
 
                 if (data.likeCount !== undefined) {
-                    const newLikes = data.likeCount;
-                    if (newLikes >= goal) setGoal(g => g + initialGoal);
-                    setLikes(newLikes);
+                    setLikes(data.likeCount);
                 }
 
                 if (data.concurrentViewers !== undefined) {
@@ -93,9 +105,14 @@ export function useOverlayStats({
         fetchStats();
         const interval = setInterval(fetchStats, ANIMATION_DURATIONS.statsFetch);
         return () => clearInterval(interval);
-    }, [videoId, goal, initialGoal, isTestMode]);
+    }, [videoId, isTestMode]);
 
-    const progress = Math.min((likes / goal) * 100, 100);
+    // Calcular progresso DENTRO do intervalo da meta atual
+    // Exemplo: Se meta anterior = 5000, meta atual = 10000, likes = 6000
+    // Progresso = (6000 - 5000) / (10000 - 5000) = 1000 / 5000 = 20%
+    const likesInCurrentGoal = likes - previousGoal;
+    const goalRange = goal - previousGoal;
+    const progress = Math.min(Math.max((likesInCurrentGoal / goalRange) * 100, 0), 100);
 
     return {
         likes,
@@ -109,3 +126,4 @@ export function useOverlayStats({
         formatNum
     };
 }
+

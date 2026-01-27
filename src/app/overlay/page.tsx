@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Copy, Check, ExternalLink, Activity, Info, AlertCircle, Settings, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Copy, Check, ExternalLink, Activity, Info, Settings, ToggleLeft, ToggleRight, Youtube, Users, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { HexColorPicker } from 'react-colorful';
-import { OverlayPreview, DEFAULT_TRANSITIONS, DEFAULT_VISUAL_OPTIONS, TextTransition, OverlayVisualOptions } from '@/features/overlay';
+import { OverlayPreview, DEFAULT_TRANSITIONS, DEFAULT_VISUAL_OPTIONS, TextTransition, OverlayVisualOptions, useYouTubeMembers } from '@/features/overlay';
 import type { ViewMode } from '@/features/overlay';
+import { useSearchParams } from 'next/navigation';
 
 function ConfigContent() {
     const [youtubeUrl, setYoutubeUrl] = useState('');
@@ -22,6 +23,19 @@ function ConfigContent() {
 
     // Color picker aberto (id da transição ou null)
     const [openColorPicker, setOpenColorPicker] = useState<ViewMode | null>(null);
+
+    // YouTube Members
+    const { isAuthenticated, latestMember, isLoading: isMembersLoading, refetch: refetchMembers } = useYouTubeMembers(60000);
+    const searchParams = useSearchParams();
+    const authSuccess = searchParams.get('auth_success');
+    const authError = searchParams.get('auth_error');
+
+    // Refetch após autenticação bem-sucedida
+    useEffect(() => {
+        if (authSuccess === 'true') {
+            refetchMembers();
+        }
+    }, [authSuccess, refetchMembers]);
 
     // Extract video ID from YouTube URL
     const extractVideoId = (url: string): string | null => {
@@ -136,6 +150,80 @@ function ConfigContent() {
                             </div>
                         </div>
 
+                        {/* Seção: YouTube Membros */}
+                        <div className="mb-6">
+                            <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <Users size={14} className="text-[#DEB066]" />
+                                YouTube Membros
+                            </h2>
+                            <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                                {/* Status de autenticação */}
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center gap-2">
+                                        {isMembersLoading ? (
+                                            <Loader2 size={16} className="text-gray-400 animate-spin" />
+                                        ) : isAuthenticated ? (
+                                            <CheckCircle size={16} className="text-green-400" />
+                                        ) : (
+                                            <XCircle size={16} className="text-red-400" />
+                                        )}
+                                        <span className={`text-sm ${isAuthenticated ? 'text-green-400' : 'text-gray-400'}`}>
+                                            {isMembersLoading ? 'Verificando...' : isAuthenticated ? 'Conectado' : 'Não conectado'}
+                                        </span>
+                                    </div>
+                                    <a
+                                        href="/api/auth/youtube"
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${isAuthenticated
+                                            ? 'bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30'
+                                            : 'bg-red-500 text-white hover:bg-red-600'
+                                            }`}
+                                    >
+                                        {isAuthenticated ? 'Reconectar' : 'Conectar YouTube'}
+                                    </a>
+                                </div>
+
+                                {/* Mensagens de sucesso/erro */}
+                                {authSuccess === 'true' && (
+                                    <div className="mb-3 p-2 bg-green-500/10 border border-green-500/30 rounded-lg text-xs text-green-400">
+                                        ✅ YouTube conectado com sucesso!
+                                    </div>
+                                )}
+                                {authError && (
+                                    <div className="mb-3 p-2 bg-red-500/10 border border-red-500/30 rounded-lg text-xs text-red-400">
+                                        ❌ Erro na autenticação: {authError}
+                                    </div>
+                                )}
+
+                                {/* Último membro */}
+                                {isAuthenticated && latestMember && (
+                                    <div className="bg-black/30 rounded-lg p-3 border border-white/5">
+                                        <span className="text-[10px] text-gray-500 uppercase tracking-wider">Último Membro</span>
+                                        <div className="flex items-center gap-3 mt-2">
+                                            {latestMember.profileImageUrl && (
+                                                <img
+                                                    src={latestMember.profileImageUrl}
+                                                    alt={latestMember.displayName}
+                                                    className="w-10 h-10 rounded-full border-2 border-[#DEB066]"
+                                                />
+                                            )}
+                                            <div>
+                                                <div className="text-white font-medium">{latestMember.displayName}</div>
+                                                <div className="text-xs text-gray-500">
+                                                    {latestMember.level} • Desde {new Date(latestMember.memberSince).toLocaleDateString('pt-BR')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {!isAuthenticated && (
+                                    <p className="text-xs text-gray-500">
+                                        Conecte sua conta do YouTube para mostrar o último membro no overlay.
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
                         {/* Seção: Transições de Texto */}
                         <div className="mb-6">
                             <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -244,15 +332,45 @@ function ConfigContent() {
                                 </div>
 
                                 {/* Ícone YouTube */}
-                                <div className={`flex items-center justify-between ${!visualOptions.showSubscribeButton ? 'opacity-40' : ''}`}>
+                                <div className={`flex items-center justify-between ${!visualOptions.showSubscribeButton || visualOptions.viewersPosition === 'inside' ? 'opacity-40' : ''}`}>
                                     <span className="text-sm text-gray-300">Ícone do YouTube</span>
                                     <button
                                         onClick={() => setVisualOptions(v => ({ ...v, showYouTubeIcon: !v.showYouTubeIcon }))}
-                                        disabled={!visualOptions.showSubscribeButton}
+                                        disabled={!visualOptions.showSubscribeButton || visualOptions.viewersPosition === 'inside'}
                                         className={`transition-colors ${visualOptions.showYouTubeIcon ? 'text-green-400' : 'text-gray-600'} disabled:cursor-not-allowed`}
                                     >
                                         {visualOptions.showYouTubeIcon ? <ToggleRight size={24} /> : <ToggleLeft size={24} />}
                                     </button>
+                                </div>
+
+                                {/* Posição dos Viewers */}
+                                <div>
+                                    <label className="text-sm text-gray-300 mb-2 block">Posição dos Viewers</label>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => setVisualOptions(v => ({ ...v, viewersPosition: 'top' }))}
+                                            className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${visualOptions.viewersPosition === 'top'
+                                                    ? 'bg-[#DEB066] text-black'
+                                                    : 'bg-black/40 text-gray-400 hover:bg-black/60'
+                                                }`}
+                                        >
+                                            Em Cima
+                                        </button>
+                                        <button
+                                            onClick={() => setVisualOptions(v => ({ ...v, viewersPosition: 'inside' }))}
+                                            className={`flex-1 py-2 rounded-lg text-xs font-medium transition-all ${visualOptions.viewersPosition === 'inside'
+                                                    ? 'bg-[#DEB066] text-black'
+                                                    : 'bg-black/40 text-gray-400 hover:bg-black/60'
+                                                }`}
+                                        >
+                                            Dentro do Painel
+                                        </button>
+                                    </div>
+                                    <p className="text-[10px] text-gray-500 mt-1">
+                                        {visualOptions.viewersPosition === 'inside'
+                                            ? 'Viewers substitui o botão Inscreva-se'
+                                            : 'Badge vermelho acima do painel'}
+                                    </p>
                                 </div>
 
                                 {/* Tamanho da Fonte */}

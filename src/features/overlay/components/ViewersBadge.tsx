@@ -3,9 +3,37 @@
 interface ViewersBadgeProps {
     viewers: number;
     formatNum: (n: number) => string;
+    position?: 'top' | 'inside';
 }
 
-export function ViewersBadge({ viewers, formatNum }: ViewersBadgeProps) {
+export function ViewersBadge({ viewers, formatNum, position = 'top' }: ViewersBadgeProps) {
+    if (position === 'inside') {
+        // Estilo para dentro do painel (substitui o botão Inscreva-se)
+        return (
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(220, 38, 38, 0.15)',
+                border: '1px solid rgba(220, 38, 38, 0.3)',
+                borderRadius: 8,
+                padding: '8px 20px',
+                minWidth: 70,
+            }}>
+                <span style={{
+                    fontFamily: "'Teko', sans-serif",
+                    fontSize: 32,
+                    fontWeight: 600,
+                    color: '#ef4444',
+                    lineHeight: 1,
+                }}>
+                    {formatNum(viewers)}
+                </span>
+            </div>
+        );
+    }
+
+    // Estilo original (badge em cima)
     return (
         <div style={{
             position: 'absolute',
@@ -28,3 +56,4 @@ export function ViewersBadge({ viewers, formatNum }: ViewersBadgeProps) {
         </div>
     );
 }
+
