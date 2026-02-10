@@ -61,7 +61,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
     {
       name: 'Superbet',
       description: 'A melhor casa de apostas do Brasil. Bônus exclusivo com meu cupom!',
-      url: 'https://superbet.bet.br/registro?bonus=LEOVEIO',
+      url: 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_9504b_431c_&affid=624&siteid=9504&adid=431&c=LEOVEIO&asclurl=https://superbet.bet.br/registro?bonus=LEOVEIO',
       coupon: 'LEOVEIO',
       category: 'BETTING',
       color: 'text-[#FFD700]',
