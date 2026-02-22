@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Trophy, Globe, Activity, Users, Star, Target, Dumbbell, MapPin, Rocket, Instagram } from 'lucide-react';
+import { Trophy, Globe, Activity, Users, Star, Target, Dumbbell, MapPin, Rocket, Instagram, Download } from 'lucide-react';
 import Image from 'next/image';
 
 const AboutSection = () => {
@@ -25,7 +25,19 @@ const AboutSection = () => {
           <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 mb-4">
             Media <span className="text-[#DEB066]">Kit</span>
           </h2>
-          <div className="w-24 h-1 bg-[#DEB066] mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-[#DEB066] mx-auto rounded-full mb-8" />
+          <motion.a
+            href="/MÍDIA KIT LEO VEIO.pdf"
+            download="MÍDIA KIT LEO VEIO.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#DEB066] text-black font-black uppercase tracking-wider rounded-full shadow-[0_0_30px_rgba(222,176,102,0.4)] hover:shadow-[0_0_50px_rgba(222,176,102,0.7)] hover:bg-[#F1D08B] hover:-translate-y-1 transition-all duration-300 text-sm"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Download size={18} className="stroke-[3px]" />
+            <span>Baixar Mídia Kit</span>
+          </motion.a>
         </motion.div>
 
         {/* BENTO GRID */}
