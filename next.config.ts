@@ -74,6 +74,11 @@ const nextConfig: NextConfig = {
         destination: 'https://livepix.gg/leoveio',
         permanent: false,
       },
+      {
+        source: '/aposta',
+        destination: 'https://go.aff.casadeapostas.bet.br/lkp84bia?utm_source=LeoVeio',
+        permanent: false,
+      },
     ];
   },
 };

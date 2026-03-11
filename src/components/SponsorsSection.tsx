@@ -10,6 +10,7 @@ interface ActiveSponsor {
   description: string;
   url: string;
   coupon?: string;
+  couponLabel?: string; // 'CUPOM' or 'CÓDIGO' etc, defaults to 'CUPOM'
   category: string;
   color: string; // Tailwind gradient classes or hex
   glowColor: string; // Hex for shadow
@@ -77,6 +78,17 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       color: 'text-[#FF6B9D]',
       glowColor: '#FF6B9D',
       iconSrc: '/heymu.png'
+    },
+    {
+      name: 'Casa de Apostas',
+      description: 'Plataforma brasileira de apostas esportivas com os melhores mercados, odds competitivas e saque rápido via Pix.',
+      url: 'https://go.aff.casadeapostas.bet.br/lkp84bia?utm_source=LeoVeio',
+      coupon: 'LEOVEIO',
+      couponLabel: 'CÓDIGO',
+      category: 'APOSTAS ESPORTIVAS',
+      color: 'text-[#E53935]',
+      glowColor: '#E53935',
+      iconSrc: '/casadeapostas.png'
     }
   ];
 
@@ -196,7 +208,7 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
                   {sponsor.coupon && (
                     <div className="bg-[#DEB066]/5 border border-[#DEB066]/20 dashed rounded-lg p-3 flex items-center justify-between group/coupon hover:bg-[#DEB066]/10 transition-colors">
                       <div className="text-xs text-[#DEB066] font-bold">
-                        CUPOM: <span className="text-white text-sm ml-2 tracking-widest font-black">{sponsor.coupon}</span>
+                        {sponsor.couponLabel || 'CUPOM'}: <span className="text-white text-sm ml-2 tracking-widest font-black">{sponsor.coupon}</span>
                       </div>
                       <button
                         onClick={() => sponsor.coupon && handleCopy(sponsor.coupon)}
