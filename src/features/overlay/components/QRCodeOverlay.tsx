@@ -166,7 +166,7 @@ export function QRCodeOverlay({ config }: QRCodeOverlayProps) {
               {/* QR Code */}
               {slide.qrLink && (slide.type === 'qrcode' || slide.type === 'qrcode_photo') && (
                 <motion.div
-                  className="bg-white rounded-xl p-3 shadow-2xl"
+                  className="bg-white rounded-xl p-3 shadow-2xl relative"
                   initial={{ scale: 0, rotate: -10 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
@@ -177,6 +177,24 @@ export function QRCodeOverlay({ config }: QRCodeOverlayProps) {
                     level="H"
                     includeMargin={false}
                   />
+                  {/* LEOVEIO brand center overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div
+                      className="rounded-md overflow-hidden"
+                      style={{
+                        padding: '3px',
+                        background: 'white',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                      }}
+                    >
+                      <img
+                        src="/leoveiologofav.png"
+                        alt="LEOVEIO"
+                        className="block rounded-sm"
+                        style={{ width: 36, height: 36, objectFit: 'contain' }}
+                      />
+                    </div>
+                  </div>
                 </motion.div>
               )}
 
