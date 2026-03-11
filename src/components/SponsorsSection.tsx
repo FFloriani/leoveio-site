@@ -59,17 +59,6 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       customCreative: '/growthcupom.png'
     },
     {
-      name: 'Superbet',
-      description: 'A melhor casa de apostas do Brasil. Bônus exclusivo com meu cupom!',
-      url: 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_9504b_431c_&affid=624&siteid=9504&adid=431&c=LEOVEIO&asclurl=https://superbet.bet.br/registro?bonus=LEOVEIO',
-      coupon: 'LEOVEIO',
-      category: 'BETTING',
-      color: 'text-[#FFD700]',
-      glowColor: '#FFD700',
-      iconSrc: '/superbet.jpeg',
-      customCreative: '/superbet.jpeg'
-    },
-    {
       name: 'Liveup',
       description: 'Alimentação saudável e prática para o seu dia a dia.',
       url: 'https://livup.com.br/',
@@ -78,6 +67,16 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
       color: 'text-[#00BFFF]',
       glowColor: '#00BFFF',
       iconSrc: '/liveup.jpg'
+    },
+    {
+      name: 'Heymu',
+      description: 'Apenas 30 calorias por porção! Snacks saudáveis e deliciosos.',
+      url: 'https://heymu.com.br/',
+      coupon: 'LEOVEIO',
+      category: 'ALIMENTAÇÃO',
+      color: 'text-[#FF6B9D]',
+      glowColor: '#FF6B9D',
+      iconSrc: '/heymu.png'
     }
   ];
 
@@ -92,7 +91,8 @@ const SponsorsSection = ({ onOpenContact }: SponsorsProps = {}) => {
     { name: 'Heineken', logo: '/heineken.png' },
     { name: 'Old Spice', logo: '/oldspice.png' },
     { name: 'TIM', logo: '/tim.jpeg' },
-    { name: 'Netflix', logo: '/netflix.jpeg' }
+    { name: 'Netflix', logo: '/netflix.jpeg' },
+    { name: 'Superbet', logo: '/superbet.jpg' }
   ];
 
   return (

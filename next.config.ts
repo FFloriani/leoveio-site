@@ -70,11 +70,6 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
-        source: '/super',
-        destination: 'https://wlsuperbet.adsrv.eacdn.com/C.ashx?btag=a_9504b_431c_&affid=624&siteid=9504&adid=431&c=LEOVEIO&asclurl=https://superbet.bet.br/registro?bonus=LEOVEIO',
-        permanent: false,
-      },
-      {
         source: '/pix',
         destination: 'https://livepix.gg/leoveio',
         permanent: false,

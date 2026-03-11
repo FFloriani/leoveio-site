@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { Twitch, Youtube, Video, Instagram, Gamepad2 } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 
 const HeroBanner = () => {
     // Social Links Data
@@ -38,25 +37,6 @@ const HeroBanner = () => {
             subLabel: 'Conteúdo extra',
             href: 'https://youtube.com/@LeoVeioYT'
         }
-    ];
-
-    // Bottom Buttons
-    const bottomButtons = [
-        {
-            label: 'Clash Royale',
-            href: '/clash',
-            style: 'bg-black/80 border-[#DEB066] text-[#DEB066] hover:bg-[#DEB066] hover:text-black shadow-[0_0_15px_rgba(222,176,102,0.2)]'
-        },
-        {
-            label: 'Wild Rift',
-            href: '/wild-rift',
-            style: 'bg-black/80 border-[#00FFB2] text-[#00FFB2] hover:bg-[#00FFB2] hover:text-black shadow-[0_0_15px_rgba(0,255,178,0.2)]'
-        },
-        {
-            label: 'Cassino',
-            href: '/leobanca',
-            style: 'bg-gradient-to-r from-[#9A1207] to-[#810B09] border-[#E8D5B0] text-white hover:brightness-110 shadow-[0_0_20px_rgba(154,18,7,0.4)]'
-        },
     ];
 
     return (
@@ -157,25 +137,6 @@ const HeroBanner = () => {
                                 </div>
                                 <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">{link.label}</span>
                             </motion.a>
-                        ))}
-                    </div>
-
-                    {/* Bottom Buttons - Integrated into Flow */}
-                    <div className="grid grid-cols-1 gap-3 w-full max-w-xs md:max-w-none md:flex md:gap-6 pointer-events-auto">
-                        {bottomButtons.map((btn, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                transition={{ delay: 0.6 + (index * 0.1) }}
-                                className="w-full md:w-auto"
-                            >
-                                <Link href={btn.href} className="block w-full">
-                                    <div className={`w-full text-center px-4 py-3 md:px-8 bg-black/80 rounded-xl border-2 backdrop-blur-md font-black italic uppercase tracking-wider transition-all duration-300 transform active:scale-95 md:hover:-translate-y-1 md:hover:shadow-2xl text-sm md:text-base ${btn.style}`}>
-                                        {btn.label}
-                                    </div>
-                                </Link>
-                            </motion.div>
                         ))}
                     </div>
                 </div>

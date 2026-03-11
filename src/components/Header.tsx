@@ -35,6 +35,11 @@ const Header = () => {
       href: '/overlay',
       label: 'Overlay',
       icon: <BarChart3 size={16} />
+    },
+    {
+      href: '/overlay/qrcode',
+      label: 'QRCode',
+      icon: <BarChart3 size={16} />
     }
   ];
 
