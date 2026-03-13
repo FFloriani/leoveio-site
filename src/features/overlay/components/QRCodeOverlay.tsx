@@ -265,7 +265,7 @@ export const DEFAULT_QRCODE_CONFIG: QROverlayConfig = {
       logoSize: 40,
     },
   ],
-  globalDisclaimer: 'PROIBIDO PARA MENORES DE 18 ANOS\nSPA/MF N.º 469 - DE 10 DE MARÇO 2025',
+  globalDisclaimer: 'PROIBIDO PARA MENORES DE 18 ANOS\nPortaria SPA/MF nº 255/2025, publicada no Diário Oficial da União em 07/02/2025 (Edição 29, Seção 1, Página 37)',
   globalDisclaimerEnabled: false,
   width: 320,
   height: 380,
