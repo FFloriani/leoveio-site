@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Menu, X, Home, Calendar, DollarSign, BarChart3 } from 'lucide-react';
+import { Mail, Menu, X, Home, Calendar, DollarSign, BarChart3, MonitorPlay } from 'lucide-react';
 import Link from 'next/link';
 import ContactModal from './ContactModal';
 
@@ -34,12 +34,7 @@ const Header = () => {
     {
       href: '/overlay',
       label: 'Overlay',
-      icon: <BarChart3 size={16} />
-    },
-    {
-      href: '/overlay/qrcode',
-      label: 'QRCode',
-      icon: <BarChart3 size={16} />
+      icon: <MonitorPlay size={16} />
     }
   ];
 

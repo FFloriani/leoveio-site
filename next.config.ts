@@ -35,6 +35,16 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
 
+  webpack: (config, { dev }) => {
+    if (dev) {
+      config.watchOptions = {
+        ...config.watchOptions,
+        ignored: ['**/.brain/**', '**/node_modules/**'],
+      };
+    }
+    return config;
+  },
+
   async headers() {
     return [
       {
