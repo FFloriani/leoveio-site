@@ -35,6 +35,9 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
 
+  // Next.js 16 usa Turbopack no build por padrão; webpack só no `npm run dev --webpack`
+  turbopack: {},
+
   webpack: (config, { dev }) => {
     if (dev) {
       config.watchOptions = {
